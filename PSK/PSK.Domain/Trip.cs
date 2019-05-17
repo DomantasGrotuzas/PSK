@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PSK.Domain
 {
-    public class Trip
+    public class Trip : Entity
     {
         public int Id { get; set; }
 

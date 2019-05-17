@@ -3,7 +3,7 @@ using PSK.Domain.Enums;
 
 namespace PSK.Domain
 {
-    public class AccommodationReservation
+    public class AccommodationReservation : Entity
     {
         public int Id { get; set; }
 

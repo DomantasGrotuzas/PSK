@@ -2,7 +2,7 @@
 
 namespace PSK.Domain
 {
-    public class Accommodation
+    public class Accommodation : Entity
     {
         public int Id { get; set; }
 

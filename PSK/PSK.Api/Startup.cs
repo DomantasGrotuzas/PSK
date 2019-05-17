@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PSK.Api.Filters;
 using PSK.DataAccess;
 using PSK.Persistence;
 
@@ -31,7 +32,11 @@ namespace PSK.Api
             services.AddSingleton(Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new LogAttribute());
+                options.Filters.Add(new ExceptionFilter());
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Register Dependencies
             var containerBuilder = new ContainerBuilder();

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PSK.Domain.Enums;
+﻿using PSK.Domain.Enums;
 
 namespace PSK.Domain
 {
-    public class EmployeeTrip
+    public class EmployeeTrip : Entity
     {
         public int Id { get; set; }
 

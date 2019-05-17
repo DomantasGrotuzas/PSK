@@ -31,6 +31,8 @@ namespace PSK.Persistence
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Id).ValueGeneratedOnAdd();
                 entity.HasIndex(x => x.Username).IsUnique();
+
+                entity.Property(x => x.Version).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
             });
 
             modelBuilder.Entity<Trip>(entity =>
@@ -38,6 +40,8 @@ namespace PSK.Persistence
                 entity.ToTable("Trips");
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Id).ValueGeneratedOnAdd();
+
+                entity.Property(x => x.Version).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
 
                 entity.HasOne(x => x.StartLocation);
                 entity.HasOne(x => x.EndLocation);
@@ -54,6 +58,8 @@ namespace PSK.Persistence
                 entity.Property(x => x.CarReservationPrice).HasColumnType("decimal(18,2)");
                 entity.Property(x => x.PlaneTicketPrice).HasColumnType("decimal(18,2)");
 
+                entity.Property(x => x.Version).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
+
                 entity.HasOne(x => x.Employee).WithMany(x => x.Trips);
                 entity.HasOne(x => x.Trip).WithMany(x => x.Employees);
                 entity.HasOne(x => x.AccommodationReservation).WithOne(x => x.TripEmployee)
@@ -68,6 +74,8 @@ namespace PSK.Persistence
                 entity.Property(x => x.Status).HasConversion<string>();
                 entity.Property(x => x.Price).HasColumnType("decimal(18,2)");
 
+                entity.Property(x => x.Version).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
+
                 entity.HasOne(x => x.Accommodation).WithMany(x => x.Reservations);
             });
 
@@ -76,6 +84,8 @@ namespace PSK.Persistence
                 entity.ToTable("Accommodations");
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Id).ValueGeneratedOnAdd();
+
+                entity.Property(x => x.Version).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
 
                 entity.HasOne(x => x.Address);
                 entity.HasOne(x => x.Office).WithMany(x => x.Accommodations);
@@ -86,6 +96,8 @@ namespace PSK.Persistence
                 entity.ToTable("Addresses");
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Id).ValueGeneratedOnAdd();
+
+                entity.Property(x => x.Version).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
             });
 
             modelBuilder.Entity<Office>(entity =>
@@ -93,6 +105,8 @@ namespace PSK.Persistence
                 entity.ToTable("Offices");
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Id).ValueGeneratedOnAdd();
+
+                entity.Property(x => x.Version).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
 
                 entity.HasOne(x => x.Address);
             });

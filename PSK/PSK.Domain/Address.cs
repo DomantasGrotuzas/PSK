@@ -1,6 +1,6 @@
 ﻿namespace PSK.Domain
 {
-    public class Address
+    public class Address : Entity
     {
         public int Id { get; set; }
 

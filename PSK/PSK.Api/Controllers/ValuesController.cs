@@ -5,7 +5,6 @@ namespace PSK.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Log]
     public class ValuesController : ControllerBase
     {
         // GET api/values
