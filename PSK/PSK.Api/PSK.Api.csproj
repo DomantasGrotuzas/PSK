@@ -17,11 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PSK.DataAccess\PSK.DataAccess.csproj" />
+    <ProjectReference Include="..\PSK.Domain\PSK.Domain.csproj" />
     <ProjectReference Include="..\PSK.Persistence\PSK.Persistence.csproj" />
+    <ProjectReference Include="..\PSK.Services\PSK.Services.csproj" />
   </ItemGroup>
 
 </Project>
