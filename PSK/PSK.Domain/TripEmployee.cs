@@ -4,8 +4,6 @@ namespace PSK.Domain
 {
     public class TripEmployee : Entity
     {
-        public int Id { get; set; }
-
         public PurchasableStatus PlaneTicketStatus { get; set; }
 
         public decimal? PlaneTicketPrice { get; set; }

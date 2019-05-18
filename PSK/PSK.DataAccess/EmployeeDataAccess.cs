@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PSK.Domain;
 using PSK.Persistence;
@@ -14,9 +15,15 @@ namespace PSK.DataAccess
             _context = context;
         }
 
+        public async Task<IEnumerable<Employee>> GetAll()
+        {
+            return await _context.Employees.ToListAsync();
+        }
+
         public async Task<Employee> AddEmployee(Employee employee)
         {
             var entityEntry = await _context.Employees.AddAsync(employee);
+            await _context.SaveChangesAsync();
             return entityEntry.Entity;
         }
 
@@ -25,9 +32,16 @@ namespace PSK.DataAccess
             return await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Employee> GetEmployee(string username)
+        public async Task DeleteEmployee(Employee employee)
         {
-            return await _context.Employees.FirstOrDefaultAsync(x => x.Username == username);
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateEmployee(Employee employee)
+        {
+            _context.Employees.Update(employee);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,16 +1,18 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PSK.Api.AutoMapper;
 using PSK.Api.Filters;
 using PSK.DataAccess;
 using PSK.Persistence;
+using PSK.Services;
 
 namespace PSK.Api
 {
@@ -30,7 +32,10 @@ namespace PSK.Api
             services.AddDbContext<IDataContext, DataContext>(options => { options.UseSqlServer(connectionString); });
 
             services.AddSingleton(Configuration);
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile<MappingProfile>(); });
+            var mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddMvc(options =>
             {
@@ -43,6 +48,7 @@ namespace PSK.Api
             containerBuilder.Populate(services);
 
             containerBuilder.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>();
+            containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
 
             var container = containerBuilder.Build();
 

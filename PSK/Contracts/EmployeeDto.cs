@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using PSK.Domain.Enums;
-
-namespace PSK.Domain
+﻿namespace Contracts
 {
-    public class Employee : Entity
+    public class EmployeeDto : DefaultDto
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Surname { get; set; }
@@ -13,14 +12,10 @@ namespace PSK.Domain
 
         public string Password { get; set; }
 
-        public UserRole Role { get; set; }
+        public string Role { get; set; }
 
         public string Email { get; set; }
 
         public string TelephoneNumber { get; set; }
-
-        public IList<Trip> OrganizedTrips { get; set; }
-
-        public IList<TripEmployee> Trips { get; set; }
     }
 }
