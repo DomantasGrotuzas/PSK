@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using PSK.Domain;
+using PSK.Domain.Identity;
 
 namespace PSK.Services
 {

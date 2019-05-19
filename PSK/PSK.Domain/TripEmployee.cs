@@ -1,4 +1,5 @@
 ﻿using PSK.Domain.Enums;
+using PSK.Domain.Identity;
 
 namespace PSK.Domain
 {

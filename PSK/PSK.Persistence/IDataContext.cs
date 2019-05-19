@@ -7,8 +7,6 @@ namespace PSK.Persistence
 {
     public interface IDataContext
     {
-        DbSet<Employee> Employees { get; set; }
-
         DbSet<Trip> Trips { get; set; }
 
         DbSet<TripEmployee> TripEmployees { get; set; }

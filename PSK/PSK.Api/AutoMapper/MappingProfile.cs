@@ -1,8 +1,10 @@
 ﻿using System;
 using AutoMapper;
 using Contracts;
+using Microsoft.AspNetCore.Identity;
 using PSK.Domain;
 using PSK.Domain.Enums;
+using PSK.Domain.Identity;
 
 namespace PSK.Api.AutoMapper
 {
@@ -11,11 +13,9 @@ namespace PSK.Api.AutoMapper
         public MappingProfile()
         {
             CreateMap<EmployeeDto, Employee>()
-                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => Enum.Parse<UserRole>(src.Role)))
-                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.FromBase64String(src.Version)));
+                .ForMember(dest => dest.ConcurrencyStamp, opt => opt.MapFrom(src => src.Version));
             CreateMap<Employee, EmployeeDto>()
-                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
-                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)));
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.ConcurrencyStamp));
         }
     }
 }

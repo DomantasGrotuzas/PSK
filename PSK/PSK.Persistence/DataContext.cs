@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PSK.Domain;
+using PSK.Domain.Identity;
 
 namespace PSK.Persistence
 {
-    public class DataContext : DbContext, IDataContext
+    public class DataContext : IdentityDbContext<Employee, UserRole, int>, IDataContext
     {
         public DataContext(DbContextOptions<DataContext> contextOptions) : base(contextOptions)
         {
@@ -25,16 +28,6 @@ namespace PSK.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.ToTable("Employees");
-                entity.HasKey(x => x.Id);
-                entity.Property(x => x.Id).ValueGeneratedOnAdd();
-                entity.HasIndex(x => x.Username).IsUnique();
-
-                entity.Property(x => x.Version).IsRowVersion();
-            });
-
             modelBuilder.Entity<Trip>(entity =>
             {
                 entity.ToTable("Trips");

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using PSK.DataAccess;
 using PSK.Domain;
+using PSK.Domain.Identity;
 
 namespace PSK.Services
 {

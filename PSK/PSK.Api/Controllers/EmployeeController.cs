@@ -5,6 +5,7 @@ using AutoMapper;
 using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using PSK.Domain;
+using PSK.Domain.Identity;
 using PSK.Services;
 
 namespace PSK.Api.Controllers
