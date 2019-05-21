@@ -33,7 +33,15 @@ namespace PSK.Services
 
         public async Task<Employee> Update(int id, Employee employee)
         {
-            await _employeeData.UpdateEmployee(employee);
+            var existingEmployee = await _employeeData.GetEmployee(id);
+            existingEmployee.Email = employee.Email;
+            existingEmployee.Name = employee.Name;
+            existingEmployee.Surname = employee.Surname;
+            existingEmployee.UserName = employee.UserName;
+            existingEmployee.PhoneNumber = employee.PhoneNumber;
+
+            await _employeeData.UpdateEmployee(existingEmployee);
+
             return employee;
         }
 

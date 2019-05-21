@@ -22,7 +22,7 @@ namespace PSK.FrontEnd.Controllers
 
         public async Task<IActionResult> Employees()
         {
-            return View(_mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll()));
+            return View(await _employeeService.GetAll());
         }
 
         public async Task<IActionResult> Create(EmployeeDto employeeDto)
@@ -42,15 +42,22 @@ namespace PSK.FrontEnd.Controllers
             return await Employees();
         }
 
-        public IActionResult Edit(EmployeeDto employeeDto)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            return View(employeeDto);
+            var employee = await _employeeService.Get(id);
+
+            if (employee == null)
+                return NotFound();
+
+            return View(employee);
         }
 
-        public async Task<IActionResult> Update(EmployeeDto employeeDto)
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, Employee employee)
         {
-            await _employeeService.Update(employeeDto.Id, _mapper.Map<Employee>(employeeDto));
-            return await Employees();
+            await _employeeService.Update(employee.Id, employee);
+            return Redirect("Employee/Employees");
         }
     }
 }
