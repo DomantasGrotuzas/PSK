@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PSK.Persistence;
-using PSK.FrontEnd.Filters;
-using Autofac;
 using PSK.DataAccess;
-using PSK.Services;
-using Autofac.Extensions.DependencyInjection;
+using PSK.DataAccess.Interfaces;
 using PSK.Domain.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PSK.FrontEnd.AutoMapper;
+using PSK.FrontEnd.Filters;
+using PSK.Persistence;
+using PSK.Services;
 
 namespace PSK.FrontEnd
 {
@@ -70,6 +66,8 @@ namespace PSK.FrontEnd
             containerBuilder.Populate(services);
 
             containerBuilder.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>();
+            containerBuilder.RegisterType<OfficeDataAccess>().As<IOfficeDataAccess>();
+
             containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
             containerBuilder.RegisterType<DataContext>().AsSelf();
@@ -108,8 +106,8 @@ namespace PSK.FrontEnd
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

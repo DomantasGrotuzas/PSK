@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using PSK.Domain;
 using PSK.Domain.Identity;
 
-namespace PSK.DataAccess
+namespace PSK.DataAccess.Interfaces
 {
     public interface IEmployeeDataAccess
     {

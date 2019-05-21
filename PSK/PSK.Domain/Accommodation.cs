@@ -12,6 +12,8 @@ namespace PSK.Domain
 
         public Address Address { get; set; }
 
+        public int AddressId { get; set; }
+
         public IList<AccommodationReservation> Reservations { get; set; }
     }
 }

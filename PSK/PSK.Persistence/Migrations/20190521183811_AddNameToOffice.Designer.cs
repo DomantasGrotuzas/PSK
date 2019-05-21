@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PSK.Persistence;
 
 namespace PSK.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190521183811_AddNameToOffice")]
+    partial class AddNameToOffice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,7 +110,7 @@ namespace PSK.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId");
+                    b.Property<int?>("AddressId");
 
                     b.Property<string>("Name");
 
@@ -122,8 +124,7 @@ namespace PSK.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("OfficeId");
 
@@ -278,7 +279,7 @@ namespace PSK.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId");
+                    b.Property<int?>("AddressId");
 
                     b.Property<string>("Name");
 
@@ -288,8 +289,7 @@ namespace PSK.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Offices");
                 });
@@ -412,9 +412,8 @@ namespace PSK.Persistence.Migrations
             modelBuilder.Entity("PSK.Domain.Accommodation", b =>
                 {
                     b.HasOne("PSK.Domain.Address", "Address")
-                        .WithOne("Accommodation")
-                        .HasForeignKey("PSK.Domain.Accommodation", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("PSK.Domain.Office", "Office")
                         .WithMany("Accommodations")
@@ -436,9 +435,8 @@ namespace PSK.Persistence.Migrations
             modelBuilder.Entity("PSK.Domain.Office", b =>
                 {
                     b.HasOne("PSK.Domain.Address", "Address")
-                        .WithOne("Office")
-                        .HasForeignKey("PSK.Domain.Office", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("AddressId");
                 });
 
             modelBuilder.Entity("PSK.Domain.Trip", b =>

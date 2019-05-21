@@ -1,6 +1,6 @@
-﻿namespace PSK.Domain
+﻿namespace Contracts
 {
-    public class Address : Entity
+    public class AddressDto : DefaultDto
     {
         public string Latitude { get; set; }
 
@@ -13,9 +13,5 @@
         public string Street { get; set; }
 
         public string HouseNumber { get; set; }
-
-        public Office Office { get; set; }
-
-        public Accommodation Accommodation { get; set; }
     }
 }

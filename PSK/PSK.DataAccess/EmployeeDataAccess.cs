@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PSK.DataAccess.Interfaces;
 using PSK.Domain;
 using PSK.Domain.Identity;
 using PSK.Persistence;

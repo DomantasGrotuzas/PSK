@@ -80,7 +80,7 @@ namespace PSK.Persistence
 
                 entity.Property(x => x.Version).IsRowVersion();
 
-                entity.HasOne(x => x.Address);
+                entity.HasOne(x => x.Address).WithOne(x => x.Accommodation).HasForeignKey<Accommodation>(x => x.AddressId).OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(x => x.Office).WithMany(x => x.Accommodations);
             });
 
@@ -101,7 +101,7 @@ namespace PSK.Persistence
 
                 entity.Property(x => x.Version).IsRowVersion();
 
-                entity.HasOne(x => x.Address);
+                entity.HasOne(x => x.Address).WithOne(x => x.Office).HasForeignKey<Office>(x => x.AddressId).OnDelete(DeleteBehavior.Cascade);
             });
 
             base.OnModelCreating(modelBuilder);

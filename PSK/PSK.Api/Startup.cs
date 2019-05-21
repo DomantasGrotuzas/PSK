@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PSK.Api.AutoMapper;
 using PSK.Api.Filters;
 using PSK.DataAccess;
+using PSK.DataAccess.Interfaces;
 using PSK.Domain.Identity;
 using PSK.Persistence;
 using PSK.Services;

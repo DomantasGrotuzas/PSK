@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Contracts.OfficeDto>
+
+@{
+    ViewData["Title"] = "Offices";
+}
+
+<h2>Offices</h2>
+
+<p>
+    <a asp-action="AddNew">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.Street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.HouseNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.Longitude)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.Address.Country)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Address.City)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Address.Street)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Address.HouseNumber)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Address.Latitude)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Address.Longitude)
+            </th>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", item.Id)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

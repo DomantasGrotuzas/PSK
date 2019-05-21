@@ -1,9 +1,6 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Contracts;
-using Microsoft.AspNetCore.Identity;
 using PSK.Domain;
-using PSK.Domain.Enums;
 using PSK.Domain.Identity;
 
 namespace PSK.FrontEnd.AutoMapper
@@ -16,6 +13,16 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.ConcurrencyStamp, opt => opt.MapFrom(src => src.Version));
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.ConcurrencyStamp));
+
+            CreateMap<OfficeDto, Office>();
+            CreateMap<Office, OfficeDto>();
+            CreateMap<AddressDto, Address>();
+            CreateMap<Address, AddressDto>();
+
+            CreateMap<Entity, DefaultDto>()
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version));
+            CreateMap<DefaultDto, Entity>()
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version));
         }
     }
 }
