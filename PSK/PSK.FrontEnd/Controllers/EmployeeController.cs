@@ -57,7 +57,7 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Update(int id, Employee employee)
         {
             await _employeeService.Update(employee.Id, employee);
-            return Redirect("Employee/Employees");
+            return Redirect("employees");
         }
     }
 }
