@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PSK.Domain;
 using PSK.Domain.Identity;
+using System;
 
 namespace PSK.Persistence
 {
-    public class DataContext : IdentityDbContext<Employee, UserRole, int>, IDataContext
+    public class DataContext : IdentityDbContext<Employee, UserRole, Guid>, IDataContext
     {
         public DataContext(DbContextOptions<DataContext> contextOptions) : base(contextOptions)
         {

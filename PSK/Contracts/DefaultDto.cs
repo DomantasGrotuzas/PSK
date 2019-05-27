@@ -1,8 +1,10 @@
-﻿namespace Contracts
+﻿using System;
+
+namespace Contracts
 {
     public class DefaultDto
     {
-        public int Id { get; set; }
+        public Guid id { get; set; }
 
         public string Version { get; set; }
     }

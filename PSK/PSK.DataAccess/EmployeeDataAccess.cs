@@ -35,7 +35,7 @@ namespace PSK.DataAccess
             throw new Exception(string.Join('\n', result.Errors.Select(err => $"Error code: {err.Code}.\n\t Description: {err.Description}")));
         }
 
-        public async Task<Employee> GetEmployee(int id)
+        public async Task<Employee> GetEmployee(Guid id)
         {
             return await _userManager.FindByIdAsync(id.ToString());
         }

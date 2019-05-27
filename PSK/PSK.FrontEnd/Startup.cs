@@ -81,7 +81,7 @@ namespace PSK.FrontEnd
             containerBuilder.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>();
             containerBuilder.RegisterType<OfficeDataAccess>().As<IOfficeDataAccess>();
 
-            containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
+            containerBuilder.RegisterType<EmployeeService>().As<IService<Employee>>();
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
             containerBuilder.RegisterType<DataContext>().AsSelf();
 

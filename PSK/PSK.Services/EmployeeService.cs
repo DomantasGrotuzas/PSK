@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
@@ -7,7 +8,7 @@ using PSK.Domain.Identity;
 
 namespace PSK.Services
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : IService<Employee>
     {
         private readonly IEmployeeDataAccess _employeeData;
 
@@ -21,7 +22,7 @@ namespace PSK.Services
             return await _employeeData.GetAll();
         }
 
-        public async Task<Employee> Get(int id)
+        public async Task<Employee> Get(Guid id)
         {
             return await _employeeData.GetEmployee(id);
         }
@@ -31,7 +32,7 @@ namespace PSK.Services
             return await _employeeData.AddEmployee(employee);
         }
 
-        public async Task<Employee> Update(int id, Employee employee)
+        public async Task<Employee> Update(Guid id, Employee employee)
         {
             var existingEmployee = await _employeeData.GetEmployee(id);
             existingEmployee.Email = employee.Email;
@@ -45,7 +46,7 @@ namespace PSK.Services
             return employee;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Guid id)
         {
             var employeeToDelete = await _employeeData.GetEmployee(id);
             await _employeeData.DeleteEmployee(employeeToDelete);

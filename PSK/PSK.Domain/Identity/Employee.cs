@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using PSK.Domain.Enums;
 
 namespace PSK.Domain.Identity
 {
-    public class Employee : IdentityUser<int>
+    public class Employee : IdentityUser<Guid>
     {
         public string Name { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PSK.Domain.Identity;
 
@@ -10,7 +11,7 @@ namespace PSK.DataAccess.Interfaces
 
         Task<Employee> AddEmployee(Employee employee);
 
-        Task<Employee> GetEmployee(int id);
+        Task<Employee> GetEmployee(Guid id);
 
         Task DeleteEmployee(Employee employee);
 

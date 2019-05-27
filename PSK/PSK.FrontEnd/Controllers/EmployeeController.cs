@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
@@ -12,11 +13,11 @@ namespace PSK.FrontEnd.Controllers
     [Authorize(Roles = "User")]
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IService<Employee> _employeeService;
 
         private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeService employeeService, IMapper mapper)
+        public EmployeeController(IService<Employee> employeeService, IMapper mapper)
         {
             _employeeService = employeeService;
             _mapper = mapper;
@@ -38,14 +39,14 @@ namespace PSK.FrontEnd.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _employeeService.Delete(id);
             return await Employees();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             var employee = await _employeeService.Get(id);
 
@@ -56,7 +57,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Employee employee)
+        public async Task<IActionResult> Update(Guid id, Employee employee)
         {
             await _employeeService.Update(employee.Id, employee);
             return Redirect("employees");

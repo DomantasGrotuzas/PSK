@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
@@ -37,7 +38,7 @@ namespace PSK.FrontEnd.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _officeDataAccess.Remove(id);
             return await Offices();

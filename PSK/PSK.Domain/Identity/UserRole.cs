@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PSK.Domain.Identity
 {
-    public class UserRole : IdentityRole<int>
+    public class UserRole : IdentityRole<Guid>
     {
 
     }

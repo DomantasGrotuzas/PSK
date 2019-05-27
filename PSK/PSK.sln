@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSK.Api", "PSK.Api\PSK.Api.csproj", "{DD2E20D3-494F-4700-9260-4C3CC06D91D2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Tests", "6. Tests", "{56AEECF2-6BF6-4C75-AB34-FB62C3508B35}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSK.UnitTests", "PSK.UnitTests\PSK.UnitTests.csproj", "{6DE1032B-8205-4A22-9DD1-A4A0E97E4CA7}"
@@ -27,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DD2E20D3-494F-4700-9260-4C3CC06D91D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD2E20D3-494F-4700-9260-4C3CC06D91D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD2E20D3-494F-4700-9260-4C3CC06D91D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD2E20D3-494F-4700-9260-4C3CC06D91D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DE1032B-8205-4A22-9DD1-A4A0E97E4CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DE1032B-8205-4A22-9DD1-A4A0E97E4CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DE1032B-8205-4A22-9DD1-A4A0E97E4CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
