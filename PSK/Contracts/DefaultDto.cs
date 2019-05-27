@@ -4,7 +4,7 @@ namespace Contracts
 {
     public class DefaultDto
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
 
         public string Version { get; set; }
     }
