@@ -15,7 +15,7 @@ namespace PSK.Domain
 
         public Accommodation Accommodation { get; set; }
 
-        public int TripEmployeeId { get; set; }
+        public Guid TripEmployeeId { get; set; }
 
         public TripEmployee TripEmployee { get; set; }
     }

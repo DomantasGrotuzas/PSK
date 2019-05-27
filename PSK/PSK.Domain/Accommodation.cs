@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PSK.Domain
 {
@@ -12,7 +13,7 @@ namespace PSK.Domain
 
         public Address Address { get; set; }
 
-        public int AddressId { get; set; }
+        public Guid AddressId { get; set; }
 
         public IList<AccommodationReservation> Reservations { get; set; }
     }
