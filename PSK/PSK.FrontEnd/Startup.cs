@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,8 +35,8 @@ namespace PSK.FrontEnd
         {
             services.AddIdentity<Employee, UserRole>()
                 .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders()
-                .AddDefaultUI();
+                .AddDefaultTokenProviders();
+            //services.AddSingleton<IEmailSender, EmailSender>();
 
             var connectionString = Configuration.GetValue<string>("PskConnectionString");
 
@@ -47,6 +48,12 @@ namespace PSK.FrontEnd
             var mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -59,7 +66,13 @@ namespace PSK.FrontEnd
             {
                 options.Filters.Add(new LogAttribute());
                 options.Filters.Add(new ExceptionFilter());
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(options =>
+                {
+                    options.AllowAreas = true;
+                    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                });
 
             //Register Dependencies
             var containerBuilder = new ContainerBuilder();

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\PSK.Services\PSK.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+  </ItemGroup>
+
 </Project>

@@ -2,12 +2,14 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PSK.Domain.Identity;
 using PSK.Services;
 
 namespace PSK.FrontEnd.Controllers
 {
+    [Authorize(Roles = "User")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
@@ -28,7 +30,7 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Create(EmployeeDto employeeDto)
         {
             await _employeeService.Create(_mapper.Map<Employee>(employeeDto));
-            return await Employees();
+            return Redirect("employees"); ;
         }
 
         public IActionResult AddNew()
