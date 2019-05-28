@@ -18,8 +18,8 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.ConcurrencyStamp));
 
             CreateMap<Trip, TripDto>()
-                .ForMember(dest => dest.Employees, opt => opt.MapFrom(src => src.Employees.Select(em => em.Id)));
-                .ForMember(dest => dest.StartLocationId, opt => opt.MapFrom(src => src.StartLocation.Id.ToString()));
+                .ForMember(dest => dest.Employees, opt => opt.MapFrom(src => src.Employees.Select(em => em.Id)))
+                .ForMember(dest => dest.StartLocationId, opt => opt.MapFrom(src => src.StartLocation.Id.ToString()))
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)));
             CreateMap<TripDto, Trip>();
 
