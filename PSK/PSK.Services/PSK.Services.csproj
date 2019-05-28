@@ -15,8 +15,6 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.1.5.1" />
-    <PackageReference Include="Sendgrid" Version="8.0.5" />
-    <PackageReference Include="SendGridPlus" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
