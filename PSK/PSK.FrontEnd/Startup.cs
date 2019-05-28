@@ -20,6 +20,7 @@ using PSK.FrontEnd.Filters;
 using PSK.Persistence;
 using PSK.Services;
 using PSK.Services.Emails;
+using PSK.Services.Interfaces;
 
 namespace PSK.FrontEnd
 {
@@ -81,11 +82,12 @@ namespace PSK.FrontEnd
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
-            containerBuilder.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>();
             containerBuilder.RegisterType<OfficeDataAccess>().As<IDataAccess<Office>>();
             containerBuilder.RegisterType<TripDataAccess>().As<IDataAccess<Trip>>();
 
-            containerBuilder.RegisterType<EmployeeService>().As<IService<Employee>>();
+            containerBuilder.RegisterType<TripService>().As<ITripService>();
+            containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
+
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
             containerBuilder.RegisterType<DataContext>().AsSelf();
 

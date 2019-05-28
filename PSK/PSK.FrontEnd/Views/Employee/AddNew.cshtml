@@ -42,6 +42,15 @@
                 <input asp-for="TelephoneNumber" class="form-control" />
                 <span asp-validation-for="TelephoneNumber" class="text-danger"></span>
             </div>
+            <ul>
+                @foreach (var role in Model.Roles)
+                {
+                    <li>       
+                        <input type="checkbox" asp-for=@role.IsSelected  />
+                        <label asp-for=@role>@role</label>              
+                    </li>
+                }
+            </ul>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
