@@ -28,6 +28,9 @@
                 Destination
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Employees)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th></th>
@@ -50,6 +53,9 @@
             </th>
             <th>
                 @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation.Id })  
+            </th>
+            <th>
+                @Html.ActionLink("showEmployees", "TripEmployees", "TripEmployee", new { id = item.Id })
             </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)

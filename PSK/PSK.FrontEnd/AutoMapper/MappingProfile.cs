@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Contracts;
 using PSK.Domain;
 using PSK.Domain.Identity;
 using System.Linq;
+using PSK.Domain.Enums;
 
 namespace PSK.FrontEnd.AutoMapper
 {
@@ -28,11 +30,17 @@ namespace PSK.FrontEnd.AutoMapper
             CreateMap<AccommodationDto, Accommodation>();
             CreateMap<Accommodation, AccommodationDto>();
 
-            CreateMap<AccommodationReservation, AccommodationReservationDto>();
-            CreateMap<AccommodationReservationDto, AccommodationReservation>();
+            CreateMap<AccommodationReservation, AccommodationReservationDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+            CreateMap<AccommodationReservationDto, AccommodationReservation>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.Status)));
 
-            CreateMap<TripEmployee, TripEmployeeDto>();
-            CreateMap<TripEmployeeDto, TripEmployee>();
+            CreateMap<TripEmployee, TripEmployeeDto>()
+                .ForMember(dest => dest.CarReservationStatus, opt => opt.MapFrom(src => src.CarReservationStatus.ToString()))
+                .ForMember(dest => dest.PlaneTicketStatus, opt => opt.MapFrom(src => src.PlaneTicketStatus.ToString()));
+            CreateMap<TripEmployeeDto, TripEmployee>()
+                .ForMember(dest => dest.CarReservationStatus, opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.CarReservationStatus)))
+                .ForMember(dest => dest.PlaneTicketStatus, opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.PlaneTicketStatus))); ;
 
             CreateMap<Entity, DefaultDto>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version));

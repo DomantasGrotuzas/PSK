@@ -16,74 +16,19 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">PSK.FrontEnd</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
-    </nav>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">PSK.FrontEnd</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Employee" asp-action="Employees">Employees</a></li>
-                    <li><a asp-area="" asp-controller="Office" asp-action="Offices">Offices</a></li>
-                    <li><a asp-area="" asp-controller="Trip" asp-action="Trips">Trips</a></li>
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
-    </nav>
-    <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
-         <div class="container">
-             <div class="navbar-header">
-                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                     <span class="sr-only">Toggle navigation</span>
-                     <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                 </button>
-                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">PSK.FrontEnd</a>
-             </div>
-             <div class="navbar-collapse collapse">
-                 <ul class="nav navbar-nav">
-                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                 </ul>
-                 <partial name="_LoginPartial" />
-             </div>
-         </div>
-     </nav>-->
+@{
+    string loginBody = "login-body "; 
+    if (User.Identity.IsAuthenticated)
+    {
+        loginBody = "";
+    }
+}
+<body class="@loginBody">
     @{
-        if (!User.Identity.IsAuthenticated)
+        if (User.Identity.IsAuthenticated)
         {
-            <nav>
+            <nav class="navbar navbar-header-db navbar-fixed-top">
+                <img class="db-image" src="~/images/logo.svg" />
                 <div class="container">
                     <div class="navbar-header-db">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -93,21 +38,28 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
+                    <div class="navbar-collapse collapse">
+
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </nav>
+            <partial name="_CookieConsentPartial" />
+            <aside class="side-panel">
+                <a asp-area="" asp-controller="Employee" asp-action="Employees">Employees</a>
+                <a asp-area="" asp-controller="Office" asp-action="Offices">Offices</a>
+                <a asp-area="" asp-controller="Trip" asp-action="Trips">Trips</a>
+            </aside>
         }
     }
 
 
-    <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <!-- <footer>
-             <p>&copy; 2019 - PSK.FrontEnd</p>
-         </footer>-->
     </div>
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
