@@ -16,7 +16,7 @@ namespace Contracts
 
         public string TelephoneNumber { get; set; }
 
-        public ICollection<RoleSelection> Roles { get; set; }
+        public IList<RoleSelection> Roles { get; set; }
     }
 
     public class RoleSelection
