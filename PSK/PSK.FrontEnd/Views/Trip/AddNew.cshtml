@@ -4,36 +4,35 @@
     ViewData["Title"] = "AddNew";
 }
 
-<h2>AddNew</h2>
+<h2>Add new trip</h2>
 
-<h4>Trip</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Start date:</label>
+                <label asp-for="StartDate" class="control-label">Date from</label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label">End date:</label>
+                <label asp-for="EndDate" class="control-label">Date until</label>
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Comment" class="control-label">Comment:</label>
+                <label asp-for="Comment" class="control-label">Comment</label>
                 <input asp-for="Comment" class="form-control" />
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartLocationId" class="control-label">From location:</label>
-                @Html.DropDownListFor(m => m.StartLocationId, new SelectList(Model.Offices.Select(o => o.Name)), "Select location")
+                <label asp-for="StartLocationId" class="control-label">Start</label>
+                @Html.DropDownListFor(m => m.StartLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location")
             </div>
             <div class="form-group">
-                <label asp-for="StartLocationId" class="control-label">To location:</label>
-                @Html.DropDownListFor(m => m.EndLocationId, new SelectList(Model.Offices.Select(o => o.Name)), "Select location")
+                <label asp-for="StartLocationId" class="control-label">Destination</label>
+                @Html.DropDownListFor(m => m.EndLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location")
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -43,7 +42,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Trips">Back to List</a>
 </div>
 
 @section Scripts {

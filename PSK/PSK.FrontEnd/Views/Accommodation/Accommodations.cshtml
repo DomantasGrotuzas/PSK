@@ -9,14 +9,15 @@
 <p>
     <a asp-action="AddNew">Create New</a>
 </p>
+<div class="table-responsive">
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Appartment name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalSpaces)
+                Beds (total)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address.Country)
@@ -28,7 +29,7 @@
                 @Html.DisplayNameFor(model => model.Address.Street)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address.HouseNumber)
+                House number
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address.Latitude)
@@ -80,3 +81,4 @@
 }
     </tbody>
 </table>
+</div>

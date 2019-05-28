@@ -25,8 +25,8 @@ namespace PSK.FrontEnd.Filters
             var actionName = context.RouteData.Values["action"];
 
             //TODO: will probably be changed regarding how the login is implemented
-            var username = context.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == "username")?.Value;
-            var userRole = context.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == "role")?.Value;
+            var username = context.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+            var userRole = string.Join(", ", context.HttpContext?.User?.Claims?.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"));
 
             var logText =
                 $"{DateTime.Now} - {nameof(username)}:'{username}'; {nameof(userRole)}:'{userRole}'; method:{controllerName}.{actionName}";
