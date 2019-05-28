@@ -36,6 +36,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address.Longitude)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Office.Name)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -66,9 +69,11 @@
             <th>
                 @Html.DisplayFor(modelItem => item.Address.Longitude)
             </th>
+            <th>
+                @Html.ActionLink(item.Office.Name, "Details", "Office", new { id = item.Office.Id })
+            </th>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @*@Html.ActionLink("Details", "Details", new {  id=item.Id }) |*@
                 @Html.ActionLink("Delete", "Delete", new {  id=item.Id })
             </td>
         </tr>

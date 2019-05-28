@@ -14,12 +14,15 @@ namespace PSK.FrontEnd.Controllers
     {
         private readonly IDataAccess<Accommodation> _accommodationDataAccess;
 
+        private readonly IDataAccess<Office> _officeDataAccess;
+
         private readonly IMapper _mapper;
 
-        public AccommodationController(IDataAccess<Accommodation> accommodationDataAccess, IMapper mapper)
+        public AccommodationController(IDataAccess<Accommodation> accommodationDataAccess, IMapper mapper, IDataAccess<Office> officeDataAccess)
         {
             _accommodationDataAccess = accommodationDataAccess;
             _mapper = mapper;
+            _officeDataAccess = officeDataAccess;
         }
 
         public async Task<IActionResult> Accommodations()
@@ -29,13 +32,19 @@ namespace PSK.FrontEnd.Controllers
 
         public async Task<IActionResult> Create(AccommodationDto accommodationDto)
         {
-            await _accommodationDataAccess.Add(_mapper.Map<Accommodation>(accommodationDto));
+            var accommodation = _mapper.Map<Accommodation>(accommodationDto);
+            accommodation.Office = await _officeDataAccess.Get(Guid.Parse(accommodationDto.OfficeId));
+            await _accommodationDataAccess.Add(accommodation);
             return Redirect("accommodations");
         }
 
-        public IActionResult AddNew()
+        public async Task<IActionResult> AddNew()
         {
-            return View();
+            var accommodation = new AccommodationDto
+            {
+                AllOffices = _mapper.Map<IEnumerable<OfficeDto>>(await _officeDataAccess.GetAll())
+            };
+            return View(accommodation);
         }
 
         public async Task<IActionResult> Delete(Guid id)
@@ -51,11 +60,15 @@ namespace PSK.FrontEnd.Controllers
             if (accommodation == null)
                 return NotFound();
 
-            return View(accommodation);
+            var accommodationDto = _mapper.Map<AccommodationDto>(accommodation);
+            accommodationDto.AllOffices = _mapper.Map<IEnumerable<OfficeDto>>(await _officeDataAccess.GetAll());
+            return View(accommodationDto);
         }
 
-        public async Task<IActionResult> Update(Accommodation accommodation)
+        public async Task<IActionResult> Update(AccommodationDto accommodationDto)
         {
+            var accommodation = _mapper.Map<Accommodation>(accommodationDto);
+            accommodation.Office = await _officeDataAccess.Get(Guid.Parse(accommodationDto.OfficeId));
             await _accommodationDataAccess.Update(accommodation);
             return Redirect("accommodations");
         }

@@ -19,12 +19,12 @@ namespace PSK.DataAccess
 
         public async Task<IEnumerable<Accommodation>> GetAll()
         {
-            return await _context.Accommodations.Include(x => x.Address).ToListAsync();
+            return await _context.Accommodations.Include(x => x.Address).Include(x => x.Office).ToListAsync();
         }
 
         public async Task<Accommodation> Get(Guid id)
         {
-            return await _context.Accommodations.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Accommodations.Include(x => x.Address).Include(x => x.Office).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Accommodation> Add(Accommodation accommodation)

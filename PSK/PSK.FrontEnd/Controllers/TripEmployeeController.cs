@@ -44,7 +44,9 @@ namespace PSK.FrontEnd.Controllers
 
         public async Task<IActionResult> Create(TripEmployeeDto tripEmployeeDto)
         {
-            await _tripEmployeeDataAccess.Add(_mapper.Map<TripEmployee>(tripEmployeeDto));
+            var tripEmployee = _mapper.Map<TripEmployee>(tripEmployeeDto);
+            tripEmployee.Employee = await _employeeService.Get(Guid.Parse(tripEmployeeDto.EmployeeId));
+            await _tripEmployeeDataAccess.Add(tripEmployee);
             return Redirect("tripEmployees");
         }
 
@@ -61,7 +63,8 @@ namespace PSK.FrontEnd.Controllers
             if (tripEmployee == null)
                 return NotFound();
 
-            return View(tripEmployee);
+            var tripEmployeeDto = _mapper.Map<TripEmployeeDto>(tripEmployee);
+            return View(tripEmployeeDto);
         }
     }
 }
