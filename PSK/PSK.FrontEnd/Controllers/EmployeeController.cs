@@ -57,7 +57,7 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _employeeService.Delete(id);
-            return await Employees();
+            return Redirect("/employee/employees");
         }
 
         [HttpGet]
