@@ -29,11 +29,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartLocationId" class="control-label">From location:</label>
-                @Html.DropDownListFor(m => m.StartLocationId, new SelectList(Model.Offices.Select(o => o.Name)), "Select location")
+                @Html.DropDownListFor(m => m.StartLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location")
             </div>
             <div class="form-group">
                 <label asp-for="StartLocationId" class="control-label">To location:</label>
-                @Html.DropDownListFor(m => m.EndLocationId, new SelectList(Model.Offices.Select(o => o.Name)), "Select location")
+                @Html.DropDownListFor(m => m.EndLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location")
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

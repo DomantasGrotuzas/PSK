@@ -46,10 +46,10 @@
                 @Html.DisplayFor(modelItem => item.Organizer.Name)
             </th>
             <th>
-                @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation.Id })
+                @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
             </th>
             <th>
-                @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation.Id })  
+                @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })  
             </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)
