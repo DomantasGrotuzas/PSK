@@ -1,0 +1,59 @@
+﻿@using PSK.FrontEnd.Static
+@model Contracts.TripEmployeeDto
+
+@{
+    ViewData["Title"] = "AddNew";
+}
+
+<h2>AddNew</h2>
+
+<h4>TripEmployeeDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                @Html.DropDownListFor(x => x.EmployeeId, new List<SelectListItem>(Model.AllEmployees.Select(x => new SelectListItem(x.FullName, x.Id.ToString())))))
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlaneTicketStatus" class="control-label"></label>
+                @Html.DropDownListFor(x => x.PlaneTicketStatus, ViewTexts.PurchasableStatusItems)
+                <span asp-validation-for="PlaneTicketStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlaneTicketPrice" class="control-label"></label>
+                <input asp-for="PlaneTicketPrice" class="form-control" />
+                <span asp-validation-for="PlaneTicketPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarReservationStatus" class="control-label"></label>
+                @Html.DropDownListFor(x => x.CarReservationStatus, ViewTexts.PurchasableStatusItems)
+                <span asp-validation-for="CarReservationStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarReservationPrice" class="control-label"></label>
+                <input asp-for="CarReservationPrice" class="form-control" />
+                <span asp-validation-for="CarReservationPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
