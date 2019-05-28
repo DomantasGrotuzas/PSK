@@ -35,39 +35,6 @@ body {
     margin: 15px;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
-
-    .login-box {
-        padding: 40px 0 40px 0;
-        margin: 40px 40px 0 40px;
-    }
-
-    .side-panel {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-    .side-panel a {
-        float: left;
-    }
-    .body-content {
-        margin-left: 0;
-    }
-
-}
-
-@media screen and (max-width: 400px) {
-    .side-panel a {
-        text-align: center;
-        float: none;
-    }
-}
-
     /*Login*/
     .login-box {
         background: #FF3454;
@@ -129,3 +96,42 @@ body {
         background-color: #555;
         color: white;
     }
+
+/*table*/
+.table {
+    overflow-x: auto;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+
+    .login-box {
+        padding: 40px 0 40px 0;
+        margin: 40px 40px 0 40px;
+    }
+
+    .side-panel {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+        .side-panel a {
+            float: left;
+        }
+
+    .body-content {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .side-panel a {
+        text-align: center;
+        float: none;
+    }
+}
