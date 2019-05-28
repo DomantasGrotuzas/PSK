@@ -61,7 +61,8 @@
             @Html.DisplayFor(modelItem => item.AccommodationReservation.Price)
         </th>
         <th>
-            @Html.DisplayFor(modelItem => item.AccommodationReservation.Accommodation.Name)
+            @Html.ActionLink(item.AccommodationReservation.Accommodation != null ? 
+                item.AccommodationReservation.Accommodation.Name : string.Empty, "Details", "Accommodation");
         </th>
         <th>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)

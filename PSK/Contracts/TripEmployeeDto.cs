@@ -30,6 +30,8 @@ namespace Contracts
 
         public IEnumerable<EmployeeDto> AllEmployees { get; set; }
 
+        public string AccommodationId { get; set; }
+
         public IEnumerable<AccommodationDto> AvailableAccommodations { get; set; }
     }
 }

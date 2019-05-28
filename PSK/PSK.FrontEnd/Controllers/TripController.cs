@@ -50,9 +50,11 @@ namespace PSK.FrontEnd.Controllers
         [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> AddNew()
         {
-            TripDto trip = new TripDto();
-            trip.Offices = _mapper.Map<IEnumerable<OfficeDto>>(await _officeData.GetAll()).ToList();
-            trip.AllEmployees = (await _employeeService.GetAll()).Select(e => _mapper.Map<EmployeeDto>(e)).ToList();
+            TripDto trip = new TripDto
+            {
+                Offices = _mapper.Map<IEnumerable<OfficeDto>>(await _officeData.GetAll()).ToList(),
+                AllEmployees = (await _employeeService.GetAll()).Select(e => _mapper.Map<EmployeeDto>(e)).ToList()
+            };
             return View(trip);
         }
 

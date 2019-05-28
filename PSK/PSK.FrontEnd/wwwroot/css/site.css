@@ -30,6 +30,10 @@ body {
     width: 100%;
 }
 
+nav a {
+    color:white;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
