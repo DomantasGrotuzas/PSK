@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
+using PSK.Domain;
 using PSK.Domain.Identity;
 using PSK.FrontEnd.AutoMapper;
 using PSK.FrontEnd.Filters;
@@ -81,7 +82,8 @@ namespace PSK.FrontEnd
             containerBuilder.Populate(services);
 
             containerBuilder.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>();
-            containerBuilder.RegisterType<OfficeDataAccess>().As<IOfficeDataAccess>();
+            containerBuilder.RegisterType<OfficeDataAccess>().As<IDataAccess<Office>>();
+            containerBuilder.RegisterType<TripDataAccess>().As<IDataAccess<Trip>>();
 
             containerBuilder.RegisterType<EmployeeService>().As<IService<Employee>>();
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
