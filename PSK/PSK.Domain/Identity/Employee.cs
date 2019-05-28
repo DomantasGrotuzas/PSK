@@ -14,5 +14,7 @@ namespace PSK.Domain.Identity
         public IList<Trip> OrganizedTrips { get; set; }
 
         public IList<TripEmployee> Trips { get; set; }
+
+        public string FullName => $"{Name} {Surname}";
     }
 }

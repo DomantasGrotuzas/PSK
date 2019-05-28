@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
-using PSK.Domain.Identity;
+using PSK.Services.Interfaces;
 
 namespace PSK.Services
 {
-    public interface ITripService
-    {
-        Task<IEnumerable<Trip>> GetAll();
-        Task<Trip> Get(Guid id);
-        Task<Trip> Create(Trip trip);
-        Task<Trip> Update(Guid id, Trip trip);
-        Task Delete(Guid id);
-    }
-
     public class TripService : ITripService
     {
         private readonly IDataAccess<Trip> _tripData;
@@ -52,6 +42,11 @@ namespace PSK.Services
         public async Task Delete(Guid id)
         {
             await _tripData.Remove(id);
+        }
+
+        public async Task<Trip> Merge(Trip trip1, Trip trip2)
+        {
+            return trip1;
         }
     }
 }
