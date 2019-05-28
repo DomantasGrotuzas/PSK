@@ -13,11 +13,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
+using PSK.Domain;
 using PSK.Domain.Identity;
 using PSK.FrontEnd.AutoMapper;
 using PSK.FrontEnd.Filters;
 using PSK.Persistence;
 using PSK.Services;
+using PSK.Services.Emails;
+using PSK.Services.Interfaces;
 
 namespace PSK.FrontEnd
 {
@@ -36,7 +39,8 @@ namespace PSK.FrontEnd
             services.AddIdentity<Employee, UserRole>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
-            //services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
             var connectionString = Configuration.GetValue<string>("PskConnectionString");
 
@@ -78,10 +82,12 @@ namespace PSK.FrontEnd
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
 
-            containerBuilder.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>();
-            containerBuilder.RegisterType<OfficeDataAccess>().As<IOfficeDataAccess>();
+            containerBuilder.RegisterType<OfficeDataAccess>().As<IDataAccess<Office>>();
+            containerBuilder.RegisterType<TripDataAccess>().As<IDataAccess<Trip>>();
 
+            containerBuilder.RegisterType<TripService>().As<ITripService>();
             containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
+
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
             containerBuilder.RegisterType<DataContext>().AsSelf();
 

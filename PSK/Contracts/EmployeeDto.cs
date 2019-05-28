@@ -15,5 +15,13 @@ namespace Contracts
         public string Email { get; set; }
 
         public string TelephoneNumber { get; set; }
+
+        public ICollection<RoleSelection> Roles { get; set; }
+    }
+
+    public class RoleSelection
+    {
+        public string Role { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

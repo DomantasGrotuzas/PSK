@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PSK.DataAccess.Interfaces;
@@ -7,7 +8,7 @@ using PSK.Persistence;
 
 namespace PSK.DataAccess
 {
-    public class OfficeDataAccess : IOfficeDataAccess
+    public class OfficeDataAccess : IDataAccess<Office>
     {
         private readonly IDataContext _context;
 
@@ -21,7 +22,7 @@ namespace PSK.DataAccess
             return await _context.Offices.Include(x => x.Address).ToListAsync();
         }
 
-        public async Task<Office> Get(int id)
+        public async Task<Office> Get(Guid id)
         {
             return await _context.Offices.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -39,7 +40,7 @@ namespace PSK.DataAccess
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(int id)
+        public async Task Remove(Guid id)
         {
             var officeToRemove = await Get(id);
             _context.Offices.Remove(officeToRemove);

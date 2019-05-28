@@ -10,8 +10,8 @@ using PSK.Persistence;
 namespace PSK.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190521183811_AddNameToOffice")]
-    partial class AddNameToOffice
+    [Migration("20190527164340_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace PSK.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,7 +31,7 @@ namespace PSK.Persistence.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<int>("RoleId");
+                    b.Property<Guid>("RoleId");
 
                     b.HasKey("Id");
 
@@ -40,7 +40,7 @@ namespace PSK.Persistence.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace PSK.Persistence.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<int>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -59,7 +59,7 @@ namespace PSK.Persistence.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -67,7 +67,7 @@ namespace PSK.Persistence.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<int>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -76,11 +76,11 @@ namespace PSK.Persistence.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<int>("UserId");
+                    b.Property<Guid>("UserId");
 
-                    b.Property<int>("RoleId");
+                    b.Property<Guid>("RoleId");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -89,9 +89,9 @@ namespace PSK.Persistence.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<int>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.Property<string>("LoginProvider");
 
@@ -106,15 +106,14 @@ namespace PSK.Persistence.Migrations
 
             modelBuilder.Entity("PSK.Domain.Accommodation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AddressId");
+                    b.Property<Guid>("AddressId");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("OfficeId");
+                    b.Property<Guid?>("OfficeId");
 
                     b.Property<int?>("TotalSpaces");
 
@@ -124,7 +123,8 @@ namespace PSK.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressId")
+                        .IsUnique();
 
                     b.HasIndex("OfficeId");
 
@@ -133,11 +133,10 @@ namespace PSK.Persistence.Migrations
 
             modelBuilder.Entity("PSK.Domain.AccommodationReservation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AccommodationId");
+                    b.Property<Guid?>("AccommodationId");
 
                     b.Property<DateTime>("EndDate");
 
@@ -149,7 +148,7 @@ namespace PSK.Persistence.Migrations
                     b.Property<string>("Status")
                         .IsRequired();
 
-                    b.Property<int>("TripEmployeeId");
+                    b.Property<Guid>("TripEmployeeId");
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
@@ -167,9 +166,8 @@ namespace PSK.Persistence.Migrations
 
             modelBuilder.Entity("PSK.Domain.Address", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("City");
 
@@ -194,9 +192,8 @@ namespace PSK.Persistence.Migrations
 
             modelBuilder.Entity("PSK.Domain.Identity.Employee", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -250,9 +247,8 @@ namespace PSK.Persistence.Migrations
 
             modelBuilder.Entity("PSK.Domain.Identity.UserRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -275,11 +271,10 @@ namespace PSK.Persistence.Migrations
 
             modelBuilder.Entity("PSK.Domain.Office", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AddressId");
+                    b.Property<Guid>("AddressId");
 
                     b.Property<string>("Name");
 
@@ -289,28 +284,28 @@ namespace PSK.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressId")
+                        .IsUnique();
 
                     b.ToTable("Offices");
                 });
 
             modelBuilder.Entity("PSK.Domain.Trip", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Comment");
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<int?>("EndLocationId");
+                    b.Property<Guid?>("EndLocationId");
 
-                    b.Property<int?>("OrganizerId");
+                    b.Property<Guid?>("OrganizerId");
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<int?>("StartLocationId");
+                    b.Property<Guid?>("StartLocationId");
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
@@ -329,9 +324,8 @@ namespace PSK.Persistence.Migrations
 
             modelBuilder.Entity("PSK.Domain.TripEmployee", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<decimal?>("CarReservationPrice")
                         .HasColumnType("decimal(18,2)");
@@ -341,7 +335,7 @@ namespace PSK.Persistence.Migrations
 
                     b.Property<string>("Comment");
 
-                    b.Property<int?>("EmployeeId");
+                    b.Property<Guid?>("EmployeeId");
 
                     b.Property<decimal?>("PlaneTicketPrice")
                         .HasColumnType("decimal(18,2)");
@@ -349,7 +343,7 @@ namespace PSK.Persistence.Migrations
                     b.Property<string>("PlaneTicketStatus")
                         .IsRequired();
 
-                    b.Property<int?>("TripId");
+                    b.Property<Guid?>("TripId");
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
@@ -364,7 +358,7 @@ namespace PSK.Persistence.Migrations
                     b.ToTable("TripEmployees");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("PSK.Domain.Identity.UserRole")
                         .WithMany()
@@ -372,7 +366,7 @@ namespace PSK.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("PSK.Domain.Identity.Employee")
                         .WithMany()
@@ -380,7 +374,7 @@ namespace PSK.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("PSK.Domain.Identity.Employee")
                         .WithMany()
@@ -388,7 +382,7 @@ namespace PSK.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.HasOne("PSK.Domain.Identity.UserRole")
                         .WithMany()
@@ -401,7 +395,7 @@ namespace PSK.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("PSK.Domain.Identity.Employee")
                         .WithMany()
@@ -412,8 +406,9 @@ namespace PSK.Persistence.Migrations
             modelBuilder.Entity("PSK.Domain.Accommodation", b =>
                 {
                     b.HasOne("PSK.Domain.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
+                        .WithOne("Accommodation")
+                        .HasForeignKey("PSK.Domain.Accommodation", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PSK.Domain.Office", "Office")
                         .WithMany("Accommodations")
@@ -435,8 +430,9 @@ namespace PSK.Persistence.Migrations
             modelBuilder.Entity("PSK.Domain.Office", b =>
                 {
                     b.HasOne("PSK.Domain.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
+                        .WithOne("Office")
+                        .HasForeignKey("PSK.Domain.Office", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PSK.Domain.Trip", b =>
