@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PSK.DataAccess.Interfaces;
@@ -9,7 +8,6 @@ using PSK.Domain;
 
 namespace PSK.FrontEnd.Controllers
 {
-    [Authorize(Roles = "User")]
     public class TripController : Controller
     {
         private readonly IDataAccess<Trip> _tripData;
@@ -27,17 +25,20 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripData.GetAll());
         }
 
-        public async Task<IActionResult> Create(TripDto tripDto)
+        [Authorize(Roles = "Organizer,Admin")]
+        public async Task<IActionResult> Create(Trip trip)
         {
-            await _tripData.Add(_mapper.Map<Trip>(tripDto));
+            await _tripData.Add(trip);
             return Redirect("trips");
         }
 
+        [Authorize(Roles = "Organizer,Admin")]
         public IActionResult AddNew()
         {
             return View();
         }
 
+        [Authorize(Roles = "Organizer,Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _tripData.Remove(id);
@@ -45,6 +46,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Organizer,Admin")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var trip = await _tripData.Get(id);
@@ -56,6 +58,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Organizer,Admin")]
         public async Task<IActionResult> Update(Trip trip)
         {
             await _tripData.Update(trip);

@@ -59,5 +59,11 @@ namespace PSK.FrontEnd.Controllers
             await _officeDataAccess.Update(office);
             return Redirect("offices");
         }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var office = await _officeDataAccess.Get(id);
+            return View(office);
+        }
     }
 }

@@ -8,7 +8,16 @@ using PSK.Domain.Identity;
 
 namespace PSK.Services
 {
-    public class TripService : IService<Trip>
+    public interface ITripService
+    {
+        Task<IEnumerable<Trip>> GetAll();
+        Task<Trip> Get(Guid id);
+        Task<Trip> Create(Trip trip);
+        Task<Trip> Update(Guid id, Trip trip);
+        Task Delete(Guid id);
+    }
+
+    public class TripService : ITripService
     {
         private readonly IDataAccess<Trip> _tripData;
 
@@ -34,13 +43,8 @@ namespace PSK.Services
 
         public async Task<Trip> Update(Guid id, Trip trip)
         {
-            var existingTrip = await _tripData.Get(id);
-            existingTrip.Comment = trip.Comment;
-            existingTrip.StartDate = trip.StartDate;
-            existingTrip.EndDate = trip.EndDate;
-            existingTrip.StartLocation = trip.StartLocation;
-
-            await _tripData.Update(existingTrip);
+            trip.Id = id;
+            await _tripData.Update(trip);
 
             return trip;
         }
