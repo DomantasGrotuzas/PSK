@@ -1,0 +1,95 @@
+﻿@model IEnumerable<PSK.Domain.TripEmployee>
+
+@{
+    ViewData["Title"] = "TripEmployees";
+}
+
+<h2>TripEmployees</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Employee.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccommodationReservation.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccommodationReservation.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccommodationReservation.Accommodation.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccommodationReservation.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccommodationReservation.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaneTicketStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaneTicketPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarReservationStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarReservationPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <th>
+            @Html.DisplayFor(modelItem => item.Employee.FullName)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.AccommodationReservation.Price)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.AccommodationReservation.Accommodation.Name)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.AccommodationReservation.EndDate)
+        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlaneTicketStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlaneTicketPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarReservationStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarReservationPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
+            @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+            @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

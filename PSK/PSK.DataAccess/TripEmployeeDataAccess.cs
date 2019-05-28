@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PSK.DataAccess.Interfaces;
@@ -8,7 +9,7 @@ using PSK.Persistence;
 
 namespace PSK.DataAccess
 {
-    public class TripEmployeeDataAccess : IDataAccess<TripEmployee>
+    public class TripEmployeeDataAccess : ITripEmployeeDataAccess
     {
         private readonly IDataContext _context;
 
@@ -20,14 +21,22 @@ namespace PSK.DataAccess
         public async Task<IEnumerable<TripEmployee>> GetAll()
         {
             return await _context.TripEmployees.Include(x => x.Trip).Include(x => x.Employee)
-                .Include(x => x.AccommodationReservation)
+                .Include(x => x.AccommodationReservation).Include(x => x.AccommodationReservation.Accommodation)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<TripEmployee>> GetAll(Guid tripId)
+        {
+            return await _context.TripEmployees.Include(x => x.Trip).Include(x => x.Employee)
+                .Include(x => x.AccommodationReservation).Include(x => x.AccommodationReservation.Accommodation)
+                .Where(x => x.Trip.Id == tripId)
                 .ToListAsync();
         }
 
         public async Task<TripEmployee> Get(Guid id)
         {
             return await _context.TripEmployees.Include(x => x.Trip).Include(x => x.Employee)
-                .Include(x => x.AccommodationReservation)
+                .Include(x => x.AccommodationReservation).Include(x => x.AccommodationReservation.Accommodation)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
