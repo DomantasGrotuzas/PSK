@@ -37,9 +37,9 @@ namespace PSK.Persistence
 
                 entity.Property(x => x.Version).IsRowVersion();
 
-                entity.HasOne(x => x.StartLocation);
-                entity.HasOne(x => x.EndLocation);
-                entity.HasOne(x => x.Organizer).WithMany(x => x.OrganizedTrips);
+                entity.HasOne(x => x.StartLocation).WithMany().OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(x => x.EndLocation).WithMany().OnDelete(DeleteBehavior.Restrict); ;
+                entity.HasOne(x => x.Organizer).WithMany(x => x.OrganizedTrips).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<TripEmployee>(entity =>
@@ -81,8 +81,8 @@ namespace PSK.Persistence
 
                 entity.Property(x => x.Version).IsRowVersion();
 
-                entity.HasOne(x => x.Address).WithOne(x => x.Accommodation).HasForeignKey<Accommodation>(x => x.AddressId).OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(x => x.Office).WithMany(x => x.Accommodations);
+                entity.HasOne(x => x.Address).WithOne(x => x.Accommodation).HasForeignKey<Accommodation>(x => x.AddressId).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(x => x.Office).WithMany(x => x.Accommodations).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Address>(entity =>

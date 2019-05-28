@@ -10,14 +10,14 @@ using PSK.Persistence;
 namespace PSK.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190528110647_FixModel")]
-    partial class FixModel
+    [Migration("20190528221012_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -111,11 +111,14 @@ namespace PSK.Persistence.Migrations
 
                     b.Property<Guid>("AddressId");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60);
 
-                    b.Property<Guid?>("OfficeId");
+                    b.Property<Guid>("OfficeId");
 
-                    b.Property<int?>("TotalSpaces");
+                    b.Property<int?>("TotalSpaces")
+                        .IsRequired();
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
@@ -170,19 +173,25 @@ namespace PSK.Persistence.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasMaxLength(60);
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasMaxLength(60);
 
                     b.Property<string>("HouseNumber")
+                        .IsRequired()
                         .HasMaxLength(20);
 
-                    b.Property<string>("Latitude");
+                    b.Property<string>("Latitude")
+                        .HasMaxLength(20);
 
-                    b.Property<string>("Longitude");
+                    b.Property<string>("Longitude")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Street")
+                        .IsRequired()
                         .HasMaxLength(60);
 
                     b.Property<byte[]>("Version")
@@ -281,6 +290,7 @@ namespace PSK.Persistence.Migrations
                     b.Property<Guid>("AddressId");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(60);
 
                     b.Property<byte[]>("Version")
@@ -300,17 +310,18 @@ namespace PSK.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Comment");
+                    b.Property<string>("Comment")
+                        .HasMaxLength(60);
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<Guid?>("EndLocationId");
+                    b.Property<Guid>("EndLocationId");
 
-                    b.Property<Guid?>("OrganizerId");
+                    b.Property<Guid>("OrganizerId");
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<Guid?>("StartLocationId");
+                    b.Property<Guid>("StartLocationId");
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
@@ -338,9 +349,10 @@ namespace PSK.Persistence.Migrations
                     b.Property<string>("CarReservationStatus")
                         .IsRequired();
 
-                    b.Property<string>("Comment");
+                    b.Property<string>("Comment")
+                        .HasMaxLength(60);
 
-                    b.Property<Guid?>("EmployeeId");
+                    b.Property<Guid>("EmployeeId");
 
                     b.Property<decimal?>("PlaneTicketPrice")
                         .HasColumnType("decimal(18,2)");
@@ -348,7 +360,7 @@ namespace PSK.Persistence.Migrations
                     b.Property<string>("PlaneTicketStatus")
                         .IsRequired();
 
-                    b.Property<Guid?>("TripId");
+                    b.Property<Guid>("TripId");
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
@@ -413,11 +425,12 @@ namespace PSK.Persistence.Migrations
                     b.HasOne("PSK.Domain.Address", "Address")
                         .WithOne("Accommodation")
                         .HasForeignKey("PSK.Domain.Accommodation", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PSK.Domain.Office", "Office")
                         .WithMany("Accommodations")
-                        .HasForeignKey("OfficeId");
+                        .HasForeignKey("OfficeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PSK.Domain.AccommodationReservation", b =>
@@ -444,26 +457,31 @@ namespace PSK.Persistence.Migrations
                 {
                     b.HasOne("PSK.Domain.Office", "EndLocation")
                         .WithMany()
-                        .HasForeignKey("EndLocationId");
+                        .HasForeignKey("EndLocationId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PSK.Domain.Identity.Employee", "Organizer")
                         .WithMany("OrganizedTrips")
-                        .HasForeignKey("OrganizerId");
+                        .HasForeignKey("OrganizerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PSK.Domain.Office", "StartLocation")
                         .WithMany()
-                        .HasForeignKey("StartLocationId");
+                        .HasForeignKey("StartLocationId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("PSK.Domain.TripEmployee", b =>
                 {
                     b.HasOne("PSK.Domain.Identity.Employee", "Employee")
                         .WithMany("Trips")
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PSK.Domain.Trip", "Trip")
                         .WithMany("Employees")
-                        .HasForeignKey("TripId");
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

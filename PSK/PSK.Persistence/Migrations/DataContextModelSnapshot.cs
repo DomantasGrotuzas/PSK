@@ -15,7 +15,7 @@ namespace PSK.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -423,7 +423,7 @@ namespace PSK.Persistence.Migrations
                     b.HasOne("PSK.Domain.Address", "Address")
                         .WithOne("Accommodation")
                         .HasForeignKey("PSK.Domain.Accommodation", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PSK.Domain.Office", "Office")
                         .WithMany("Accommodations")
@@ -456,17 +456,17 @@ namespace PSK.Persistence.Migrations
                     b.HasOne("PSK.Domain.Office", "EndLocation")
                         .WithMany()
                         .HasForeignKey("EndLocationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PSK.Domain.Identity.Employee", "Organizer")
                         .WithMany("OrganizedTrips")
                         .HasForeignKey("OrganizerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PSK.Domain.Office", "StartLocation")
                         .WithMany()
                         .HasForeignKey("StartLocationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("PSK.Domain.TripEmployee", b =>

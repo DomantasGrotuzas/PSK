@@ -14,12 +14,12 @@ namespace PSK.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Version = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    Latitude = table.Column<string>(nullable: true),
-                    Longitude = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Street = table.Column<string>(nullable: true),
-                    HouseNumber = table.Column<string>(nullable: true)
+                    Latitude = table.Column<string>(maxLength: 20, nullable: true),
+                    Longitude = table.Column<string>(maxLength: 20, nullable: true),
+                    Country = table.Column<string>(maxLength: 60, nullable: false),
+                    City = table.Column<string>(maxLength: 60, nullable: false),
+                    Street = table.Column<string>(maxLength: 60, nullable: false),
+                    HouseNumber = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +73,7 @@ namespace PSK.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Version = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 60, nullable: false),
                     AddressId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -199,9 +199,9 @@ namespace PSK.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Version = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    TotalSpaces = table.Column<int>(nullable: true),
-                    OfficeId = table.Column<Guid>(nullable: true),
+                    Name = table.Column<string>(maxLength: 60, nullable: false),
+                    TotalSpaces = table.Column<int>(nullable: false),
+                    OfficeId = table.Column<Guid>(nullable: false),
                     AddressId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -212,13 +212,13 @@ namespace PSK.Persistence.Migrations
                         column: x => x.AddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Accommodations_Offices_OfficeId",
                         column: x => x.OfficeId,
                         principalTable: "Offices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,10 +229,10 @@ namespace PSK.Persistence.Migrations
                     Version = table.Column<byte[]>(rowVersion: true, nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    Comment = table.Column<string>(nullable: true),
-                    OrganizerId = table.Column<Guid>(nullable: true),
-                    StartLocationId = table.Column<Guid>(nullable: true),
-                    EndLocationId = table.Column<Guid>(nullable: true)
+                    Comment = table.Column<string>(maxLength: 60, nullable: true),
+                    OrganizerId = table.Column<Guid>(nullable: false),
+                    StartLocationId = table.Column<Guid>(nullable: false),
+                    EndLocationId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -267,9 +267,9 @@ namespace PSK.Persistence.Migrations
                     PlaneTicketPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CarReservationStatus = table.Column<string>(nullable: false),
                     CarReservationPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TripId = table.Column<Guid>(nullable: true),
-                    EmployeeId = table.Column<Guid>(nullable: true),
-                    Comment = table.Column<string>(nullable: true)
+                    TripId = table.Column<Guid>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: false),
+                    Comment = table.Column<string>(maxLength: 60, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -279,13 +279,13 @@ namespace PSK.Persistence.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TripEmployees_Trips_TripId",
                         column: x => x.TripId,
                         principalTable: "Trips",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
