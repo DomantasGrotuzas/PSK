@@ -13,43 +13,42 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Appartment name</label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" maxlength="50" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TotalSpaces" class="control-label">Beds (total)</label>
-                <input asp-for="TotalSpaces" class="form-control" />
+                <label asp-for="TotalSpaces" class="control-label">Rooms (total)</label>
+                <input asp-for="TotalSpaces" class="form-control" value="6" type="number" min="1" max="6" required />
                 <span asp-validation-for="TotalSpaces" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.Country" class="control-label"></label>
-                <input asp-for="Address.Country" class="form-control" />
+                <input asp-for="Address.Country" class="form-control" maxlength="50" required />
                 <span asp-validation-for="Address.Country" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.City" class="control-label"></label>
-                <input asp-for="Address.City" class="form-control" />
+                <input asp-for="Address.City" class="form-control" maxlength="50" required />
                 <span asp-validation-for="Address.City" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.Street" class="control-label"></label>
-                <input asp-for="Address.Street" class="form-control" />
+                <input asp-for="Address.Street" class="form-control" maxlength="50" required />
                 <span asp-validation-for="Address.Street" class="text-danger"></span>
             </div>
             <div class="form-group">
-                l
                 <label asp-for="Address.HouseNumber" class="control-label">House number</label>
-                <input asp-for="Address.HouseNumber" class="form-control" />
+                <input asp-for="Address.HouseNumber" class="form-control" maxlength="10" required />
                 <span asp-validation-for="Address.HouseNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.Latitude" class="control-label"></label>
-                <input asp-for="Address.Latitude" class="form-control" />
+                <input asp-for="Address.Latitude" class="form-control" type="text" pattern="[0-9]*" min="0" maxlength="50" required />
                 <span asp-validation-for="Address.Latitude" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.Longitude" class="control-label"></label>
-                <input asp-for="Address.Longitude" class="form-control" />
+                <input asp-for="Address.Longitude" class="form-control" type="text" pattern="[0-9]*" min="0" maxlength="50" required />
                 <span asp-validation-for="Address.Longitude" class="text-danger"></span>
             </div>
             <div class="form-group">
