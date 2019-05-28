@@ -17,7 +17,7 @@ namespace Contracts
 
         public Guid EndLocationId { get; set; }
 
-        public IList<Guid> Employees { get; set; }
+        public IList<TripEmployeeDto> Employees { get; set; }
 
         public IList<OfficeDto> Offices { get; set; }
     }

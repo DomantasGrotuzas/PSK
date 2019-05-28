@@ -28,6 +28,12 @@ namespace PSK.FrontEnd.AutoMapper
             CreateMap<AccommodationDto, Accommodation>();
             CreateMap<Accommodation, AccommodationDto>();
 
+            CreateMap<AccommodationReservation, AccommodationReservationDto>();
+            CreateMap<AccommodationReservationDto, AccommodationReservation>();
+
+            CreateMap<TripEmployee, TripEmployeeDto>();
+            CreateMap<TripEmployeeDto, TripEmployee>();
+
             CreateMap<Entity, DefaultDto>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version));
             CreateMap<DefaultDto, Entity>()
