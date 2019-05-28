@@ -21,8 +21,12 @@ namespace PSK.FrontEnd.AutoMapper
 
             CreateMap<OfficeDto, Office>();
             CreateMap<Office, OfficeDto>();
+
             CreateMap<AddressDto, Address>();
             CreateMap<Address, AddressDto>();
+
+            CreateMap<AccommodationDto, Accommodation>();
+            CreateMap<Accommodation, AccommodationDto>();
 
             CreateMap<Entity, DefaultDto>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version));
