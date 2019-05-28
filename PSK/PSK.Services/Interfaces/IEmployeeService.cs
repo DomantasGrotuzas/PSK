@@ -10,7 +10,7 @@ namespace PSK.Services.Interfaces
         Task<IEnumerable<Employee>> GetAll();
         Task<Employee> Get(Guid id);
         Task<Employee> Create(Employee employee, ICollection<string> roles);
-        Task<Employee> Update(Guid id, Employee employee);
+        Task<Employee> Update(Employee employee, ICollection<string> roles);
         Task Delete(Guid id);
     }
 }
