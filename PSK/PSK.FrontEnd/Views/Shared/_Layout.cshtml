@@ -24,27 +24,28 @@
     }
 }
 <body class="@loginBody">
+
+    <nav class="navbar navbar-header-db navbar-fixed-top">
+        <img class="db-image" src="~/images/logo.svg" />
+        <div class="container">
+            <div class="navbar-header-db">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+    <partial name="_CookieConsentPartial" />
     @{
         if (User.Identity.IsAuthenticated)
         {
-            <nav class="navbar navbar-header-db navbar-fixed-top">
-                <img class="db-image" src="~/images/logo.svg" />
-                <div class="container">
-                    <div class="navbar-header-db">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div class="navbar-collapse collapse">
-
-                        <partial name="_LoginPartial" />
-                    </div>
-                </div>
-            </nav>
-            <partial name="_CookieConsentPartial" />
             <aside class="side-panel">
                 <a asp-area="" asp-controller="Employee" asp-action="Employees">Employees</a>
                 <a asp-area="" asp-controller="Office" asp-action="Offices">Offices</a>
@@ -52,6 +53,7 @@
             </aside>
         }
     }
+
 
 
 
