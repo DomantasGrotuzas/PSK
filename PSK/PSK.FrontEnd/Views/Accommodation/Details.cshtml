@@ -1,0 +1,66 @@
+﻿@model PSK.Domain.Accommodation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Accommodation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalSpaces)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalSpaces)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.Country)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Street)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.Street)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.HouseNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.HouseNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Latitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.Latitude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Longitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.Longitude)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>

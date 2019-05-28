@@ -30,7 +30,7 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Create(AccommodationDto accommodationDto)
         {
             await _accommodationDataAccess.Add(_mapper.Map<Accommodation>(accommodationDto));
-            return Redirect("offices");
+            return Redirect("accommodations");
         }
 
         public IActionResult AddNew()
@@ -46,18 +46,24 @@ namespace PSK.FrontEnd.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var accommodattion = await _accommodationDataAccess.Get(id);
+            var accommodation = await _accommodationDataAccess.Get(id);
 
-            if (accommodattion == null)
+            if (accommodation == null)
                 return NotFound();
 
-            return View(accommodattion);
+            return View(accommodation);
         }
 
         public async Task<IActionResult> Update(Accommodation accommodation)
         {
             await _accommodationDataAccess.Update(accommodation);
             return Redirect("accommodations");
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var accommodation = await _accommodationDataAccess.Get(id);
+            return View(accommodation);
         }
     }
 }

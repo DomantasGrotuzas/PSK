@@ -34,16 +34,16 @@ namespace PSK.DataAccess
             return addedAccommodation.Entity;
         }
 
+        public async Task Update(Accommodation accommodation)
+        {
+            _context.Accommodations.Update(accommodation);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task Remove(Guid id)
         {
             var accommodationToRemove = await Get(id);
             _context.Accommodations.Remove(accommodationToRemove);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Update(Accommodation accommodation)
-        {
-            _context.Accommodations.Update(accommodation);
             await _context.SaveChangesAsync();
         }
     }
