@@ -18,6 +18,7 @@ using PSK.FrontEnd.AutoMapper;
 using PSK.FrontEnd.Filters;
 using PSK.Persistence;
 using PSK.Services;
+using PSK.Services.Emails;
 
 namespace PSK.FrontEnd
 {
@@ -36,7 +37,8 @@ namespace PSK.FrontEnd
             services.AddIdentity<Employee, UserRole>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
-            //services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
             var connectionString = Configuration.GetValue<string>("PskConnectionString");
 
