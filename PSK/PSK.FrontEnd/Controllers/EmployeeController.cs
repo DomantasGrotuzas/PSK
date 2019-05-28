@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace PSK.FrontEnd.Controllers
 
         public async Task<IActionResult> Employees()
         {
+            var x = await _employeeService.GetAll();
             return View(await _employeeService.GetAll());
         }
 
@@ -65,14 +67,20 @@ namespace PSK.FrontEnd.Controllers
 
             if (employee == null)
                 return NotFound();
-
-            return View(employee);
+            var employeeDto = _mapper.Map<EmployeeDto>(employee);
+            employeeDto.Roles = _roleManager.Roles.Where(r => r.Name.ToLower() != "user").Select(r => new RoleSelection
+            {
+                Role = r.Name,
+                IsSelected = false
+            }).ToList();
+            return View(employeeDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Employee employee)
+        public async Task<IActionResult> Update(EmployeeDto employeeDto)
         {
-            await _employeeService.Update(employee.Id, employee);
+            var selectedRoles = employeeDto.Roles.Where(r => r.IsSelected).Select(r => r.Role).ToList();
+            await _employeeService.Update(_mapper.Map<Employee>(employeeDto),  selectedRoles);
             return Redirect("employees");
         }
     }
