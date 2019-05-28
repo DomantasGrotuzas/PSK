@@ -30,7 +30,7 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Create(OfficeDto officeDto)
         {
             await _officeDataAccess.Add(_mapper.Map<Office>(officeDto));
-            return await Offices();
+            return Redirect("offices");
         }
 
         public IActionResult AddNew()
@@ -41,18 +41,23 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _officeDataAccess.Remove(id);
-            return await Offices();
+            return Redirect("/office/offices");
         }
 
-        //public IActionResult Edit(OfficeDto officeDto)
-        //{
-        //    return View(officeDto);
-        //}
-
-        public async Task<IActionResult> Update(OfficeDto officeDto)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            await _officeDataAccess.Update(_mapper.Map<Office>(officeDto));
-            return await Offices();
+            var office = await _officeDataAccess.Get(id);
+
+            if (office == null)
+                return NotFound();
+
+            return View(office);
+        }
+
+        public async Task<IActionResult> Update(Office office)
+        {
+            await _officeDataAccess.Update(office);
+            return Redirect("offices");
         }
     }
 }
