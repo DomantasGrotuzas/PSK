@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
 using PSK.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace PSK.FrontEnd.Controllers
 {
@@ -34,23 +35,28 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripService.GetAll());
         }
 
-        [Authorize(Roles = "Organizer,Admin")]
-        public async Task<IActionResult> Create(TripDto trip)
+        [Authorize(Roles = "Organizer")]
+        public async Task<IActionResult> Create(TripDto tripDto)
         {
-            await _tripService.Create(_mapper.Map<Trip>(trip));
+            Trip trip = _mapper.Map<Trip>(tripDto);
+            trip.StartLocation = await _officeData.Get(Guid.Parse(tripDto.StartLocationId));
+            trip.EndLocation = await _officeData.Get(Guid.Parse(tripDto.EndLocationId));
+            await _tripService.Create(trip);
+            trip.Organizer = await _employeeService.Get(Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value));
+            await _tripService.Update(trip.Id, trip);
             return Redirect("trips");
         }
 
-        [Authorize(Roles = "Organizer,Admin")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> AddNew()
         {
             TripDto trip = new TripDto();
-            trip.Offices = (await _officeData.GetAll()).Select(o => _mapper.Map<OfficeDto>(o)).ToList();
+            trip.Offices = _mapper.Map<IEnumerable<OfficeDto>>(await _officeData.GetAll()).ToList();
             trip.AllEmployees = (await _employeeService.GetAll()).Select(e => _mapper.Map<EmployeeDto>(e)).ToList();
-            return View();
+            return View(trip);
         }
 
-        [Authorize(Roles = "Organizer,Admin")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _tripService.Delete(id);
@@ -58,7 +64,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Organizer,Admin")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var trip = await _tripService.Get(id);
@@ -70,7 +76,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Organizer,Admin")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Update(Trip trip)
         {
             await _tripService.Update(trip.Id, trip);

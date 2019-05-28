@@ -17,6 +17,8 @@ namespace Contracts
         public string TelephoneNumber { get; set; }
 
         public IList<RoleSelection> Roles { get; set; }
+
+        public string FullName => $"{Name} {Surname}";
     }
 
     public class RoleSelection

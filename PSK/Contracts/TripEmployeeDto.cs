@@ -1,4 +1,6 @@
-﻿namespace Contracts
+﻿using System.Collections.Generic;
+
+namespace Contracts
 {
     public class TripEmployeeDto : DefaultDto
     {
@@ -17,5 +19,11 @@
         public AccommodationReservationDto AccommodationReservation { get; set; }
 
         public string Comment { get; set; }
+
+        public string EmployeeId { get; set; }
+
+        public IEnumerable<EmployeeDto> AllEmployees { get; set; }
+
+        public IEnumerable<AccommodationDto> AvailableAccommodations { get; set; }
     }
 }

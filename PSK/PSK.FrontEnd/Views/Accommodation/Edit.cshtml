@@ -17,12 +17,12 @@
             <input type="hidden" asp-for="Address.Version" />
             <input type="hidden" asp-for="Version" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Appartment name</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TotalSpaces" class="control-label"></label>
+                <label asp-for="TotalSpaces" class="control-label">Rooms (total)</label>
                 <input asp-for="TotalSpaces" class="form-control" />
                 <span asp-validation-for="TotalSpaces" class="text-danger"></span>
             </div>
@@ -42,7 +42,7 @@
                 <span asp-validation-for="Address.Street" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Address.HouseNumber" class="control-label"></label>
+                <label asp-for="Address.HouseNumber" class="control-label">House number</label>
                 <input asp-for="Address.HouseNumber" class="form-control" />
                 <span asp-validation-for="Address.HouseNumber" class="text-danger"></span>
             </div>
