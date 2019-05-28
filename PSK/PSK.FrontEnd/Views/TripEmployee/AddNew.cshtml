@@ -14,6 +14,11 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                @Html.DropDownListFor(x => x.EmployeeId, new List<SelectListItem>(Model.AllEmployees.Select(x => new SelectListItem(x.FullName, x.Id.ToString())))))
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PlaneTicketStatus" class="control-label"></label>
                 @Html.DropDownListFor(x => x.PlaneTicketStatus, ViewTexts.PurchasableStatusItems)
                 <span asp-validation-for="PlaneTicketStatus" class="text-danger"></span>

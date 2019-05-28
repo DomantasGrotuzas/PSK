@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
 using Microsoft.AspNetCore.Mvc;
+using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
+using PSK.Domain.Identity;
+using PSK.Services.Interfaces;
 
 namespace PSK.FrontEnd.Controllers
 {
@@ -14,15 +17,15 @@ namespace PSK.FrontEnd.Controllers
     {
         private readonly ITripEmployeeDataAccess _tripEmployeeDataAccess;
 
-        private readonly IDataAccess<Trip> _tripDataAccess;
+        private readonly IEmployeeService _employeeService;
 
         private readonly IMapper _mapper;
 
-        public TripEmployeeController(IMapper mapper, ITripEmployeeDataAccess tripEmployeeDataAccess, IDataAccess<Trip> tripDataAccess)
+        public TripEmployeeController(IMapper mapper, ITripEmployeeDataAccess tripEmployeeDataAccess, IEmployeeService employeeService)
         {
             _mapper = mapper;
             _tripEmployeeDataAccess = tripEmployeeDataAccess;
-            _tripDataAccess = tripDataAccess;
+            _employeeService = employeeService;
         }
 
         public async Task<IActionResult> TripEmployees(Guid tripId)
@@ -30,9 +33,13 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripEmployeeDataAccess.GetAll(tripId));
         }
 
-        public IActionResult AddNew()
+        public async Task<IActionResult> AddNew()
         {
-            return View();
+            var tripEmployee = new TripEmployeeDto
+            {
+                AllEmployees = _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll())
+            };
+            return View(tripEmployee);
         }
 
         public async Task<IActionResult> Create(TripEmployeeDto tripEmployeeDto)

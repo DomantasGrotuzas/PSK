@@ -21,9 +21,5 @@ namespace PSK.Domain
         public AccommodationReservation AccommodationReservation { get; set; }
 
         public string Comment { get; set; }
-
-        public IEnumerable<Employee> AllEmployees { get; set; }
-
-        public IEnumerable<Accommodation> AvailableAccommodations { get; set; }
     }
 }
