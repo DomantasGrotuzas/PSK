@@ -50,7 +50,9 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.CarReservationStatus, opt => opt.MapFrom(src => src.CarReservationStatus.ToString()))
                 .ForMember(dest => dest.PlaneTicketStatus, opt => opt.MapFrom(src => src.PlaneTicketStatus.ToString()))
                 .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.Id))
-                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)));
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)))
+                .ForMember(dest => dest.AccommodationId, opt => opt.MapFrom(src => 
+                    src.AccommodationReservation.Accommodation != null ? src.AccommodationReservation.Accommodation.Id : Guid.Empty));
             CreateMap<TripEmployeeDto, TripEmployee>()
                 .ForMember(dest => dest.CarReservationStatus, opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.CarReservationStatus)))
                 .ForMember(dest => dest.PlaneTicketStatus, opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.PlaneTicketStatus)))
