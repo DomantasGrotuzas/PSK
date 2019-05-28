@@ -19,6 +19,8 @@ namespace Contracts
 
         public IList<TripEmployeeDto> Employees { get; set; }
 
+        public IList<EmployeeDto> AllEmployees { get; set; }
+
         public IList<OfficeDto> Offices { get; set; }
     }
 }

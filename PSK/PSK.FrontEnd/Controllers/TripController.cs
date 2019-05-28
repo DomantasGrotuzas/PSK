@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Linq;
 using AutoMapper;
 using Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PSK.DataAccess.Interfaces;
 using PSK.Domain;
 using PSK.Services.Interfaces;
 
@@ -15,10 +17,16 @@ namespace PSK.FrontEnd.Controllers
 
         private readonly IMapper _mapper;
 
-        public TripController(ITripService tripService, IMapper mapper)
+        private readonly IDataAccess<Office> _officeData;
+
+        private readonly IEmployeeService _employeeService;
+
+        public TripController(ITripService tripService, IMapper mapper, IDataAccess<Office> officeData, IEmployeeService employeeService)
         {
             _tripService = tripService;
             _mapper = mapper;
+            _officeData = officeData;
+            _employeeService = employeeService;
         }
 
         public async Task<IActionResult> Trips()
@@ -34,8 +42,11 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [Authorize(Roles = "Organizer,Admin")]
-        public IActionResult AddNew()
+        public async Task<IActionResult> AddNew()
         {
+            TripDto trip = new TripDto();
+            trip.Offices = (await _officeData.GetAll()).Select(o => _mapper.Map<OfficeDto>(o)).ToList();
+            trip.AllEmployees = (await _employeeService.GetAll()).Select(e => _mapper.Map<EmployeeDto>(e)).ToList();
             return View();
         }
 

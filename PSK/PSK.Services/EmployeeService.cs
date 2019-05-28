@@ -15,10 +15,12 @@ namespace PSK.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly UserManager<Employee> _userManager;
+        private readonly RoleManager<UserRole> _roleManager;
 
-        public EmployeeService(UserManager<Employee> userManager)
+        public EmployeeService(UserManager<Employee> userManager, RoleManager<UserRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IEnumerable<Employee>> GetAll()
@@ -49,16 +51,23 @@ namespace PSK.Services
             throw new Exception(string.Join('\n', result.Errors.Select(err => $"Error code: {err.Code}.\n\t Description: {err.Description}")));
         }
 
-        public async Task<Employee> Update(Guid id, Employee employee)
+        public async Task<Employee> Update(Employee employee, ICollection<string> roles)
         {
-            var existingEmployee = await Get(id);
+            var existingEmployee = await Get(employee.Id);
             existingEmployee.Email = employee.Email;
             existingEmployee.Name = employee.Name;
             existingEmployee.Surname = employee.Surname;
             existingEmployee.UserName = employee.UserName;
             existingEmployee.PhoneNumber = employee.PhoneNumber;
 
-            await _userManager.UpdateAsync(employee);
+            await _userManager.UpdateAsync(existingEmployee);
+
+            await _userManager.RemoveFromRolesAsync(existingEmployee, _roleManager.Roles.Select(r => r.Name));
+
+            if (!roles.Any(r => r.ToLower() == "user"))
+                roles.Add("user");
+
+            await _userManager.AddToRolesAsync(existingEmployee, roles);
 
             return employee;
         }
