@@ -7,6 +7,6 @@ namespace PSK.Persistence
 {
     public interface IDataInitializer
     {
-        void InitializeRoles();
+        void InitializeDatabase();
     }
 }

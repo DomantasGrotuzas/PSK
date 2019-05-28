@@ -116,7 +116,7 @@ namespace PSK.FrontEnd
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var databaseInitializer = scope.ServiceProvider.GetRequiredService<IDataInitializer>();
-                databaseInitializer.InitializeRoles();
+                databaseInitializer.InitializeDatabase();
             }
 
             app.UseHttpsRedirection();

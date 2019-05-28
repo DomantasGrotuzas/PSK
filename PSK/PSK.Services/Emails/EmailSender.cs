@@ -23,6 +23,8 @@ namespace PSK.Services.Emails
 
         public async Task SendEmailAsync(string email, string subject, string message)
         {
+            if (_env.IsDevelopment())
+                return;
             try
             {
                 var mimeMessage = new MimeMessage();

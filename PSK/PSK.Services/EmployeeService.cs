@@ -30,7 +30,10 @@ namespace PSK.Services
 
         public async Task<Employee> Get(Guid id)
         {
-            return await _userManager.FindByIdAsync(id.ToString());
+            var employee = await _userManager.FindByIdAsync(id.ToString());
+            if (employee == null)
+                throw new ArgumentException($"Employee with id: {id}, does't exist");
+            return employee;
         }
 
         public async Task<Employee> Create(Employee employee, ICollection<string> roles)
@@ -42,18 +45,15 @@ namespace PSK.Services
             else
                 throw new Exception(string.Join('\n', result.Errors.Select(err => $"Error code: {err.Code}.\n\t Description: {err.Description}")));
 
-            if (!roles.Any(r => r.ToLower() == "user"))
-                roles.Add("user");
+            await AddRoles(createdEmployee, roles);
+            return createdEmployee;
 
-            result = await _userManager.AddToRolesAsync(createdEmployee, roles);
-            if (result.Succeeded)
-                return createdEmployee;
-            throw new Exception(string.Join('\n', result.Errors.Select(err => $"Error code: {err.Code}.\n\t Description: {err.Description}")));
         }
 
         public async Task<Employee> Update(Employee employee, ICollection<string> roles)
         {
             var existingEmployee = await Get(employee.Id);
+
             existingEmployee.Email = employee.Email;
             existingEmployee.Name = employee.Name;
             existingEmployee.Surname = employee.Surname;
@@ -62,12 +62,10 @@ namespace PSK.Services
 
             await _userManager.UpdateAsync(existingEmployee);
 
-            await _userManager.RemoveFromRolesAsync(existingEmployee, _roleManager.Roles.Select(r => r.Name));
+            var currentRoles = await _userManager.GetRolesAsync(existingEmployee);
+            await _userManager.RemoveFromRolesAsync(existingEmployee, currentRoles);
 
-            if (!roles.Any(r => r.ToLower() == "user"))
-                roles.Add("user");
-
-            await _userManager.AddToRolesAsync(existingEmployee, roles);
+            await AddRoles(existingEmployee, roles);
 
             return employee;
         }
@@ -76,6 +74,16 @@ namespace PSK.Services
         {
             var employeeToDelete = await Get(id);
             await _userManager.DeleteAsync(employeeToDelete);
+        }
+
+        private async Task AddRoles(Employee employee, ICollection<string> roles)
+        {
+            if (!roles.Any(r => r.ToLower() == "user"))
+                roles.Add("user");
+
+            var result = await _userManager.AddToRolesAsync(employee, roles);
+            if (!result.Succeeded)
+                throw new Exception(string.Join('\n', result.Errors.Select(err => $"Error code: {err.Code}.\n\t Description: {err.Description}")));
         }
     }
 }
