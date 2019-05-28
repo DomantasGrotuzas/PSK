@@ -8,7 +8,7 @@ using PSK.Persistence;
 
 namespace PSK.DataAccess
 {
-    public class OfficeDataAccess : IOfficeDataAccess
+    public class OfficeDataAccess : IDataAccess<Office>
     {
         private readonly IDataContext _context;
 

@@ -12,11 +12,11 @@ namespace PSK.FrontEnd.Controllers
 {
     public class OfficeController : Controller
     {
-        private readonly IOfficeDataAccess _officeDataAccess;
+        private readonly IDataAccess<Office> _officeDataAccess;
 
         private readonly IMapper _mapper;
 
-        public OfficeController(IOfficeDataAccess officeDataAccess, IMapper mapper)
+        public OfficeController(IDataAccess<Office> officeDataAccess, IMapper mapper)
         {
             _officeDataAccess = officeDataAccess;
             _mapper = mapper;
