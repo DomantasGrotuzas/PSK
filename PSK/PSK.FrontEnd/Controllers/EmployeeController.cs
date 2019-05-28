@@ -10,7 +10,7 @@ using PSK.Services;
 
 namespace PSK.FrontEnd.Controllers
 {
-    [Authorize(Roles = "User")]
+    //[Authorize(Roles = "User")]
     public class EmployeeController : Controller
     {
         private readonly IService<Employee> _employeeService;
@@ -57,7 +57,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Guid id, Employee employee)
+        public async Task<IActionResult> Update(Employee employee)
         {
             await _employeeService.Update(employee.Id, employee);
             return Redirect("employees");
