@@ -29,5 +29,32 @@ namespace PSK.FrontEnd.Controllers
         {
             return View(await _tripEmployeeDataAccess.GetAll(tripId));
         }
+
+        public IActionResult AddNew()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Create(TripEmployeeDto tripEmployeeDto)
+        {
+            await _tripEmployeeDataAccess.Add(_mapper.Map<TripEmployee>(tripEmployeeDto));
+            return Redirect("tripEmployees");
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _tripEmployeeDataAccess.Remove(id);
+            return Redirect("/tripEmployee/tripEmployees");
+        }
+
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var tripEmployee = await _tripEmployeeDataAccess.Get(id);
+
+            if (tripEmployee == null)
+                return NotFound();
+
+            return View(tripEmployee);
+        }
     }
 }
