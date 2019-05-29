@@ -39,7 +39,7 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripService.GetAll());
         }
 
-        //[Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Create(TripDto tripDto)
         {
             Trip trip = _mapper.Map<Trip>(tripDto);
@@ -54,7 +54,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect("trips");
         }
 
-        //[Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> AddNew()
         {
             TripDto trip = new TripDto

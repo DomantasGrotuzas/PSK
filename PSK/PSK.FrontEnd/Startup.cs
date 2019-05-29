@@ -37,6 +37,7 @@ namespace PSK.FrontEnd
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddIdentity<Employee, UserRole>()
+                .AddRoleManager<RoleManager<UserRole>>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
             services.AddSingleton<IEmailSender, EmailSender>();
@@ -63,6 +64,16 @@ namespace PSK.FrontEnd
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
             });
 
 
