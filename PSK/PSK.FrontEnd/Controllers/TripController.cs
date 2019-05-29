@@ -39,7 +39,7 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripService.GetAll());
         }
 
-        [Authorize(Roles = "Organizer")]
+        //[Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Create(TripDto tripDto)
         {
             Trip trip = _mapper.Map<Trip>(tripDto);
@@ -54,7 +54,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect("trips");
         }
 
-        [Authorize(Roles = "Organizer")]
+        //[Authorize(Roles = "Organizer")]
         public async Task<IActionResult> AddNew()
         {
             TripDto trip = new TripDto
@@ -65,7 +65,7 @@ namespace PSK.FrontEnd.Controllers
             return View(trip);
         }
 
-        [Authorize(Roles = "Organizer")]
+        //[Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _tripService.Delete(id);
@@ -73,7 +73,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Organizer")]
+        //[Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var trip = await _tripService.Get(id);
@@ -85,7 +85,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Organizer")]
+        //[Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Update(Trip trip)
         {
             await _tripService.Update(trip.Id, trip);

@@ -144,9 +144,26 @@ nav a {
     }
 
 /*table*/
-.table {
+table {
     overflow-x: auto;
+    border-collapse: collapse;
+    width: 100%;
 }
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+thead {
+    background-color: #FF3454;
+    color: white;
+}
+/**/
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
