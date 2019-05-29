@@ -12,12 +12,12 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Trip start date (YYYY-MM-DD)</label>
+                <label asp-for="StartDate" class="control-label">Trip start date (MM-DD-YYYY)</label>
                 <input asp-for="StartDate" class="form-control" type="date" id="tripStartDateInput" required />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label">Trip end date (YYYY-MM-DD)</label>
+                <label asp-for="EndDate" class="control-label">Trip end date (MM-DD-YYYY)</label>
                 <input asp-for="EndDate" class="form-control" type="date" id="tripEndDateInput" required />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>

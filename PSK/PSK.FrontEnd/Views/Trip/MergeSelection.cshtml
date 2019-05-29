@@ -47,7 +47,7 @@
                         @Html.DisplayFor(modelItem => modelItem.PrimaryTrip.EndDate)
                     </td>
                     <th>
-                        @Html.DisplayFor(modelItem => modelItem.PrimaryTrip.Organizer.Name)
+                        @Html.ActionLink(Model.PrimaryTrip.Organizer.FullName, "Details", "Employee", new { id = Model.PrimaryTrip.Organizer.Id })
                     </th>
                     <th>
                         @Html.ActionLink(@Model.PrimaryTrip.StartLocation.Name, "Details", "Office", new {id = @Model.PrimaryTrip.StartLocation?.Id})
@@ -109,7 +109,7 @@
                             @Html.DisplayFor(modelItem => item.EndDate)
                         </td>
                         <th>
-                            @Html.DisplayFor(modelItem => item.Organizer.Name)
+                            @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
                         </th>
                         <th>
                             @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new {id = item.StartLocation?.Id})
