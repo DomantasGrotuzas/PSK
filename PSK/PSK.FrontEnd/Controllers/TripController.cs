@@ -9,6 +9,8 @@ using PSK.DataAccess.Interfaces;
 using PSK.Domain;
 using PSK.Services.Interfaces;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using PSK.Domain.Identity;
 
 namespace PSK.FrontEnd.Controllers
 {
@@ -21,13 +23,15 @@ namespace PSK.FrontEnd.Controllers
         private readonly IDataAccess<Office> _officeData;
 
         private readonly IEmployeeService _employeeService;
+        private readonly UserManager<Employee> _userManager;
 
-        public TripController(ITripService tripService, IMapper mapper, IDataAccess<Office> officeData, IEmployeeService employeeService)
+        public TripController(ITripService tripService, IMapper mapper, IDataAccess<Office> officeData, IEmployeeService employeeService, UserManager<Employee> userManager)
         {
             _tripService = tripService;
             _mapper = mapper;
             _officeData = officeData;
             _employeeService = employeeService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Trips()
@@ -35,19 +39,22 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripService.GetAll());
         }
 
-        [Authorize(Roles = "Organizer")]
+        //[Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Create(TripDto tripDto)
         {
             Trip trip = _mapper.Map<Trip>(tripDto);
             trip.StartLocation = await _officeData.Get(Guid.Parse(tripDto.StartLocationId));
             trip.EndLocation = await _officeData.Get(Guid.Parse(tripDto.EndLocationId));
+            trip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
+
+
             await _tripService.Create(trip);
-            trip.Organizer = await _employeeService.Get(Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value));
-            await _tripService.Update(trip.Id, trip);
+            //trip.Organizer = await _employeeService.Get(Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value));
+            //await _tripService.Update(trip.Id, trip);
             return Redirect("trips");
         }
 
-        [Authorize(Roles = "Organizer")]
+        //[Authorize(Roles = "Organizer")]
         public async Task<IActionResult> AddNew()
         {
             TripDto trip = new TripDto

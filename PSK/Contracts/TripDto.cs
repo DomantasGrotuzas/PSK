@@ -21,11 +21,9 @@ namespace Contracts
         public Guid OrganizerId { get; set; }
 
         [Required]
-        [StringLength(60, MinimumLength = 3)]
         public string StartLocationId { get; set; }
 
         [Required]
-        [StringLength(60, MinimumLength = 3)]
         public string EndLocationId { get; set; }
 
         [Required]
