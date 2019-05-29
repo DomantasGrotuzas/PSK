@@ -24,7 +24,6 @@ namespace Contracts
         [EmailAddress]
         public string Email { get; set; }
 
-        [Range(1, 20)]
         public string TelephoneNumber { get; set; }
 
         [Required]
