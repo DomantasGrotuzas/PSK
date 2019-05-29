@@ -12,13 +12,13 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Date from (YYYY-MM-DD)</label>
-                <input asp-for="StartDate" class="form-control" id="tripStartDateInput" required />
+                <label asp-for="StartDate" class="control-label">Trip start date (YYYY-MM-DD)</label>
+                <input asp-for="StartDate" class="form-control" type="date" id="tripStartDateInput" required />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label">Date until (YYYY-MM-DD)</label>
-                <input asp-for="EndDate" class="form-control" id="tripEndDateInput" required />
+                <label asp-for="EndDate" class="control-label">Trip end date (YYYY-MM-DD)</label>
+                <input asp-for="EndDate" class="form-control" type="date" id="tripEndDateInput" required />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
                 @Html.DropDownListFor(m => m.EndLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location")
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" onclick="return validateForm()" />
             </div>
         </form>
     </div>
@@ -49,62 +49,44 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="text/javascript">
+
         function validateForm() {
-            var startDateString = $("#tripStartDateInput").val();
-            var endDateString = $("#tripEndDateInput").val();
-            if (!isValidDate(startDateString)) {
-                alert("Wrong trip start date");
-                return false;
-            } else if (!isValidDate(endDateString)) {
-                alert("Wrong trip end date");
-                return false;
-            }else
-                return true;
-        }
-
-        function isValidDate(dateString) {
-            var parts;
-            var year;
-            var month;
-            var day;
-            if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(dateString)) {
-                parts = dateString.split("/");
-                year = parseInt(parts[0], 10);
-                month = parseInt(parts[1], 10);
-                day = parseInt(parts[2], 10);
-            } else if (/^\d{4}\.\d{1,2}\.\d{1,2}$/.test(dateString)) {
-                parts = dateString.split(".");
-                year = parseInt(parts[0], 10);
-                month = parseInt(parts[1], 10);
-                day = parseInt(parts[2], 10);
-            } else if (/^\d{4}\-\d{1,2}\-\d{1,2}$/.test(dateString)) {
-                parts = dateString.split("-");
-                year = parseInt(parts[0], 10);
-                month = parseInt(parts[1], 10);
-                day = parseInt(parts[2], 10);
-            } else if (/^\d{4}\ \d{1,2}\ \d{1,2}$/.test(dateString)) {
-                parts = dateString.split(" ");
-                year = parseInt(parts[0], 10);
-                month = parseInt(parts[1], 10);
-                day = parseInt(parts[2], 10);
-            } else {
-                return false;
-            }
-
-            var sb = [year, month, day].join("/");
-
-            var date = new Date(sb);
-            var y = date.getFullYear();
-            var m = date.getMonth() + 1;
-            var d = date.getDate();
+            var startDate = $("#tripStartDateInput").val();
+            var endDate = $("#tripEndDateInput").val();
 
             var currentDate = new Date();
 
-            if (y === year && m === month && d === day && date < currentDate) {
-                return true;
-            } else {
+            if (startDate >= currentDate) {
+                alert("Wrong trip start date");
                 return false;
-            }
+            } else if (endDate >= currentDate) {
+                alert("Wrong trip end date");
+                return false;
+            } else if (endDate < startDate)
+                alert("Check start and end dates of the trip. Start date cannot be after end date");
         }
+
+        $(document).ready(function () {
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+            
+            today = yyyy + '-' + mm + '-' + dd;
+            today = today.toString();
+
+            $('#tripStartDateInput').val(today);
+            $('#tripEndDateInput').val(today);
+            $('#tripStartDateInput').attr({ "min": today });
+            $('#tripEndDateInput').attr({ "min": today });
+        });
+
+
+        document.getElementById("tripStartDateInput").onchange = function () {
+            var input = document.getElementById("tripEndDateInput");
+            input.setAttribute("min", this.value);
+        }
+
     </script>
 }
