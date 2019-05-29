@@ -51,27 +51,27 @@
     <tbody>
 @foreach (var item in Model) {
     <tr>
-        <th>
+        <td>
             @Html.ActionLink(item.Employee.FullName, "Details", "Employee", new { id = item.Employee.Id })
-        </th>
-        <th>
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
-        </th>
-        <th>
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.Price)
-        </th>
-        <th>
+        </td>
+        <td>
             @if (item.AccommodationReservation.Accommodation != null)
             {
                 @Html.ActionLink(item.AccommodationReservation.Accommodation.Name, "Details", "Accommodation", new {id = item.AccommodationReservation.Accommodation.Id})
             }
-        </th>
-        <th>
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
-        </th>
-        <th>
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.EndDate)
-        </th>
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.PlaneTicketStatus)
         </td>

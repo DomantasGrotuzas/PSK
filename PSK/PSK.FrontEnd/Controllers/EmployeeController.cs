@@ -33,7 +33,6 @@ namespace PSK.FrontEnd.Controllers
 
         public async Task<IActionResult> Employees()
         {
-            var x = await _employeeService.GetAll();
             return View(await _employeeService.GetAll());
         }
 
@@ -88,6 +87,11 @@ namespace PSK.FrontEnd.Controllers
             var selectedRoles = employeeDto.Roles.Where(r => r.IsSelected).Select(r => r.Role).ToList();
             await _employeeService.Update(_mapper.Map<Employee>(employeeDto),  selectedRoles);
             return Redirect("employees");
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            return View(_mapper.Map<EmployeeDto>(await _employeeService.Get(id)));
         }
     }
 }

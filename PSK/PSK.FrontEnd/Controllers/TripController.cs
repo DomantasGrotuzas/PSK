@@ -39,22 +39,20 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripService.GetAll());
         }
 
-        //[Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Create(TripDto tripDto)
         {
-            Trip trip = _mapper.Map<Trip>(tripDto);
+            var trip = _mapper.Map<Trip>(tripDto);
             trip.StartLocation = await _officeData.Get(Guid.Parse(tripDto.StartLocationId));
             trip.EndLocation = await _officeData.Get(Guid.Parse(tripDto.EndLocationId));
             trip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
 
 
             await _tripService.Create(trip);
-            //trip.Organizer = await _employeeService.Get(Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value));
-            //await _tripService.Update(trip.Id, trip);
             return Redirect("trips");
         }
 
-        //[Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> AddNew()
         {
             TripDto trip = new TripDto
@@ -65,15 +63,15 @@ namespace PSK.FrontEnd.Controllers
             return View(trip);
         }
 
-        //[Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _tripService.Delete(id);
-            return await Trips();
+            return Redirect("/Trip/Trips");
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var trip = await _tripService.Get(id);
@@ -85,7 +83,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Update(Trip trip)
         {
             await _tripService.Update(trip.Id, trip);
