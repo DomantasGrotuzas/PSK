@@ -166,7 +166,7 @@ thead {
 /*Comment*/
 .comment {
     display: inline-block;
-    font-weight: 250;
+    font-weight: 300;
     color: #696969;
     font-size: 14px;
     font-style:italic;
