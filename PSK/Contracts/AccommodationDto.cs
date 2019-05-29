@@ -29,5 +29,7 @@ namespace Contracts
         public string OfficeId { get; set; }
 
         public IEnumerable<OfficeDto> AllOffices { get; set; }
+
+        public int? SpacesAvailable { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PSK.DataAccess.Interfaces;
@@ -8,7 +9,7 @@ using PSK.Persistence;
 
 namespace PSK.DataAccess
 {
-    public class AccommodationDataAccess : IDataAccess<Accommodation>
+    public class AccommodationDataAccess : IAccommodationDataAccess
     {
         private readonly IDataContext _context;
 
@@ -25,6 +26,13 @@ namespace PSK.DataAccess
         public async Task<Accommodation> Get(Guid id)
         {
             return await _context.Accommodations.Include(x => x.Address).Include(x => x.Office).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<Accommodation>> GetAllForOfficeWithReservations(Guid officeId)
+        {
+            return await _context.Accommodations.Include(x => x.Address).Include(x => x.Office)
+                .Include(x => x.Reservations)
+                .Where(x => x.Office.Id == officeId).ToListAsync();
         }
 
         public async Task<Accommodation> Add(Accommodation accommodation)
