@@ -24,17 +24,20 @@ namespace PSK.FrontEnd.Controllers
 
         private readonly IDataAccess<Accommodation> _accommodationDataAccess;
 
+        private readonly IDataAccess<Trip> _tripDataAccess;
+
         private readonly IMapper _mapper;
 
         public TripEmployeeController(IMapper mapper, ITripEmployeeDataAccess tripEmployeeDataAccess,
             IEmployeeService employeeService, IAccommodationService accommodationService, 
-            IDataAccess<Accommodation> accommodationDataAccess)
+            IDataAccess<Accommodation> accommodationDataAccess, IDataAccess<Trip> tripDataAccess)
         {
             _mapper = mapper;
             _tripEmployeeDataAccess = tripEmployeeDataAccess;
             _employeeService = employeeService;
             _accommodationService = accommodationService;
             _accommodationDataAccess = accommodationDataAccess;
+            _tripDataAccess = tripDataAccess;
         }
 
         public async Task<IActionResult> TripEmployees(Guid tripId)
@@ -46,8 +49,8 @@ namespace PSK.FrontEnd.Controllers
         {
             var tripEmployee = new TripEmployeeDto
             {
-                Trip = _mapper.Map<TripDto>(await _tripEmployeeDataAccess.Get(tripId)),
-                AllEmployees = _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll()),
+                Trip = _mapper.Map<TripDto>(await _tripDataAccess.Get(tripId)),
+                AllEmployees = await _employeeService.GetAvailableEmployeesForTrip(tripId),
                 AvailableAccommodations = await _accommodationService.GetAvailableAccommodations(tripId)
             };
             return View(tripEmployee);
@@ -56,14 +59,16 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Create(TripEmployeeDto tripEmployeeDto)
         {
             var tripEmployee = _mapper.Map<TripEmployee>(tripEmployeeDto);
-            tripEmployee.Employee = await _employeeService.Get(Guid.Parse(tripEmployeeDto.EmployeeId));
-            if (tripEmployeeDto.AccommodationId != null || Guid.Parse(tripEmployeeDto.AccommodationId) != Guid.Empty)
+            tripEmployee.EmployeeId = Guid.Parse(tripEmployeeDto.EmployeeId);
+            tripEmployee.TripId = tripEmployeeDto.Trip.Id;
+            tripEmployee.Trip = null;
+            if (tripEmployeeDto.AccommodationId != null && Guid.Parse(tripEmployeeDto.AccommodationId) != Guid.Empty)
             {
                 tripEmployee.AccommodationReservation.Accommodation =
                     await _accommodationDataAccess.Get(Guid.Parse(tripEmployeeDto.AccommodationId));
             }
             await _tripEmployeeDataAccess.Add(tripEmployee);
-            return Redirect("tripEmployees");
+            return Redirect($"tripEmployees/{tripEmployeeDto.Trip.Id}");
         }
 
         public async Task<IActionResult> Delete(Guid id)
@@ -81,7 +86,9 @@ namespace PSK.FrontEnd.Controllers
 
             var tripEmployeeDto = _mapper.Map<TripEmployeeDto>(tripEmployee);
 
-            tripEmployeeDto.AllEmployees = _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll());
+            var allEmployees = (await _employeeService.GetAvailableEmployeesForTrip(tripEmployee.Trip.Id)).ToList();
+            allEmployees.Add(tripEmployeeDto.Employee);
+            tripEmployeeDto.AllEmployees = allEmployees;
             tripEmployeeDto.AvailableAccommodations =
                 await _accommodationService.GetAvailableAccommodations(tripEmployee.Trip.Id);
 
@@ -98,7 +105,7 @@ namespace PSK.FrontEnd.Controllers
                     await _accommodationDataAccess.Get(Guid.Parse(tripEmployeeDto.AccommodationId));
             }
             await _tripEmployeeDataAccess.Update(tripEmployee);
-            return Redirect("tripEmployees");
+            return Redirect($"tripEmployees/{tripEmployeeDto.Trip.Id}");
         }
     }
 }

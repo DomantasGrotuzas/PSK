@@ -7,7 +7,7 @@
 <h2>TripEmployees</h2>
 
 <p>
-    @Html.ActionLink("Create New", "AddNew", new { tripId = Guid.Parse(ViewContext.RouteData.Values["id"].ToString()) })
+    @Html.ActionLink("Create New", "AddNew", new { tripId = Guid.Parse(Context.Request.Query["tripId"].ToString()) })
 </p>
 <table class="table">
     <thead>
@@ -52,7 +52,7 @@
 @foreach (var item in Model) {
     <tr>
         <th>
-            @Html.DisplayFor(modelItem => item.Employee.FullName)
+            @Html.ActionLink(item.Employee.FullName, "Details", "Employee")
         </th>
         <th>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
@@ -62,7 +62,7 @@
         </th>
         <th>
             @Html.ActionLink(item.AccommodationReservation.Accommodation != null ? 
-                item.AccommodationReservation.Accommodation.Name : string.Empty, "Details", "Accommodation");
+                item.AccommodationReservation.Accommodation.Name : string.Empty, "Details", "Accommodation")
         </th>
         <th>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
@@ -86,9 +86,9 @@
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-            @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }
