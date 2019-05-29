@@ -126,26 +126,26 @@ namespace PSK.FrontEnd.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Organizer, Admin")]
-        public async Task<IActionResult> MergeTrips(Guid primaryTripId, Guid secondaryTripId, TripDto tripDto)
+        public async Task<IActionResult> MergeTrips(TripMergeDto dto)
         {
-            var primaryTrip = await _tripDataAccess.Get(primaryTripId);
-            var secondaryTrip = await _tripDataAccess.GetWithEmployees(secondaryTripId);
+            var primaryTrip = await _tripDataAccess.Get(dto.PrimaryTrip.Id);
+            var secondaryTrip = await _tripDataAccess.GetWithEmployees(dto.SecondaryTrip.Id);
 
             foreach (var tripEmployee in secondaryTrip.Employees)
             {
-                tripEmployee.TripId = primaryTripId;
+                tripEmployee.TripId = dto.PrimaryTrip.Id;
             }
 
-            await _tripDataAccess.Remove(secondaryTripId);
+            await _tripDataAccess.Remove(dto.SecondaryTrip.Id);
 
             primaryTrip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
-            primaryTrip.Comment = tripDto.Comment;
-            primaryTrip.StartDate = tripDto.StartDate;
-            primaryTrip.EndDate = tripDto.EndDate;
+            primaryTrip.Comment = dto.PrimaryTrip.Comment;
+            primaryTrip.StartDate = dto.PrimaryTrip.StartDate;
+            primaryTrip.EndDate = dto.PrimaryTrip.EndDate;
 
             await _tripDataAccess.Update(primaryTrip);
 
-            return Redirect("trip/trips");
+            return Redirect("trips");
         }
 
         [Authorize]

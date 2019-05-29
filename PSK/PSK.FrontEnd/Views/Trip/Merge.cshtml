@@ -46,7 +46,7 @@
                         @Html.DisplayFor(modelItem => modelItem.PrimaryTrip.EndDate)
                     </td>
                     <th>
-                        @Html.DisplayFor(modelItem => modelItem.PrimaryTrip.Organizer.Name)
+                        @Html.ActionLink(Model.PrimaryTrip.Organizer.FullName, "Details", "Employee", new { id = Model.SecondaryTrip.Organizer.Id })
                     </th>
                     <th>
                         @Html.ActionLink(@Model.PrimaryTrip.StartLocation.Name, "Details", "Office", new {id = @Model.PrimaryTrip.StartLocation?.Id})
@@ -100,7 +100,7 @@
                         @Html.DisplayFor(modelItem => modelItem.SecondaryTrip.EndDate)
                     </td>
                     <th>
-                        @Html.DisplayFor(modelItem => modelItem.SecondaryTrip.Organizer.Name)
+                        @Html.ActionLink(Model.SecondaryTrip.Organizer.FullName, "Details", "Employee", new { id = Model.SecondaryTrip.Organizer.Id })
                     </th>
                     <th>
                         @Html.ActionLink(@Model.SecondaryTrip.StartLocation.Name, "Details", "Office", new {id = @Model.SecondaryTrip.StartLocation?.Id})
@@ -117,16 +117,18 @@
                 </tr>
             </tbody>
         </table>
-        <form asp-action="Merge">
+        <form asp-action="MergeTrips">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PrimaryTrip.Id" />
+            <input type="hidden" asp-for="SecondaryTrip.Id" />
             <div class="form-group">
-                <label asp-for="PrimaryTrip.StartDate" class="control-label">Date from (YYYY-MM-DD)</label>
-                <input asp-for="PrimaryTrip.StartDate" class="form-control" type="text" id="tripStartDateInput" required />
+                <label asp-for="PrimaryTrip.StartDate" class="control-label">Trip start date (MM-DD-YYYY)</label>
+                <input asp-for="PrimaryTrip.StartDate" class="form-control" type="date" id="tripStartDateInput" required />
                 <span asp-validation-for="PrimaryTrip.StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PrimaryTrip.EndDate" class="control-label">Date until (YYYY-MM-DD)</label>
-                <input asp-for="PrimaryTrip.EndDate" class="form-control" type="text" id="tripEndDateInput" required />
+                <label asp-for="PrimaryTrip.EndDate" class="control-label">Trip end date (MM-DD-YYYY)</label>
+                <input asp-for="PrimaryTrip.EndDate" class="form-control" type="date" id="tripEndDateInput" required />
                 <span asp-validation-for="PrimaryTrip.EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -147,4 +149,45 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+
+        function validateForm() {
+            var startDate = $("#tripStartDateInput").val();
+            var endDate = $("#tripEndDateInput").val();
+
+            var currentDate = new Date();
+
+            if (startDate >= currentDate) {
+                alert("Wrong trip start date");
+                return false;
+            } else if (endDate >= currentDate) {
+                alert("Wrong trip end date");
+                return false;
+            } else if (endDate < startDate)
+                alert("Check start and end dates of the trip. Start date cannot be after end date");
+        }
+
+        $(document).ready(function () {
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            today = today.toString();
+
+            $('#tripStartDateInput').attr({ "min": today });
+            $('#tripEndDateInput').attr({ "min": today });
+        });
+
+
+        document.getElementById("tripStartDateInput").onchange = function () {
+            var input = document.getElementById("tripEndDateInput");
+            input.setAttribute("min", this.value);
+        }
+
+    </script>
 }
+

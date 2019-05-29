@@ -22,10 +22,12 @@ namespace PSK.DataAccess
         {
             var startDate = trip.StartDate;
             var endDate = trip.EndDate;
-            return await _context.Trips.Where(t => t.StartDate <= startDate.AddDays(1) &&
-                                                   t.StartDate >= startDate.AddDays(-1) &&
-                                                   t.EndDate <= endDate.AddDays(1) &&
-                                                   t.EndDate >= endDate.AddDays(-1)).ToListAsync();
+            return await _context.Trips.Include(t => t.Organizer)
+                .Where(t => t.StartDate <= startDate.AddDays(1) &&
+                            t.StartDate >= startDate.AddDays(-1) &&
+                            t.EndDate <= endDate.AddDays(1) &&
+                            t.EndDate >= endDate.AddDays(-1) &&
+                            t.Id != trip.Id).ToListAsync();
         }
 
         public async Task<IEnumerable<Trip>> GetAll()
