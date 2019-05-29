@@ -47,7 +47,7 @@ namespace PSK.FrontEnd.Controllers
             var tripEmployee = new TripEmployeeDto
             {
                 Trip = _mapper.Map<TripDto>(await _tripEmployeeDataAccess.Get(tripId)),
-                AllEmployees = _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll()),
+                AllEmployees = await _employeeService.GetAvailableEmployeesForTrip(tripId),
                 AvailableAccommodations = await _accommodationService.GetAvailableAccommodations(tripId)
             };
             return View(tripEmployee);
@@ -81,7 +81,9 @@ namespace PSK.FrontEnd.Controllers
 
             var tripEmployeeDto = _mapper.Map<TripEmployeeDto>(tripEmployee);
 
-            tripEmployeeDto.AllEmployees = _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll());
+            var allEmployees = (await _employeeService.GetAvailableEmployeesForTrip(tripEmployee.Trip.Id)).ToList();
+            allEmployees.Add(tripEmployeeDto.Employee);
+            tripEmployeeDto.AllEmployees = allEmployees;
             tripEmployeeDto.AvailableAccommodations =
                 await _accommodationService.GetAvailableAccommodations(tripEmployee.Trip.Id);
 
