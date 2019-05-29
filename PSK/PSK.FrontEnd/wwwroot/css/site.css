@@ -163,7 +163,15 @@ thead {
     background-color: #FF3454;
     color: white;
 }
-/**/
+/*Comment*/
+.comment {
+    display: inline-block;
+    font-weight: 250;
+    color: #696969;
+    font-size: 14px;
+    font-style:italic;
+}
+
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

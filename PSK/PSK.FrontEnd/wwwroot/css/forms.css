@@ -1,5 +1,4 @@
 ﻿<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css' >
-<style type="text/css" >
 form {
     font-family: 'Open Sans Condensed', arial, sans;
     width: 500px;
@@ -55,10 +54,9 @@ form textarea {
 
 
 
-    form input[type="button"]:hover,
-    form input[type="submit"]:hover {
-        background: linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
-        background-color: #34CACA;
-    }
+form input[type="button"]:hover,
+form input[type="submit"]:hover {
+    background: linear-gradient(to bottom, #34CACA 5%, #FF3454 100%);
+    background-color: #34CACA;
+}
 
-</style >
