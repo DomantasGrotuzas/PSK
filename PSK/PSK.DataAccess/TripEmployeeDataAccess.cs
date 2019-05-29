@@ -36,7 +36,7 @@ namespace PSK.DataAccess
         public async Task<TripEmployee> Get(Guid id)
         {
             return await _context.TripEmployees.Include(x => x.Trip).Include(x => x.Employee)
-                .Include(x => x.AccommodationReservation).Include(x => x.AccommodationReservation.Accommodation)
+                .Include(x => x.AccommodationReservation).ThenInclude(x => x.Accommodation)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 

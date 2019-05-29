@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts;
 
-namespace PSK.Services
+namespace PSK.Services.Interfaces
 {
     public interface IAccommodationService
     {
