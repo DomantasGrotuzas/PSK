@@ -9,6 +9,7 @@ using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
 using PSK.Domain.Identity;
+using PSK.Services;
 using PSK.Services.Interfaces;
 
 namespace PSK.FrontEnd.Controllers
@@ -19,16 +20,20 @@ namespace PSK.FrontEnd.Controllers
 
         private readonly IEmployeeService _employeeService;
 
+        private readonly IAccommodationService _accommodationService;
+
         private readonly IDataAccess<Accommodation> _accommodationDataAccess;
 
         private readonly IMapper _mapper;
 
         public TripEmployeeController(IMapper mapper, ITripEmployeeDataAccess tripEmployeeDataAccess,
-            IEmployeeService employeeService, IDataAccess<Accommodation> accommodationDataAccess)
+            IEmployeeService employeeService, IAccommodationService accommodationService, 
+            IDataAccess<Accommodation> accommodationDataAccess)
         {
             _mapper = mapper;
             _tripEmployeeDataAccess = tripEmployeeDataAccess;
             _employeeService = employeeService;
+            _accommodationService = accommodationService;
             _accommodationDataAccess = accommodationDataAccess;
         }
 
@@ -37,12 +42,13 @@ namespace PSK.FrontEnd.Controllers
             return View(await _tripEmployeeDataAccess.GetAll(tripId));
         }
 
-        public async Task<IActionResult> AddNew()
+        public async Task<IActionResult> AddNew(Guid tripId)
         {
             var tripEmployee = new TripEmployeeDto
             {
+                Trip = _mapper.Map<TripDto>(await _tripEmployeeDataAccess.Get(tripId)),
                 AllEmployees = _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll()),
-                AvailableAccommodations = _mapper.Map<IEnumerable<AccommodationDto>>(await _accommodationDataAccess.GetAll())
+                AvailableAccommodations = await _accommodationService.GetAvailableAccommodations(tripId)
             };
             return View(tripEmployee);
         }
@@ -77,7 +83,7 @@ namespace PSK.FrontEnd.Controllers
 
             tripEmployeeDto.AllEmployees = _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeService.GetAll());
             tripEmployeeDto.AvailableAccommodations =
-                _mapper.Map<IEnumerable<AccommodationDto>>(await _accommodationDataAccess.GetAll());
+                await _accommodationService.GetAvailableAccommodations(tripEmployee.Trip.Id);
 
             return View(tripEmployeeDto);
         }

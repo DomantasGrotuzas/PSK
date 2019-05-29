@@ -37,6 +37,7 @@ namespace PSK.FrontEnd
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddIdentity<Employee, UserRole>()
+                .AddRoleManager<RoleManager<UserRole>>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
             services.AddSingleton<IEmailSender, EmailSender>();
@@ -65,6 +66,16 @@ namespace PSK.FrontEnd
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            });
+
 
             services.AddMvc(options =>
             {
@@ -85,11 +96,14 @@ namespace PSK.FrontEnd
             containerBuilder.RegisterType<OfficeDataAccess>().As<IDataAccess<Office>>();
             containerBuilder.RegisterType<TripDataAccess>().As<IDataAccess<Trip>>();
             containerBuilder.RegisterType<AccommodationDataAccess>().As<IDataAccess<Accommodation>>();
+            containerBuilder.RegisterType<AccommodationDataAccess>().As<IAccommodationDataAccess>();
             containerBuilder.RegisterType<TripEmployeeDataAccess>().As<IDataAccess<TripEmployee>>();
             containerBuilder.RegisterType<TripEmployeeDataAccess>().As<ITripEmployeeDataAccess>();
+            containerBuilder.RegisterType<AccommodationDataAccess>().As<IAccommodationDataAccess>();
 
             containerBuilder.RegisterType<TripService>().As<ITripService>();
             containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
+            containerBuilder.RegisterType<AccommodationService>().As<IAccommodationService>();
 
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
             containerBuilder.RegisterType<DataContext>().AsSelf();

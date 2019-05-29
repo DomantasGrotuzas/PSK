@@ -7,7 +7,7 @@
 <h2>TripEmployees</h2>
 
 <p>
-    <a asp-action="AddNew">Create New</a>
+    @Html.ActionLink("Create New", "AddNew", new { tripId = Guid.Parse(ViewContext.RouteData.Values["id"].ToString()) })
 </p>
 <table class="table">
     <thead>

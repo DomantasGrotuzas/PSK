@@ -39,7 +39,7 @@ namespace PSK.Persistence
 
                 entity.HasOne(x => x.StartLocation).WithMany().OnDelete(DeleteBehavior.Restrict);
                 entity.HasOne(x => x.EndLocation).WithMany().OnDelete(DeleteBehavior.Restrict); ;
-                entity.HasOne(x => x.Organizer).WithMany(x => x.OrganizedTrips).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(x => x.Organizer).WithMany(x => x.OrganizedTrips).HasForeignKey(x => x.OrganizerId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<TripEmployee>(entity =>
