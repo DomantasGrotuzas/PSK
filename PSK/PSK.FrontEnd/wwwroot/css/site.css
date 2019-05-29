@@ -14,7 +14,7 @@ body {
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    margin-left: 200px;
+    margin-left: 250px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -113,7 +113,7 @@ nav a {
 .side-panel {
     margin: 0;
     padding: 0;
-    width: 200px;
+    width: 250px;
     background-color: #EBEBEB;
     position: fixed;
     height: 100%;
@@ -147,7 +147,6 @@ nav a {
 .table {
     overflow-x: auto;
 }
-    
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
