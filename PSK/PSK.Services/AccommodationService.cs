@@ -52,7 +52,7 @@ namespace PSK.Services
                 }
             }
 
-            return accommodationsDto;
+            return accommodationsDto.OrderByDescending(x => x.SpacesAvailable);
         }
     }
 }

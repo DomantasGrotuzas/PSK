@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PSK.Domain.Enums;
 using PSK.Domain.Identity;
@@ -19,7 +20,13 @@ namespace PSK.Domain
         public Trip Trip { get; set; }
 
         [Required]
+        public Guid TripId { get; set; }
+
+        [Required]
         public Employee Employee { get; set; }
+
+        [Required]
+        public Guid EmployeeId { get; set; }
 
         public AccommodationReservation AccommodationReservation { get; set; }
 

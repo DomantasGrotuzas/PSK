@@ -8,9 +8,9 @@ namespace PSK.FrontEnd.Static
     {
         public static readonly List<SelectListItem> PurchasableStatusItems = new List<SelectListItem>
         {
-            new SelectListItem(PurchasableStatus.NotNeeded.ToString(), PurchasableStatus.NotNeeded.ToString()),
-            new SelectListItem(PurchasableStatus.Requested.ToString(), PurchasableStatus.Requested.ToString()),
-            new SelectListItem(PurchasableStatus.Purchased.ToString(), PurchasableStatus.Purchased.ToString())
+            new SelectListItem("Not needed", PurchasableStatus.NotNeeded.ToString()),
+            new SelectListItem("Requested", PurchasableStatus.Requested.ToString()),
+            new SelectListItem("Purchased/Booked", PurchasableStatus.Purchased.ToString())
         };
     }
 }

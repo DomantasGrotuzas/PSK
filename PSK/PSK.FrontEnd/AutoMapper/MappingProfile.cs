@@ -20,7 +20,10 @@ namespace PSK.FrontEnd.AutoMapper
             CreateMap<Trip, TripDto>()
                 .ForMember(dest => dest.Employees, opt => opt.MapFrom(src => src.Employees.Select(em => em.Id)))
                 .ForMember(dest => dest.StartLocationId, opt => opt.MapFrom(src => src.StartLocation.Id.ToString()))
-                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)));
+                .ForMember(dest => dest.EndLocationId, opt => opt.MapFrom(src => src.EndLocation.Id.ToString()))
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)))
+                .ForMember(dest => dest.OrganizerId, opt => opt.MapFrom(src => src.Organizer.Id))
+                .ForMember(dest => dest.Employees, opt => opt.MapFrom(src => src.Employees));
             CreateMap<TripDto, Trip>();
 
             CreateMap<OfficeDto, Office>()
@@ -54,9 +57,12 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.AccommodationId, opt => opt.MapFrom(src => 
                     src.AccommodationReservation.Accommodation != null ? src.AccommodationReservation.Accommodation.Id : Guid.Empty));
             CreateMap<TripEmployeeDto, TripEmployee>()
-                .ForMember(dest => dest.CarReservationStatus, opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.CarReservationStatus)))
-                .ForMember(dest => dest.PlaneTicketStatus, opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.PlaneTicketStatus)))
-                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.FromBase64String(src.Version)));
+                .ForMember(dest => dest.CarReservationStatus,
+                    opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.CarReservationStatus)))
+                .ForMember(dest => dest.PlaneTicketStatus,
+                    opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.PlaneTicketStatus)))
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.FromBase64String(src.Version)))
+                .ForMember(dest => dest.TripId, opt => opt.MapFrom(src => src.Trip.Id));
 
             CreateMap<Entity, DefaultDto>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)));

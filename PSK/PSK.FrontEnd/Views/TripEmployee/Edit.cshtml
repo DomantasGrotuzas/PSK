@@ -2,18 +2,19 @@
 @model Contracts.TripEmployeeDto
 
 @{
-    ViewData["Title"] = "AddNew";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>AddNew</h2>
+<h2>Edit</h2>
 
 <h4>TripEmployeeDto</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Trip.Id" />
+            <input type="hidden" asp-for="Version" />
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
                 @Html.DropDownListFor(x => x.EmployeeId, new List<SelectListItem>(
@@ -33,11 +34,11 @@
             <div class="form-group">
                 <label asp-for="AccommodationReservation.Accommodation" class="control-label"></label>
                 @Html.DropDownListFor(x => x.AccommodationId, new List<SelectListItem>(
-                        Model.AvailableAccommodations.Select(x =>
-                        {
-                            var name = x.SpacesAvailable.HasValue ? x.Name + " (spaces available: " + x.SpacesAvailable.Value + ")" : x.Name;
-                            return new SelectListItem(name, x.Id.ToString(), false, x.SpacesAvailable.HasValue && x.SpacesAvailable.Value <= 0);
-                        })), "none")
+                    Model.AvailableAccommodations.Select(x =>
+                    {
+                        var name = x.SpacesAvailable.HasValue ? x.Name + " (spaces available: " + x.SpacesAvailable.Value + ")" : x.Name;
+                        return new SelectListItem(name, x.Id.ToString(), Model.AccommodationReservation?.Accommodation?.Id == x.Id, !x.SpacesAvailable.HasValue || x.SpacesAvailable.Value <= 0);
+                    })), "none")
                 <span asp-validation-for="AccommodationReservation.Accommodation" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -76,10 +77,14 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

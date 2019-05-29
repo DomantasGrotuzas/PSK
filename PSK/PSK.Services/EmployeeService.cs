@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PSK.DataAccess;
@@ -16,11 +18,15 @@ namespace PSK.Services
     {
         private readonly UserManager<Employee> _userManager;
         private readonly RoleManager<UserRole> _roleManager;
+        private readonly ITripDataAccess _tripDataAccess;
+        private readonly IMapper _mapper;
 
-        public EmployeeService(UserManager<Employee> userManager, RoleManager<UserRole> roleManager)
+        public EmployeeService(UserManager<Employee> userManager, RoleManager<UserRole> roleManager, ITripDataAccess tripDataAccess, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _tripDataAccess = tripDataAccess;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Employee>> GetAll()
@@ -74,6 +80,24 @@ namespace PSK.Services
         {
             var employeeToDelete = await Get(id);
             await _userManager.DeleteAsync(employeeToDelete);
+        }
+
+        public async Task<IEnumerable<EmployeeDto>> GetAvailableEmployeesForTrip(Guid tripId)
+        {
+            var trip = await _tripDataAccess.GetWithEmployees(tripId);
+            var employeesAlreadyOnTrip = trip.Employees.Select(x => x.Employee);
+            var users = await _userManager.Users.ToListAsync();
+            foreach (var employee in employeesAlreadyOnTrip)
+            {
+                var userToRemove = users.FirstOrDefault(x => x.Id == employee.Id);
+                users.Remove(userToRemove);
+            }
+
+            var usersDto = _mapper.Map<List<EmployeeDto>>(users);
+
+            //TODO: need to fill availability based on calendar here
+
+            return usersDto;
         }
 
         private async Task AddRoles(Employee employee, ICollection<string> roles)

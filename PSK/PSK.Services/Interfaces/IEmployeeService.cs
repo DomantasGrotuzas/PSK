@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Contracts;
 using PSK.Domain.Identity;
 
 namespace PSK.Services.Interfaces
@@ -12,5 +13,6 @@ namespace PSK.Services.Interfaces
         Task<Employee> Create(Employee employee, ICollection<string> roles);
         Task<Employee> Update(Employee employee, ICollection<string> roles);
         Task Delete(Guid id);
+        Task<IEnumerable<EmployeeDto>> GetAvailableEmployeesForTrip(Guid tripId);
     }
 }

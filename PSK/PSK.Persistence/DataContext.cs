@@ -54,8 +54,8 @@ namespace PSK.Persistence
 
                 entity.Property(x => x.Version).IsRowVersion();
 
-                entity.HasOne(x => x.Employee).WithMany(x => x.Trips);
-                entity.HasOne(x => x.Trip).WithMany(x => x.Employees);
+                entity.HasOne(x => x.Employee).WithMany(x => x.Trips).HasForeignKey(x => x.EmployeeId);
+                entity.HasOne(x => x.Trip).WithMany(x => x.Employees).HasForeignKey(x => x.TripId);
                 entity.HasOne(x => x.AccommodationReservation).WithOne(x => x.TripEmployee)
                     .HasForeignKey<AccommodationReservation>(x => x.TripEmployeeId);
             });
