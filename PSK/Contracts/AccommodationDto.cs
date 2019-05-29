@@ -11,7 +11,7 @@ namespace Contracts
         public string Name { get; set; }
 
         [Required]
-        [Range(1, 6)]
+        [Range(0, 100)]
         public int? TotalSpaces { get; set; }
 
         [Required]

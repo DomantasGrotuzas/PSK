@@ -16,6 +16,14 @@
   <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="DbContext.cs" />
+    <Compile Remove="Migrations\20190528181920_FkErrorFix.cs" />
+    <Compile Remove="Migrations\20190528182908_FkErrorFixV2.cs" />
+    <Compile Remove="Migrations\20190528184732_AccommodationFkErrorFix.cs" />
+    <Compile Remove="Migrations\20190528185056_AccommodationFkErrorFix.cs" />
+    <Compile Remove="Migrations\20190528185239_AccommodationFkErrorFix.cs" />
+    <Compile Remove="Migrations\20190528185621_AccommodationFkErrorFix.cs" />
+    <Compile Remove="Migrations\20190528190007_AccommodationFkErrorFix.cs" />
+    <Compile Remove="Migrations\20190528190206_AccommodationFkErrorFix.cs" />
   </ItemGroup>
 
   <ItemGroup>
