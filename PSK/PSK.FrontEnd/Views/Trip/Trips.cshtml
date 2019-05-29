@@ -46,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <th>
-                @Html.DisplayFor(modelItem => item.Organizer.Name)
+                @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
             </th>
             <th>
                 @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
@@ -55,7 +55,7 @@
                 @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })  
             </th>
             <th>
-                @Html.ActionLink("showEmployees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+                @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
             </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)

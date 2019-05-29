@@ -47,11 +47,18 @@ namespace PSK.FrontEnd.Controllers
 
         public async Task<IActionResult> AddNew(Guid tripId)
         {
+            var trip = _mapper.Map<TripDto>(await _tripDataAccess.Get(tripId));
+            var availableAccommodations = await _accommodationService.GetAvailableAccommodations(tripId);
             var tripEmployee = new TripEmployeeDto
             {
-                Trip = _mapper.Map<TripDto>(await _tripDataAccess.Get(tripId)),
+                Trip = trip,
                 AllEmployees = await _employeeService.GetAvailableEmployeesForTrip(tripId),
-                AvailableAccommodations = await _accommodationService.GetAvailableAccommodations(tripId)
+                AvailableAccommodations = availableAccommodations,
+                AccommodationReservation = new AccommodationReservationDto
+                {
+                    StartDate = trip.StartDate,
+                    EndDate = trip.EndDate,
+                }
             };
             return View(tripEmployee);
         }
@@ -68,13 +75,14 @@ namespace PSK.FrontEnd.Controllers
                     await _accommodationDataAccess.Get(Guid.Parse(tripEmployeeDto.AccommodationId));
             }
             await _tripEmployeeDataAccess.Add(tripEmployee);
-            return Redirect($"tripEmployees/{tripEmployeeDto.Trip.Id}");
+            return Redirect($"tripEmployees?tripId={tripEmployeeDto.Trip.Id}");
         }
 
         public async Task<IActionResult> Delete(Guid id)
         {
+            var tripId = (await _tripEmployeeDataAccess.Get(id)).Trip.Id;
             await _tripEmployeeDataAccess.Remove(id);
-            return Redirect("/tripEmployee/tripEmployees");
+            return Redirect($"/tripEmployee/tripEmployees?tripId={tripId}");
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -99,13 +107,17 @@ namespace PSK.FrontEnd.Controllers
         {
             var tripEmployee = _mapper.Map<TripEmployee>(tripEmployeeDto);
             tripEmployee.Employee = await _employeeService.Get(Guid.Parse(tripEmployeeDto.EmployeeId));
-            if (tripEmployeeDto.AccommodationId != null || Guid.Parse(tripEmployeeDto.AccommodationId) != Guid.Empty)
+            if (tripEmployeeDto.AccommodationId != null && Guid.Parse(tripEmployeeDto.AccommodationId) != Guid.Empty)
             {
                 tripEmployee.AccommodationReservation.Accommodation =
                     await _accommodationDataAccess.Get(Guid.Parse(tripEmployeeDto.AccommodationId));
             }
+            else
+            {
+                tripEmployee.AccommodationReservation.Accommodation = null;
+            }
             await _tripEmployeeDataAccess.Update(tripEmployee);
-            return Redirect($"tripEmployees/{tripEmployeeDto.Trip.Id}");
+            return Redirect($"tripEmployees?tripId={tripEmployeeDto.Trip.Id}");
         }
     }
 }
