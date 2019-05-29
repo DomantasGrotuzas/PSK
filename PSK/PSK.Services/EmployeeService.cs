@@ -42,15 +42,14 @@ namespace PSK.Services
             return employee;
         }
 
-        public async Task<Employee> Create(Employee employee, ICollection<string> roles)
+        public async Task<Employee> Create(Employee employee, string password, ICollection<string> roles)
         {
             var result = await _userManager.CreateAsync(employee);
-            Employee createdEmployee;
-            if (result.Succeeded)
-                createdEmployee = await _userManager.FindByEmailAsync(employee.Email);
-            else
+            if (!result.Succeeded)
                 throw new Exception(string.Join('\n', result.Errors.Select(err => $"Error code: {err.Code}.\n\t Description: {err.Description}")));
-
+            var createdEmployee = await _userManager.FindByEmailAsync(employee.Email);
+ 
+            await _userManager.AddPasswordAsync(createdEmployee, password);
             await AddRoles(createdEmployee, roles);
             return createdEmployee;
 
@@ -69,7 +68,7 @@ namespace PSK.Services
             await _userManager.UpdateAsync(existingEmployee);
 
             var currentRoles = await _userManager.GetRolesAsync(existingEmployee);
-            await _userManager.RemoveFromRolesAsync(existingEmployee, currentRoles);
+            var res = await _userManager.RemoveFromRolesAsync(existingEmployee, currentRoles);
 
             await AddRoles(existingEmployee, roles);
 
@@ -120,6 +119,8 @@ namespace PSK.Services
         {
             if (!roles.Any(r => r.ToLower() == "user"))
                 roles.Add("user");
+
+            var x = _userManager.GetRolesAsync(employee);
 
             var result = await _userManager.AddToRolesAsync(employee, roles);
             if (!result.Succeeded)

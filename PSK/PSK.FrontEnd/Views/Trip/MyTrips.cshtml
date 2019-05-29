@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PSK.Domain.Trip>
+
+@{
+    ViewData["Title"] = "MyTrips";
+}
+
+<h2>My Trips</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date from
+            </th>
+            <th>
+                Date until
+            </th>
+            <th>
+                Organizer
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                Destination
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employees)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
+            </td>
+            <td>
+                @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
+            </td>
+            <td>
+                @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
+            </td>
+            <td>
+                @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

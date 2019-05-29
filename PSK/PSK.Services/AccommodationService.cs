@@ -7,6 +7,7 @@ using AutoMapper;
 using Contracts;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
+using PSK.Services.Interfaces;
 
 namespace PSK.Services
 {
@@ -38,14 +39,10 @@ namespace PSK.Services
                 var accommodation = accommodationsForOffice.FirstOrDefault(x => x.Id == accommodationDto.Id);
                 if (accommodation != null)
                 {
-                    if (accommodation.TotalSpaces == 0)
+                    if (accommodation.TotalSpaces != 0)
                     {
-                        accommodationDto.SpacesAvailable = null;
-                    }
-                    else
-                    {
-                        var spacesTaken = accommodation.Reservations.Count(x => 
-                            (x.StartDate >= trip.StartDate && x.StartDate < trip.EndDate) || 
+                        var spacesTaken = accommodation.Reservations.Count(x =>
+                            (x.StartDate >= trip.StartDate && x.StartDate < trip.EndDate) ||
                             (x.EndDate > trip.StartDate && x.EndDate <= x.StartDate) ||
                             (x.StartDate <= trip.StartDate && x.EndDate >= trip.EndDate));
                         accommodationDto.SpacesAvailable = accommodation.TotalSpaces - spacesTaken;

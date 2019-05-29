@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
@@ -25,11 +26,13 @@ namespace PSK.FrontEnd.Controllers
             _officeDataAccess = officeDataAccess;
         }
 
+        [Authorize]
         public async Task<IActionResult> Accommodations()
         {
             return View(_mapper.Map<IEnumerable<AccommodationDto>>(await _accommodationDataAccess.GetAll()));
         }
 
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Create(AccommodationDto accommodationDto)
         {
             var accommodation = _mapper.Map<Accommodation>(accommodationDto);
@@ -38,6 +41,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect("accommodations");
         }
 
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> AddNew()
         {
             var accommodation = new AccommodationDto
@@ -47,12 +51,14 @@ namespace PSK.FrontEnd.Controllers
             return View(accommodation);
         }
 
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _accommodationDataAccess.Remove(id);
             return Redirect("/accommodation/accommodations");
         }
 
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var accommodation = await _accommodationDataAccess.Get(id);
@@ -65,6 +71,7 @@ namespace PSK.FrontEnd.Controllers
             return View(accommodationDto);
         }
 
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Update(AccommodationDto accommodationDto)
         {
             var accommodation = _mapper.Map<Accommodation>(accommodationDto);
@@ -73,6 +80,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect("accommodations");
         }
 
+        [Authorize]
         public async Task<IActionResult> Details(Guid id)
         {
             var accommodation = await _accommodationDataAccess.Get(id);
