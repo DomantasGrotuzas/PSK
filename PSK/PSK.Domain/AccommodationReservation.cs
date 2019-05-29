@@ -20,6 +20,8 @@ namespace PSK.Domain
 
         public Accommodation Accommodation { get; set; }
 
+        public Guid? AccommodationId { get; set; }
+
         [Required]
         public Guid TripEmployeeId { get; set; }
 

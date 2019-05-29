@@ -70,7 +70,7 @@ namespace PSK.Persistence
 
                 entity.Property(x => x.Version).IsRowVersion();
 
-                entity.HasOne(x => x.Accommodation).WithMany(x => x.Reservations);
+                entity.HasOne(x => x.Accommodation).WithMany(x => x.Reservations).HasForeignKey(x => x.AccommodationId);
             });
 
             modelBuilder.Entity<Accommodation>(entity =>
