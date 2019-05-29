@@ -52,7 +52,7 @@
 @foreach (var item in Model) {
     <tr>
         <th>
-            @Html.ActionLink(item.Employee.FullName, "Details", "Employee")
+            @Html.ActionLink(item.Employee.FullName, "Details", "Employee", new { id = item.Employee.Id })
         </th>
         <th>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
@@ -61,8 +61,10 @@
             @Html.DisplayFor(modelItem => item.AccommodationReservation.Price)
         </th>
         <th>
-            @Html.ActionLink(item.AccommodationReservation.Accommodation != null ? 
-                item.AccommodationReservation.Accommodation.Name : string.Empty, "Details", "Accommodation")
+            @if (item.AccommodationReservation.Accommodation != null)
+            {
+                @Html.ActionLink(item.AccommodationReservation.Accommodation.Name, "Details", "Accommodation", new {id = item.AccommodationReservation.Accommodation.Id})
+            }
         </th>
         <th>
             @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
@@ -87,7 +89,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>

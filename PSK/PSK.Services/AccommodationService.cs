@@ -46,7 +46,8 @@ namespace PSK.Services
                     {
                         var spacesTaken = accommodation.Reservations.Count(x => 
                             (x.StartDate >= trip.StartDate && x.StartDate < trip.EndDate) || 
-                            (x.EndDate > trip.StartDate && x.EndDate <= x.StartDate));
+                            (x.EndDate > trip.StartDate && x.EndDate <= x.StartDate) ||
+                            (x.StartDate <= trip.StartDate && x.EndDate >= trip.EndDate));
                         accommodationDto.SpacesAvailable = accommodation.TotalSpaces - spacesTaken;
                     }
                 }

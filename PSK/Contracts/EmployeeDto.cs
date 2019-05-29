@@ -30,6 +30,8 @@ namespace Contracts
         public IList<RoleSelection> Roles { get; set; }
 
         public string FullName => $"{Name} {Surname}";
+
+        public bool IsBusy;
     }
 
     public class RoleSelection

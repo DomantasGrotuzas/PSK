@@ -86,7 +86,7 @@ namespace PSK.Services
         {
             var trip = await _tripDataAccess.GetWithEmployees(tripId);
             var employeesAlreadyOnTrip = trip.Employees.Select(x => x.Employee);
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.Include(x => x.Trips).ThenInclude(x => x.Trip).ToListAsync();
             foreach (var employee in employeesAlreadyOnTrip)
             {
                 var userToRemove = users.FirstOrDefault(x => x.Id == employee.Id);
@@ -94,8 +94,24 @@ namespace PSK.Services
             }
 
             var usersDto = _mapper.Map<List<EmployeeDto>>(users);
-
             //TODO: need to fill availability based on calendar here
+
+            foreach (var user in users)
+            {
+                var userDto = usersDto.FirstOrDefault(x => x.Id == user.Id);
+                if (userDto != null)
+                {
+                    foreach (var employeeTrip in user.Trips)
+                    {
+                        if ((employeeTrip.Trip.StartDate >= trip.StartDate && employeeTrip.Trip.StartDate < trip.EndDate) ||
+                            (employeeTrip.Trip.EndDate > trip.StartDate && employeeTrip.Trip.EndDate <= trip.EndDate) ||
+                            (employeeTrip.Trip.StartDate <= trip.StartDate && employeeTrip.Trip.EndDate >= trip.EndDate))
+                        {
+                            userDto.IsBusy = true;
+                        }
+                    }
+                }
+            }
 
             return usersDto;
         }

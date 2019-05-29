@@ -18,7 +18,11 @@
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
                 @Html.DropDownListFor(x => x.EmployeeId, new List<SelectListItem>(
-                    Model.AllEmployees.Select(x => new SelectListItem(x.FullName, x.Id.ToString()))))
+                    Model.AllEmployees.Select(x =>
+                    {
+                        var name = x.IsBusy ? $"{x.FullName} (busy)" : x.FullName;
+                        return new SelectListItem(name, x.Id.ToString(), Model.Employee.Id == x.Id, x.IsBusy);
+                    })))
                 <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -84,7 +88,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to List", "TripEmployees", new { tripId = Model.Trip.Id })
 </div>
 
 @section Scripts {
