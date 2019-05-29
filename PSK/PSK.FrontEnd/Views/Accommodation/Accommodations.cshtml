@@ -38,7 +38,7 @@
                 @Html.DisplayNameFor(model => model.Address.Longitude)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Office.Name)
+               Office name
             </th>
             <th></th>
         </tr>
@@ -52,27 +52,27 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TotalSpaces)
             </td>
-            <th>
+            <td>
                 @Html.DisplayFor(modelItem => item.Address.Country)
-            </th>
-            <th>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Address.City)
-            </th>
-            <th>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Address.Street)
-            </th>
-            <th>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Address.HouseNumber)
-            </th>
-            <th>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Address.Latitude)
-            </th>
-            <th>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Address.Longitude)
-            </th>
-            <th>
+            </td>
+            <td>
                 @Html.ActionLink(item.Office.Name, "Details", "Office", new { id = item.Office.Id })
-            </th>
+            </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new {  id=item.Id })

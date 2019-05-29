@@ -47,7 +47,7 @@ namespace PSK.FrontEnd.Controllers
         [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Create(TripDto tripDto)
         {
-            Trip trip = _mapper.Map<Trip>(tripDto);
+            var trip = _mapper.Map<Trip>(tripDto);
             trip.StartLocation = await _officeData.Get(Guid.Parse(tripDto.StartLocationId));
             trip.EndLocation = await _officeData.Get(Guid.Parse(tripDto.EndLocationId));
             trip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
@@ -74,7 +74,7 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _tripDataAccess.Remove(id);
-            return await Trips();
+            return Redirect("/Trip/Trips");
         }
 
         [HttpGet]

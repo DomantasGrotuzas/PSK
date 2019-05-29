@@ -44,24 +44,24 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <th>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Address.Country)
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Address.City)
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Address.Street)
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Address.HouseNumber)
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Address.Latitude)
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Address.Longitude)
-                    </th>
+                    </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
