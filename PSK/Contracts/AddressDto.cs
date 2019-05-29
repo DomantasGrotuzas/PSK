@@ -11,19 +11,19 @@ namespace Contracts
         public string Longitude { get; set; }
 
         [Required]
-        [StringLength(60, MinimumLength = 3)]
+        [StringLength(60)]
         public string Country { get; set; }
 
         [Required]
-        [StringLength(60, MinimumLength = 3)]
+        [StringLength(60)]
         public string City { get; set; }
 
         [Required]
-        [StringLength(60, MinimumLength = 3)]
+        [StringLength(60)]
         public string Street { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 3)]
+        [StringLength(20)]
         public string HouseNumber { get; set; }
     }
 }

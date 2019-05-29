@@ -12,13 +12,13 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Date from</label>
-                <input asp-for="StartDate" class="form-control" />
+                <label asp-for="StartDate" class="control-label">Date from (YYYY-MM-DD)</label>
+                <input asp-for="StartDate" class="form-control" type="text" id="tripStartDateInput" required />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label">Date until</label>
-                <input asp-for="EndDate" class="form-control" />
+                <label asp-for="EndDate" class="control-label">Date until (YYYY-MM-DD)</label>
+                <input asp-for="EndDate" class="form-control" type="text" id="tripEndDateInput" required />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,4 +47,64 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        function validateForm() {
+            var startDateString = $("#tripStartDateInput").val();
+            var endDateString = $("#tripEndDateInput").val();
+            if (!isValidDate(startDateString)) {
+                alert("Wrong trip start date");
+                return false;
+            } else if (!isValidDate(endDateString)) {
+                alert("Wrong trip end date");
+                return false;
+            }else
+                return true;
+        }
+
+        function isValidDate(dateString) {
+            var parts;
+            var year;
+            var month;
+            var day;
+            if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(dateString)) {
+                parts = dateString.split("/");
+                year = parseInt(parts[0], 10);
+                month = parseInt(parts[1], 10);
+                day = parseInt(parts[2], 10);
+            } else if (/^\d{4}\.\d{1,2}\.\d{1,2}$/.test(dateString)) {
+                parts = dateString.split(".");
+                year = parseInt(parts[0], 10);
+                month = parseInt(parts[1], 10);
+                day = parseInt(parts[2], 10);
+            } else if (/^\d{4}\-\d{1,2}\-\d{1,2}$/.test(dateString)) {
+                parts = dateString.split("-");
+                year = parseInt(parts[0], 10);
+                month = parseInt(parts[1], 10);
+                day = parseInt(parts[2], 10);
+            } else if (/^\d{4}\ \d{1,2}\ \d{1,2}$/.test(dateString)) {
+                parts = dateString.split(" ");
+                year = parseInt(parts[0], 10);
+                month = parseInt(parts[1], 10);
+                day = parseInt(parts[2], 10);
+            } else {
+                return false;
+            }
+
+            var sb = [year, month, day].join("/");
+
+            var date = new Date(sb);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            var d = date.getDate();
+
+            var currentDate = new Date();
+
+            if (y === year && m === month && d === day && date < currentDate) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
 }
