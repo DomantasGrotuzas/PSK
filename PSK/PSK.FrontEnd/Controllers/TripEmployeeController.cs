@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
@@ -40,11 +41,13 @@ namespace PSK.FrontEnd.Controllers
             _tripDataAccess = tripDataAccess;
         }
 
+        [Authorize]
         public async Task<IActionResult> TripEmployees(Guid tripId)
         {
             return View(await _tripEmployeeDataAccess.GetAll(tripId));
         }
 
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> AddNew(Guid tripId)
         {
             var trip = _mapper.Map<TripDto>(await _tripDataAccess.Get(tripId));
@@ -63,6 +66,7 @@ namespace PSK.FrontEnd.Controllers
             return View(tripEmployee);
         }
 
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Create(TripEmployeeDto tripEmployeeDto)
         {
             var tripEmployee = _mapper.Map<TripEmployee>(tripEmployeeDto);
@@ -78,6 +82,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect($"tripEmployees?tripId={tripEmployeeDto.Trip.Id}");
         }
 
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var tripId = (await _tripEmployeeDataAccess.Get(id)).Trip.Id;
@@ -85,6 +90,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect($"/tripEmployee/tripEmployees?tripId={tripId}");
         }
 
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var tripEmployee = await _tripEmployeeDataAccess.Get(id);
@@ -110,6 +116,7 @@ namespace PSK.FrontEnd.Controllers
             return View(tripEmployeeDto);
         }
 
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Update(TripEmployeeDto tripEmployeeDto)
         {
             var tripEmployee = _mapper.Map<TripEmployee>(tripEmployeeDto);

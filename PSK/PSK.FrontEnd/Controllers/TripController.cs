@@ -38,7 +38,8 @@ namespace PSK.FrontEnd.Controllers
             _userManager = userManager;
             _tripDataAccess = tripDataAccess;
         }
-
+        
+        [Authorize]
         public async Task<IActionResult> Trips()
         {
             return View(await _tripDataAccess.GetAll());
@@ -98,6 +99,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> MergeSelection(Guid tripId)
         {
             var primaryTrip = await _tripDataAccess.Get(tripId);
@@ -110,6 +112,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Merge(Guid primaryTripId, Guid secondaryTripId)
         {
             var dto = new TripMergeDto
@@ -143,6 +146,12 @@ namespace PSK.FrontEnd.Controllers
             await _tripDataAccess.Update(primaryTrip);
 
             return Redirect("trip/trips");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyTrips()
+        {
+            return View(await _tripDataAccess.GetTripsForEmployee((await _userManager.GetUserAsync(User)).Id));
         }
     }
 }

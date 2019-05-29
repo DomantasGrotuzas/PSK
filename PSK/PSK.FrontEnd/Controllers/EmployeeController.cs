@@ -14,7 +14,6 @@ using PSK.Services.Interfaces;
 
 namespace PSK.FrontEnd.Controllers
 {
-    //[Authorize(Roles = "User")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
@@ -31,11 +30,13 @@ namespace PSK.FrontEnd.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Employees()
         {
             return View(await _employeeService.GetAll());
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(EmployeeDto employeeDto)
         {
             var selectedRoles = employeeDto.Roles.Where(r => r.IsSelected).Select(r => r.Role).ToList();
@@ -43,6 +44,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect("employees"); ;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult AddNew()
         {
             return View(new EmployeeDto
@@ -55,6 +57,7 @@ namespace PSK.FrontEnd.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _employeeService.Delete(id);
@@ -62,6 +65,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var employee = await _employeeService.Get(id);
@@ -82,6 +86,7 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(EmployeeDto employeeDto)
         {
             var selectedRoles = employeeDto.Roles.Where(r => r.IsSelected).Select(r => r.Role).ToList();
@@ -89,6 +94,7 @@ namespace PSK.FrontEnd.Controllers
             return Redirect("employees");
         }
 
+        [Authorize]
         public async Task<IActionResult> Details(Guid id)
         {
             return View(_mapper.Map<EmployeeDto>(await _employeeService.Get(id)));
