@@ -13,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Appartment/hotel name</label>
-                <input asp-for="Name" class="form-control" maxlength="50" required />
+                <input asp-for="Name" class="form-control" maxlength="60" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,12 +24,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Address.Country" class="control-label"></label>
-                <input asp-for="Address.Country" class="form-control" maxlength="60" required />
+                <input asp-for="Address.Country" class="form-control" type="text" maxlength="60" required />
                 <span asp-validation-for="Address.Country" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.City" class="control-label"></label>
-                <input asp-for="Address.City" class="form-control" maxlength="60" required />
+                <input asp-for="Address.City" class="form-control" type="text" maxlength="60" required />
                 <span asp-validation-for="Address.City" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,12 +44,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Address.Latitude" class="control-label"></label>
-                <input asp-for="Address.Latitude" class="form-control" type="text" pattern="[0-9]*" min="0" maxlength="20" />
+                <input asp-for="Address.Latitude" class="form-control" type="number" maxlength="20" />
                 <span asp-validation-for="Address.Latitude" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.Longitude" class="control-label"></label>
-                <input asp-for="Address.Longitude" class="form-control" type="text" pattern="[0-9]*" min="0" maxlength="20" />
+                <input asp-for="Address.Longitude" class="form-control" type="number" maxlength="20" />
                 <span asp-validation-for="Address.Longitude" class="text-danger"></span>
             </div>
             <div>
@@ -58,7 +58,7 @@
                 <span asp-validation-for="OfficeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" onclick="return validateForm()"/>
             </div>
         </form>
     </div>

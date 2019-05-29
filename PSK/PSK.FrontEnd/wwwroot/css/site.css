@@ -7,7 +7,7 @@ body {
     font-family: "Lato", Roboto, sans-serif;
 }
 
-.login-body {
+.login-body  {
     background: #EBEBEB;
 }
 
@@ -65,9 +65,21 @@ nav a {
         margin: 0 auto;
     }
 
-    .navbar-header-db {
-        background: #FF3454;
-    }
+.db-image-nav {
+    position: relative;
+    height: 50px;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+}
+
+.navbar-toggle{
+    color: #FFFFFF;
+}
+
+.navbar-header-db {
+    background: #FF3454;
+}
 
     /*Side panel*/
 .side-panel {
@@ -79,6 +91,8 @@ nav a {
     height: 100%;
     overflow: auto;
 }
+
+
 
     .side-panel a {
         display: block;
@@ -130,6 +144,14 @@ nav a {
 
     .body-content {
         margin-left: 0;
+    }
+
+    .db-image {
+        position: absolute;
+        height: 40px;
+        top: 0;
+        left: 60px;
+        margin: 0 auto;
     }
 }
 
