@@ -21,12 +21,14 @@ namespace PSK.FrontEnd.Controllers
         private readonly RoleManager<UserRole> _roleManager;
 
         private readonly IMapper _mapper;
+        private readonly UserManager<Employee> _userManager;
 
-        public EmployeeController(IEmployeeService employeeService, RoleManager<UserRole> roleManager,IMapper mapper)
+        public EmployeeController(IEmployeeService employeeService, RoleManager<UserRole> roleManager,IMapper mapper, UserManager<Employee> userManager)
         {
             _employeeService = employeeService;
             _roleManager = roleManager;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Employees()
@@ -68,11 +70,15 @@ namespace PSK.FrontEnd.Controllers
             if (employee == null)
                 return NotFound();
             var employeeDto = _mapper.Map<EmployeeDto>(employee);
+
+            var currentRoles = await _userManager.GetRolesAsync(employee);
+
             employeeDto.Roles = _roleManager.Roles.Where(r => r.Name.ToLower() != "user").Select(r => new RoleSelection
             {
                 Role = r.Name,
-                IsSelected = false
+                IsSelected = currentRoles.Contains(r.Name)
             }).ToList();
+
             return View(employeeDto);
         }
 
