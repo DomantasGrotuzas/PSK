@@ -13,7 +13,8 @@ namespace PSK.FrontEnd.AutoMapper
         public MappingProfile()
         {
             CreateMap<EmployeeDto, Employee>()
-                .ForMember(dest => dest.ConcurrencyStamp, opt => opt.MapFrom(src => src.Version));
+                .ForMember(dest => dest.ConcurrencyStamp, opt => opt.MapFrom(src => src.Version))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.ConcurrencyStamp));
 
