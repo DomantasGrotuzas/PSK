@@ -89,7 +89,8 @@ namespace PSK.Services
             var users = await _userManager.Users.ToListAsync();
             foreach (var employee in employeesAlreadyOnTrip)
             {
-                users.Remove(employee);
+                var userToRemove = users.FirstOrDefault(x => x.Id == employee.Id);
+                users.Remove(userToRemove);
             }
 
             var usersDto = _mapper.Map<List<EmployeeDto>>(users);
