@@ -14,7 +14,7 @@ using PSK.Services.Interfaces;
 
 namespace PSK.FrontEnd.Controllers
 {
-    [Authorize(Roles = "User")]
+    //[Authorize(Roles = "User")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;

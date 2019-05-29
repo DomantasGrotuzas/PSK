@@ -1,0 +1,148 @@
+﻿@model Contracts.TripMergeSelectionDto
+
+@{
+    ViewData["Title"] = "Merge";
+}
+
+<h2>Merge</h2>
+
+<h4>MergeTripsViewDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div>Merge this trip</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Date from
+                    </th>
+                    <th>
+                        Date until
+                    </th>
+                    <th>
+                        Organizer
+                    </th>
+                    <th>
+                        Start
+                    </th>
+                    <th>
+                        Destination
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PrimaryTrip.Employees)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PrimaryTrip.Comment)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.PrimaryTrip.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.PrimaryTrip.EndDate)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => modelItem.PrimaryTrip.Organizer.Name)
+                    </th>
+                    <th>
+                        @Html.ActionLink(@Model.PrimaryTrip.StartLocation.Name, "Details", "Office", new {id = @Model.PrimaryTrip.StartLocation?.Id})
+                    </th>
+                    <th>
+                        @Html.ActionLink(@Model.PrimaryTrip.EndLocation.Name, "Details", "Office", new {id = @Model.PrimaryTrip.EndLocation?.Id})
+                    </th>
+                    <th>
+                        @Html.ActionLink("showEmployees", "TripEmployees", "TripEmployee", new {tripId = @Model.PrimaryTrip.Id })
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => @Model.PrimaryTrip.Comment)
+                    </td>
+                    <td>
+                        <a asp-action="" asp-route-id="@Model.PrimaryTrip.Id">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <form asp-action="Merge">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div>With one of these</div>
+            <input type="hidden" asp-for="PrimaryTrip.Id"/>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        Date from
+                    </th>
+                    <th>
+                        Date until
+                    </th>
+                    <th>
+                        Organizer
+                    </th>
+                    <th>
+                        Start
+                    </th>
+                    <th>
+                        Destination
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PrimaryTrip.Employees)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PrimaryTrip.Comment)
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Trips)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        </td>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.Organizer.Name)
+                        </th>
+                        <th>
+                            @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new {id = item.StartLocation?.Id})
+                        </th>
+                        <th>
+                            @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new {id = item.EndLocation?.Id})
+                        </th>
+                        <th>
+                            @Html.ActionLink("showEmployees", "TripEmployees", "TripEmployee", new {tripId = item.Id})
+                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comment)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Merge", "Merge", new { primaryTripId = Model.PrimaryTrip.Id, secondaryTripId = item.Id })
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

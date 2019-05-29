@@ -18,6 +18,16 @@ namespace PSK.DataAccess
             _context = context;
         }
 
+        public async Task<IEnumerable<Trip>> GetMergeable(Trip trip)
+        {
+            var startDate = trip.StartDate;
+            var endDate = trip.EndDate;
+            return await _context.Trips.Where(t => t.StartDate <= startDate.AddDays(1) &&
+                                                   t.StartDate >= startDate.AddDays(-1) &&
+                                                   t.EndDate <= endDate.AddDays(1) &&
+                                                   t.EndDate >= endDate.AddDays(-1)).ToListAsync();
+        }
+
         public async Task<IEnumerable<Trip>> GetAll()
         {
             return await _context.Trips.Include(x => x.Employees).Include(x => x.EndLocation).Include(x => x.StartLocation)

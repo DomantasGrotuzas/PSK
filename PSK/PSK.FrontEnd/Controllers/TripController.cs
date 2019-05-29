@@ -24,19 +24,24 @@ namespace PSK.FrontEnd.Controllers
 
         private readonly IEmployeeService _employeeService;
         private readonly UserManager<Employee> _userManager;
+        private readonly ITripDataAccess _tripDataAccess;
 
-        public TripController(ITripService tripService, IMapper mapper, IDataAccess<Office> officeData, IEmployeeService employeeService, UserManager<Employee> userManager)
+        public TripController(ITripService tripService, IMapper mapper, 
+            IDataAccess<Office> officeData, 
+            IEmployeeService employeeService, 
+            UserManager<Employee> userManager, ITripDataAccess tripDataAccess)
         {
             _tripService = tripService;
             _mapper = mapper;
             _officeData = officeData;
             _employeeService = employeeService;
             _userManager = userManager;
+            _tripDataAccess = tripDataAccess;
         }
 
         public async Task<IActionResult> Trips()
         {
-            return View(await _tripService.GetAll());
+            return View(await _tripDataAccess.GetAll());
         }
 
         [Authorize(Roles = "Organizer")]
@@ -48,7 +53,7 @@ namespace PSK.FrontEnd.Controllers
             trip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
 
 
-            await _tripService.Create(trip);
+            await _tripDataAccess.Add(trip);
             //trip.Organizer = await _employeeService.Get(Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value));
             //await _tripService.Update(trip.Id, trip);
             return Redirect("trips");
@@ -68,7 +73,7 @@ namespace PSK.FrontEnd.Controllers
         [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _tripService.Delete(id);
+            await _tripDataAccess.Remove(id);
             return await Trips();
         }
 
@@ -76,7 +81,7 @@ namespace PSK.FrontEnd.Controllers
         [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var trip = await _tripService.Get(id);
+            var trip = await _tripDataAccess.Get(id);
 
             if (trip == null)
                 return NotFound();
@@ -88,8 +93,56 @@ namespace PSK.FrontEnd.Controllers
         [Authorize(Roles = "Organizer")]
         public async Task<IActionResult> Update(Trip trip)
         {
-            await _tripService.Update(trip.Id, trip);
+            await _tripDataAccess.Update(trip);
             return Redirect("trips");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MergeSelection(Guid tripId)
+        {
+            var primaryTrip = await _tripDataAccess.Get(tripId);
+            var mergeTripsViewModel = new TripMergeSelectionDto
+            {
+                PrimaryTrip = primaryTrip,
+                Trips = (await _tripDataAccess.GetMergeable(primaryTrip)).ToList()
+            };
+            return View(mergeTripsViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Merge(Guid primaryTripId, Guid secondaryTripId)
+        {
+            var dto = new TripMergeDto
+            {
+                PrimaryTrip = await _tripDataAccess.Get(primaryTripId),
+                SecondaryTrip = await _tripDataAccess.Get(secondaryTripId)
+            };
+
+            return View(dto);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Organizer, Admin")]
+        public async Task<IActionResult> MergeTrips(Guid primaryTripId, Guid secondaryTripId, TripDto tripDto)
+        {
+            var primaryTrip = await _tripDataAccess.Get(primaryTripId);
+            var secondaryTrip = await _tripDataAccess.GetWithEmployees(secondaryTripId);
+
+            foreach (var tripEmployee in secondaryTrip.Employees)
+            {
+                tripEmployee.TripId = primaryTripId;
+            }
+
+            await _tripDataAccess.Remove(secondaryTripId);
+
+            primaryTrip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
+            primaryTrip.Comment = tripDto.Comment;
+            primaryTrip.StartDate = tripDto.StartDate;
+            primaryTrip.EndDate = tripDto.EndDate;
+
+            await _tripDataAccess.Update(primaryTrip);
+
+            return Redirect("trip/trips");
         }
     }
 }
