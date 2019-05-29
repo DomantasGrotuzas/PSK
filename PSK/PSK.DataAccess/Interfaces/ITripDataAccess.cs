@@ -8,5 +8,6 @@ namespace PSK.DataAccess.Interfaces
     public interface ITripDataAccess : IDataAccess<Trip>
     {
         Task<Trip> GetWithEmployees(Guid id);
+        Task<IEnumerable<Trip>> GetMergeable(Trip trip);
     }
 }
