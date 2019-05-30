@@ -120,17 +120,26 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Update(TripEmployeeDto tripEmployeeDto)
         {
             var tripEmployee = _mapper.Map<TripEmployee>(tripEmployeeDto);
-            tripEmployee.Employee = await _employeeService.Get(Guid.Parse(tripEmployeeDto.EmployeeId));
+            //tripEmployee.EmployeeId = Guid.Parse(tripEmployeeDto.EmployeeId);
+
+            var existingTripEmployee = await _tripEmployeeDataAccess.Get(tripEmployee.Id);
+            existingTripEmployee.EmployeeId = Guid.Parse(tripEmployeeDto.EmployeeId);
+            existingTripEmployee.Comment = tripEmployee.Comment;
+            existingTripEmployee.CarReservationStatus = tripEmployee.CarReservationStatus;
+            existingTripEmployee.CarReservationPrice = tripEmployee.CarReservationPrice;
+            existingTripEmployee.PlaneTicketStatus = tripEmployee.PlaneTicketStatus;
+            existingTripEmployee.PlaneTicketPrice = tripEmployee.PlaneTicketPrice;          
+
+
             if (tripEmployeeDto.AccommodationId != null && Guid.Parse(tripEmployeeDto.AccommodationId) != Guid.Empty)
             {
-                tripEmployee.AccommodationReservation.Accommodation =
-                    await _accommodationDataAccess.Get(Guid.Parse(tripEmployeeDto.AccommodationId));
+                existingTripEmployee.AccommodationReservation.AccommodationId = Guid.Parse(tripEmployeeDto.AccommodationId);
             }
             else
             {
-                tripEmployee.AccommodationReservation.Accommodation = null;
+                existingTripEmployee.AccommodationReservation.AccommodationId = null;
             }
-            await _tripEmployeeDataAccess.Update(tripEmployee);
+            await _tripEmployeeDataAccess.Update(existingTripEmployee);
             return Redirect($"tripEmployees?tripId={tripEmployeeDto.Trip.Id}");
         }
     }

@@ -7,6 +7,8 @@ body {
     font-family: "Lato", Roboto, sans-serif;
 }
 
+
+
 .login-body  {
     background: #EBEBEB;
 }
@@ -42,6 +44,12 @@ nav a {
 .btn-link {
     color: #fff;
 }
+
+.btn-create{
+    display: inline-block;
+    right: 0;
+}
+
 /*Login*/
 .login-box {
     background: #FF3454;
@@ -95,7 +103,6 @@ nav a {
 }
 
 .hero-text {
-    
     text-align: center;
     position: absolute;
     top: 50%;
@@ -172,6 +179,17 @@ thead {
     font-style:italic;
 }
 
+.td-actions {
+    display: inline-block;
+}
+
+
+
+
+@media screen and (max-width: 767px) {
+
+
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
@@ -183,6 +201,10 @@ thead {
     .login-box {
         padding: 40px 0 40px 0;
         margin: 40px 40px 0 40px;
+    }
+
+    .container {
+        width: 655px;
     }
 
     .side-panel {
