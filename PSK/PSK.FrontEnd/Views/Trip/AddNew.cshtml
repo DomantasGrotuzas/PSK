@@ -62,8 +62,12 @@
             } else if (endDate >= currentDate) {
                 alert("Wrong trip end date");
                 return false;
-            } else if (endDate < startDate)
+            } else if (endDate < startDate) {
                 alert("Check start and end dates of the trip. Start date cannot be after end date");
+                return false;
+            }
+            return true;
+
         }
 
         $(document).ready(function () {
