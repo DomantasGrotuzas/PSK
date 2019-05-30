@@ -111,7 +111,7 @@ namespace PSK.FrontEnd
             containerBuilder.RegisterType<AccommodationService>().As<IAccommodationService>();
 
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
-            containerBuilder.RegisterType<DataContext>().AsSelf();
+            containerBuilder.RegisterType<DataContext>().AsSelf();;
 
             var container = containerBuilder.Build();
 
