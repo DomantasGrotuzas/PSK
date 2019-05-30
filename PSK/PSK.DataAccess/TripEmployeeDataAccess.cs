@@ -59,5 +59,14 @@ namespace PSK.DataAccess
             _context.TripEmployees.Remove(tripEmployeeToRemove);
             await _context.SaveChangesAsync();
         }
+
+        public async Task SetIsAccepted(Guid tripId, Guid employeeId)
+        {
+            var tripEmployee = await _context.TripEmployees
+                .FirstOrDefaultAsync(x => x.Employee.Id == employeeId && x.Trip.Id == tripId);
+            tripEmployee.IsAcceptedByEmployee = true;
+            _context.TripEmployees.Update(tripEmployee);
+            await _context.SaveChangesAsync();
+        }
     }
 }

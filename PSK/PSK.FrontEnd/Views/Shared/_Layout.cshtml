@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/forms.css" />
         <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+        <script src="~/js/site.js"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -51,8 +52,11 @@
                 <a asp-area="" asp-controller="Employee" asp-action="Employees">Employees</a>
                 <a asp-area="" asp-controller="Office" asp-action="Offices">Offices</a>
                 <a asp-area="" asp-controller="Accommodation" asp-action="Accommodations">Accommodations</a>
-                <a asp-area="" asp-controller="Trip" asp-action="MyTrips">My trips</a>
-                <a asp-area="" asp-controller="Trip" asp-action="Trips">Trips</a>                
+                <a asp-area="" asp-controller="Trip" asp-action="MyTrips">My Trips</a>
+                @if (User.IsInRole("Organizer"))
+                {
+                    <a asp-area="" asp-controller="Trip" asp-action="Trips">All Trips</a>
+                }
             </aside>
         }
     }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PSK.Domain.Trip>
+﻿@using Contracts
+@model Contracts.AllTripsDto
 
 @{
     ViewData["Title"] = "Trips";
@@ -9,6 +10,16 @@
 <p>
     <a asp-action="AddNew">Create new</a>
 </p>
+
+<div>
+    @Html.ActionLink("All", "Trips", new { dateFilter = DateFilter.All }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.All)}" })
+    @Html.ActionLink("Upcoming", "Trips", new { dateFilter = DateFilter.Upcoming }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Upcoming)}" })
+    @Html.ActionLink("Ongoing", "Trips", new { dateFilter = DateFilter.Ongoing }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Ongoing)}" })
+    @Html.ActionLink("Past Trips", "Trips", new { dateFilter = DateFilter.Past }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Past)}" })
+</div>
+
+<div><p/></div>
+
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -29,16 +40,16 @@
                     Destination
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Employees)
+                    Employees
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Comment)
+                    Comment
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.AllTrips)
             {
                 <tr>
                     <td>
