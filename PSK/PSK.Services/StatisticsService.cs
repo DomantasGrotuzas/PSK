@@ -50,7 +50,7 @@ namespace PSK.Services
                         (te.CarReservationPrice ?? 0) +
                         (te.PlaneTicketPrice ?? 0) +
                         (te.AccommodationReservation.Price ?? 0)),
-                    Duration = (t.EndDate - t.StartDate).Days
+                    Duration = (t.EndDate - t.StartDate).Days + 1
                 });
 
             switch (dto.TripStatistics.TripSortType)

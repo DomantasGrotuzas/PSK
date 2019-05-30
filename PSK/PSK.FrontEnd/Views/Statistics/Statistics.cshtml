@@ -82,7 +82,7 @@
                     <tr>
                         <td>@Html.ActionLink("Link", "Details", "Trip", new { id = trip.TripId })</td>
                         <td>@trip.Duration</td>
-                        <td>@trip.Price</td>
+                        <td>@trip.Price€</td>
                     </tr>
                 }
                 </tbody>
@@ -103,50 +103,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script type="text/javascript">
-
-        function validateForm() {
-            var startDate = $("#tripStartDateInput").val();
-            var endDate = $("#tripEndDateInput").val();
-
-            var currentDate = new Date();
-
-            if (startDate >= currentDate) {
-                alert("Wrong trip start date");
-                return false;
-            } else if (endDate >= currentDate) {
-                alert("Wrong trip end date");
-                return false;
-            } else if (endDate < startDate)
-                alert("Check start and end dates of the trip. Start date cannot be after end date");
-        }
-
-        $(document).ready(function () {
-
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var yyyy = today.getFullYear();
-
-            today = yyyy + '-' + mm + '-' + dd;
-            today = today.toString();
-
-            $('#tripStartDateInput').val(today);
-            $('#tripEndDateInput').val(today);
-            $('#tripStartDateInput').attr({ "min": today });
-            $('#tripEndDateInput').attr({ "min": today });
-        });
-
-
-        document.getElementById("tripStartDateInput").onchange = function () {
-            var input = document.getElementById("tripEndDateInput");
-            input.setAttribute("min", this.value);
-            var startDate = document.getElementById("tripStartDateInput").value;
-            input.value = startDate;
-        }
-
-    </script>
 }
 
 
