@@ -32,5 +32,7 @@ namespace PSK.Domain
 
         [StringLength(60, MinimumLength = 3)]
         public string Comment { get; set; }
+
+        public bool IsAcceptedByEmployee { get; set; }
     }
 }

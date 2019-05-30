@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PSK.Domain.Trip>
+﻿@using Contracts
+@model Contracts.AllTripsDto
 
 @{
     ViewData["Title"] = "Trips";
@@ -7,9 +8,26 @@
 <h2>Trips</h2>
 
 <p>
-    <a asp-action="AddNew">Create New</a>
+    <a asp-action="AddNew">Create new</a>
 </p>
-<div class="table-responsive">
+
+<div class="col-xs-10">
+    <button>
+        @Html.ActionLink("All", "Trips", new { dateFilter = DateFilter.All })
+    </button>
+    <button>
+        @Html.ActionLink("Upcoming", "Trips", new { dateFilter = DateFilter.Upcoming })
+    </button>
+    <button>
+        @Html.ActionLink("Ongoing", "Trips", new { dateFilter = DateFilter.Ongoing })
+    </button>
+    <button type="button" class="btn btn-default" disabled="@Model.DateFilter.Equals(DateFilter.Past)"
+            asp-action="Trips" asp-route-dateFilter="@Model.DateFilter">
+        Past Trips
+    </button>
+</div>
+
+<div class="table-responsive col-xs-12">
     <table class="table">
         <thead>
             <tr>
@@ -29,16 +47,16 @@
                     Destination
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Employees)
+                    Employees
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Comment)
+                    Comment
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.AllTrips)
             {
                 <tr>
                     <td>

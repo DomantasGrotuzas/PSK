@@ -14,6 +14,7 @@
         @Html.ActionLink("Past Trips", "MyTrips", new { dateFilter = DateFilter.Past }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Past)}" })
 </div>  
 
+
 <div class="col-xs-3"></p></div>
 
 <div class="table-responsive col-xs-12">

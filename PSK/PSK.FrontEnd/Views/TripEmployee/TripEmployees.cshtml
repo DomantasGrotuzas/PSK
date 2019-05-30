@@ -4,44 +4,57 @@
     ViewData["Title"] = "TripEmployees";
 }
 
-<h2>TripEmployees</h2>
+<h2>Trip employees</h2>
 
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Employee.FullName)
+                    @*@Html.DisplayNameFor(model => model.Employee.FullName)*@
+                    Employee name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AccommodationReservation.Status)
+                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.Status)*@
+                    Accommodation
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AccommodationReservation.Price)
+                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.Price)*@
+                    price
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AccommodationReservation.Accommodation.Name)
+                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.Accommodation.Name)*@
+                    location
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AccommodationReservation.StartDate)
+                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.StartDate)*@
+                    start
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AccommodationReservation.EndDate)
+                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.EndDate)*@
+                    end
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PlaneTicketStatus)
+                    @*@Html.DisplayNameFor(model => model.PlaneTicketStatus)*@
+                    Plane tickets
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PlaneTicketPrice)
+                    @*@Html.DisplayNameFor(model => model.PlaneTicketPrice)*@
+                    price
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CarReservationStatus)
+                    @*@Html.DisplayNameFor(model => model.CarReservationStatus)*@
+                    Car reservation
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CarReservationPrice)
+                    @*@Html.DisplayNameFor(model => model.CarReservationPrice)*@
+                    price
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Comment)
+                </th>
+                <th>
+                    Is accepted?
                 </th>
                 <th></th>
             </tr>
@@ -86,12 +99,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsAcceptedByEmployee ? "Yes" : "No")
+                    </td>
                     @{ 
                         if (User.IsInRole("Organizer"))
                         {
                             <td class="td-actions">
                                 <div>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</div>
-                                <div>@Html.ActionLink("Details", "Details", new { id = item.Id })</div>
                                 <div>@Html.ActionLink("Delete", "Delete", new { id = item.Id })</div>
                             </td>
                         }
