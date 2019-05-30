@@ -39,10 +39,14 @@ namespace PSK.FrontEnd.Controllers
             _tripDataAccess = tripDataAccess;
         }
 
-        [Authorize]
-        public async Task<IActionResult> Trips()
+        [Authorize(Roles = "Organizer")]
+        public async Task<IActionResult> Trips(DateFilter dateFilter)
         {
-            return View(await _tripDataAccess.GetAll());
+            return View(new AllTripsDto
+            {
+                AllTrips = FilterTrips(await _tripDataAccess.GetAll(), dateFilter),
+                DateFilter = dateFilter
+            });
         }
 
         [Authorize(Roles = "Organizer")]
@@ -52,11 +56,7 @@ namespace PSK.FrontEnd.Controllers
             trip.StartLocation = await _officeData.Get(Guid.Parse(tripDto.StartLocationId));
             trip.EndLocation = await _officeData.Get(Guid.Parse(tripDto.EndLocationId));
             trip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
-
-
             await _tripDataAccess.Add(trip);
-            //trip.Organizer = await _employeeService.Get(Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value));
-            //await _tripService.Update(trip.Id, trip);
             return Redirect("trips");
         }
 
@@ -154,13 +154,44 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> MyTrips()
+        public async Task<IActionResult> MyTrips(DateFilter dateFilter)
         {
-            return View(new MyTripsDto
+            return View(await GetMyTripsDto(dateFilter));
+        }
+
+        private async Task<MyTripsDto> GetMyTripsDto(DateFilter dateFilter)
+        {
+            var myTrips = await _tripDataAccess.GetTripsForEmployee((await _userManager.GetUserAsync(User)).Id);
+            myTrips = FilterTrips(myTrips, dateFilter);
+
+            IEnumerable<Trip> myOrganizedTrips = null;
+            var isOrganizer = User.IsInRole("Organizer");
+            if (isOrganizer)
             {
-                MyTrips = await _tripDataAccess.GetTripsForEmployee((await _userManager.GetUserAsync(User)).Id),
-                MyOrganizedTrips = await _tripDataAccess.GetTripsForOrganizator((await _userManager.GetUserAsync(User)).Id)
-            });
+                myOrganizedTrips = await _tripDataAccess.GetTripsForOrganizator((await _userManager.GetUserAsync(User)).Id);
+                myOrganizedTrips = FilterTrips(myOrganizedTrips, dateFilter);
+            }
+            return new MyTripsDto
+            {
+                MyTrips = myTrips,
+                MyOrganizedTrips = myOrganizedTrips,
+                DateFilter = dateFilter,
+                IsOrganizer = isOrganizer
+            };
+        }
+
+        private static IEnumerable<Trip> FilterTrips(IEnumerable<Trip> allTrips, DateFilter dateFilter)
+        {
+            switch (dateFilter)
+            {
+                case DateFilter.Upcoming:
+                    return allTrips.Where(x => x.StartDate > DateTime.Now.Date);
+                case DateFilter.Ongoing:
+                    return allTrips.Where(x => x.StartDate <= DateTime.Now.Date && x.EndDate >= DateTime.Now.Date);
+                case DateFilter.Past:
+                    return allTrips.Where(x => x.EndDate < DateTime.Now.Date);
+            }
+            return allTrips;
         }
     }
 }

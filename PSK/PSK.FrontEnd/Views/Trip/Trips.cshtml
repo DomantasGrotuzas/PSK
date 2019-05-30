@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PSK.Domain.Trip>
+﻿@using Contracts
+@model Contracts.AllTripsDto
 
 @{
     ViewData["Title"] = "Trips";
@@ -7,65 +8,85 @@
 <h2>Trips</h2>
 
 <p>
-    <a asp-action="AddNew">Create New</a>
+    <a asp-action="AddNew">Create new</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Date from
-            </th>
-            <th>
-                Date until
-            </th>
-            <th>
-                Organizer
-            </th>
-            <th>
-                Start
-            </th>
-            <th>
-                Destination
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Employees)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
-            </td>
-            <td>
-                @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
-            </td>
-            <td>
-                @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })  
-            </td>
-            <td>
-                @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="col-xs-10">
+    <button>
+        @Html.ActionLink("All", "Trips", new { dateFilter = DateFilter.All })
+    </button>
+    <button>
+        @Html.ActionLink("Upcoming", "Trips", new { dateFilter = DateFilter.Upcoming })
+    </button>
+    <button>
+        @Html.ActionLink("Ongoing", "Trips", new { dateFilter = DateFilter.Ongoing })
+    </button>
+    <button type="button" class="btn btn-default" disabled="@Model.DateFilter.Equals(DateFilter.Past)"
+            asp-action="Trips" asp-route-dateFilter="@Model.DateFilter">
+        Past Trips
+    </button>
+</div>
+
+<div class="table-responsive col-xs-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Date from
+                </th>
+                <th>
+                    Date until
+                </th>
+                <th>
+                    Organizer
+                </th>
+                <th>
+                    Start
+                </th>
+                <th>
+                    Destination
+                </th>
+                <th>
+                    Employees
+                </th>
+                <th>
+                    Comment
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllTrips)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                        <a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
