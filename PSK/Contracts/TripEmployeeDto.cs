@@ -28,7 +28,7 @@ namespace Contracts
         public string Comment { get; set; }
 
         [DisplayName("Attachments")]
-        public IEnumerable<IFormFile> Files { get; set; }
+        public IFormFileCollection Files { get; set; }
 
         [Required]
         public string EmployeeId { get; set; }
