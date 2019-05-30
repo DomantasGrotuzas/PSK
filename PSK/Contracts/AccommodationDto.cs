@@ -12,7 +12,7 @@ namespace Contracts
 
         [Required]
         [Range(0, 100)]
-        public int? TotalSpaces { get; set; }
+        public int TotalSpaces { get; set; }
 
         [Required]
         public AddressDto Address { get; set; }

@@ -76,10 +76,14 @@ namespace PSK.FrontEnd
                 options.Password.RequireLowercase = false;
             });
 
+            var isLoggingEnabled = Configuration.GetValue<bool>("EnableLogging");
 
             services.AddMvc(options =>
             {
-                options.Filters.Add(new LogAttribute());
+                if (isLoggingEnabled)
+                {
+                    options.Filters.Add(new LogAttribute());
+                }
                 options.Filters.Add(new ExceptionFilter());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddRazorPagesOptions(options =>
