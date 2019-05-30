@@ -86,14 +86,19 @@ namespace PSK.FrontEnd.Controllers
 
             if (trip == null)
                 return NotFound();
-
-            return View(trip);
+            TripDto tripDto = _mapper.Map<TripDto>(trip);
+            tripDto.Offices = _mapper.Map<IEnumerable<OfficeDto>>(await _officeData.GetAll()).ToList();
+            return View(tripDto);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Organizer")]
-        public async Task<IActionResult> Update(Trip trip)
+        [Authorize(Roles = "Organizer,Admin")]
+        public async Task<IActionResult> Update(TripDto tripDto)
         {
+            Trip trip = _mapper.Map<Trip>(tripDto);
+            trip.StartLocation = await _officeData.Get(Guid.Parse(tripDto.StartLocationId));
+            trip.EndLocation = await _officeData.Get(Guid.Parse(tripDto.EndLocationId));
+            trip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
             await _tripDataAccess.Update(trip);
             return Redirect("trips");
         }
