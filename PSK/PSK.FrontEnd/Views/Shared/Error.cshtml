@@ -3,20 +3,19 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="hero-text">
+    <h1 class="text-danger">Oops. Something unexpected happened.</h1>
+    <h2 class="text-danger">Another user has updated or deleted the same record that you were updating. Please go back and try again.</h2>
+    
+    <button class="btn btn-danger" type="button" href="#" onClick="GoBackWithRefresh(); return false;">Return back</button>
+</div>
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
-
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>Development environment should not be enabled in deployed applications</strong>, as it can result in sensitive information from exceptions being displayed to end users. For local debugging, development environment can be enabled by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>, and restarting the application.
-</p>
+<script>
+    function GoBackWithRefresh(event) {
+        if ('referrer' in document) {
+            window.location = document.referrer;
+        } else {
+            window.history.back();
+        }
+    }
+</script>
