@@ -183,11 +183,15 @@ thead {
     display: inline-block;
 }
 
-
+/*disabling buttons*/
+#disabledTrue {
+    pointer-events: none;
+    color: #bdb8b8;
+}
 
 
 @media screen and (min-width: 767px) {
-   .body-content{
+    .body-content{
        min-width: 767px;
    }
 
@@ -203,10 +207,6 @@ thead {
     .login-box {
         padding: 40px 0 40px 0;
         margin: 40px 40px 0 40px;
-    }
-
-    .container {
-        width: 655px;
     }
 
     .side-panel {
@@ -237,5 +237,5 @@ thead {
         text-align: center;
         float: none;
     }
-
+}
 
