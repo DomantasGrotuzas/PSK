@@ -11,14 +11,16 @@
     <a asp-action="AddNew">Create new</a>
 </p>
 
-<div class="col-xs-10">
+<div>
     @Html.ActionLink("All", "MyTrips", new { dateFilter = DateFilter.All }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.All)}" })
     @Html.ActionLink("Upcoming", "MyTrips", new { dateFilter = DateFilter.Upcoming }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Upcoming)}" })
     @Html.ActionLink("Ongoing", "MyTrips", new { dateFilter = DateFilter.Ongoing }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Ongoing)}" })
     @Html.ActionLink("Past Trips", "MyTrips", new { dateFilter = DateFilter.Past }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Past)}" })
 </div>
 
-<div class="table-responsive col-xs-12">
+<div><p></p></div>
+
+<div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
