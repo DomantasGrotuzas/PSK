@@ -115,6 +115,7 @@
                 <th>
                     Comment
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -141,6 +142,14 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @if (item.StartDate > DateTime.Now.Date)
+                        {
+                            <div><a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a></div>
+                        }
                     </td>
                 </tr>
             }

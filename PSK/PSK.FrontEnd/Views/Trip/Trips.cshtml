@@ -75,8 +75,11 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                        <a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @if (item.StartDate > DateTime.Now.Date)
+                        {
+                            <div><a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a></div>
+                        }
                     </td>
                 </tr>
             }
