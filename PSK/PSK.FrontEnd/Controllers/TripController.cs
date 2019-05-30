@@ -148,14 +148,51 @@ namespace PSK.FrontEnd.Controllers
             return Redirect("trips");
         }
 
+        //[Authorize]
+        //public async Task<IActionResult> MyTrips()
+        //{
+        //    return View(await GetMyTripsDto(DateFilter.All));
+        //}
+
         [Authorize]
-        public async Task<IActionResult> MyTrips()
+        public async Task<IActionResult> MyTrips(DateFilter dateFilter)
         {
-            return View(new MyTripsDto
+            return View(await GetMyTripsDto(dateFilter));
+        }
+
+        private async Task<MyTripsDto> GetMyTripsDto(DateFilter dateFilter)
+        {
+            var myTrips = await _tripDataAccess.GetTripsForEmployee((await _userManager.GetUserAsync(User)).Id);
+            myTrips = FilterTrips(myTrips, dateFilter);
+
+            IEnumerable<Trip> myOrganizedTrips = null;
+            var isOrganizer = User.IsInRole("Organizer");
+            if (isOrganizer)
             {
-                MyTrips = await _tripDataAccess.GetTripsForEmployee((await _userManager.GetUserAsync(User)).Id),
-                MyOrganizedTrips = await _tripDataAccess.GetTripsForOrganizator((await _userManager.GetUserAsync(User)).Id)
-            });
+                myOrganizedTrips = await _tripDataAccess.GetTripsForOrganizator((await _userManager.GetUserAsync(User)).Id);
+                myOrganizedTrips = FilterTrips(myOrganizedTrips, dateFilter);
+            }
+            return new MyTripsDto
+            {
+                MyTrips = myTrips,
+                MyOrganizedTrips = myOrganizedTrips,
+                DateFilter = dateFilter,
+                IsOrganizer = isOrganizer
+            };
+        }
+
+        private static IEnumerable<Trip> FilterTrips(IEnumerable<Trip> allTrips, DateFilter dateFilter)
+        {
+            switch (dateFilter)
+            {
+                case DateFilter.Upcoming:
+                    return allTrips.Where(x => x.StartDate > DateTime.Now.Date);
+                case DateFilter.Ongoing:
+                    return allTrips.Where(x => x.StartDate <= DateTime.Now.Date && x.EndDate >= DateTime.Now.Date);
+                case DateFilter.Past:
+                    return allTrips.Where(x => x.EndDate < DateTime.Now);
+            }
+            return allTrips;
         }
     }
 }
