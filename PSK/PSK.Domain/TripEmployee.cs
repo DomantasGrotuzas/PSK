@@ -34,5 +34,7 @@ namespace PSK.Domain
         public string Comment { get; set; }
 
         public bool IsAcceptedByEmployee { get; set; }
+
+        public IList<File> Files { get; set; }
     }
 }

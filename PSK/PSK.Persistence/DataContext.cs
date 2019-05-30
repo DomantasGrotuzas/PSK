@@ -19,6 +19,8 @@ namespace PSK.Persistence
 
         public virtual DbSet<TripEmployee> TripEmployees { get; set; }
 
+        public virtual DbSet<File> Files { get; set; }
+
         public virtual DbSet<AccommodationReservation> AccommodationReservations { get; set; }
 
         public virtual DbSet<Accommodation> Accommodations { get; set; }
@@ -58,6 +60,17 @@ namespace PSK.Persistence
                 entity.HasOne(x => x.Trip).WithMany(x => x.Employees).HasForeignKey(x => x.TripId);
                 entity.HasOne(x => x.AccommodationReservation).WithOne(x => x.TripEmployee)
                     .HasForeignKey<AccommodationReservation>(x => x.TripEmployeeId);
+            });
+
+            modelBuilder.Entity<File>(entity =>
+            {
+                entity.ToTable("Files");
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Id).ValueGeneratedOnAdd();
+
+                entity.Property(x => x.Version).IsRowVersion();
+
+                entity.HasOne(x => x.TripEmployee).WithMany(x => x.Files);
             });
 
             modelBuilder.Entity<AccommodationReservation>(entity =>
