@@ -1,10 +1,10 @@
-﻿@model IEnumerable<PSK.Domain.Trip>
+﻿@model Contracts.MyTripsDto
 
 @{
     ViewData["Title"] = "MyTrips";
 }
 
-<h2>My Trips</h2>
+<h2>My trips</h2>
 
 <table class="table">
     <thead>
@@ -25,38 +25,100 @@
                 Destination
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employees)
+                Employees
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Comment)
+                Comment
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
-            </td>
-            <td>
-                @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
-            </td>
-            <td>
-                @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
-            </td>
-            <td>
-                @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.MyTrips)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
+                </td>
+                <td>
+                    @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
+                </td>
+                <td>
+                    @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@if (Model.MyOrganizedTrips.Any())
+{
+    <h2>My organized trips</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Date from
+                </th>
+                <th>
+                    Date until
+                </th>
+                <th>
+                    Organizer
+                </th>
+                <th>
+                    Start
+                </th>
+                <th>
+                    Destination
+                </th>
+                <th>
+                    Employees
+                </th>
+                <th>
+                    Comment
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MyOrganizedTrips)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

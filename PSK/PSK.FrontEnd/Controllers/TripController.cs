@@ -26,9 +26,9 @@ namespace PSK.FrontEnd.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly ITripDataAccess _tripDataAccess;
 
-        public TripController(ITripService tripService, IMapper mapper, 
-            IDataAccess<Office> officeData, 
-            IEmployeeService employeeService, 
+        public TripController(ITripService tripService, IMapper mapper,
+            IDataAccess<Office> officeData,
+            IEmployeeService employeeService,
             UserManager<Employee> userManager, ITripDataAccess tripDataAccess)
         {
             _tripService = tripService;
@@ -38,7 +38,7 @@ namespace PSK.FrontEnd.Controllers
             _userManager = userManager;
             _tripDataAccess = tripDataAccess;
         }
-        
+
         [Authorize]
         public async Task<IActionResult> Trips()
         {
@@ -151,7 +151,11 @@ namespace PSK.FrontEnd.Controllers
         [Authorize]
         public async Task<IActionResult> MyTrips()
         {
-            return View(await _tripDataAccess.GetTripsForEmployee((await _userManager.GetUserAsync(User)).Id));
+            return View(new MyTripsDto
+            {
+                MyTrips = await _tripDataAccess.GetTripsForEmployee((await _userManager.GetUserAsync(User)).Id),
+                MyOrganizedTrips = await _tripDataAccess.GetTripsForOrganizator((await _userManager.GetUserAsync(User)).Id)
+            });
         }
     }
 }

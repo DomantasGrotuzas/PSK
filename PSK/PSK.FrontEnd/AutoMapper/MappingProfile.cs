@@ -24,7 +24,8 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)))
                 .ForMember(dest => dest.OrganizerId, opt => opt.MapFrom(src => src.Organizer.Id))
                 .ForMember(dest => dest.Employees, opt => opt.MapFrom(src => src.Employees));
-            CreateMap<TripDto, Trip>();
+            CreateMap<TripDto, Trip>()
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.FromBase64String(src.Version)));
 
             CreateMap<OfficeDto, Office>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.FromBase64String(src.Version)));
