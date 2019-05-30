@@ -80,7 +80,7 @@
                         @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AccommodationReservation.Price)
+                        @(item.AccommodationReservation.Price.HasValue ? $"{item.AccommodationReservation.Price}€" : null)
                     </td>
                     <td>
                         @if (item.AccommodationReservation.Accommodation != null)
@@ -113,13 +113,13 @@
                         @Html.DisplayFor(modelItem => item.PlaneTicketStatus)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PlaneTicketPrice)
+                        @(item.PlaneTicketPrice.HasValue ? $"{item.PlaneTicketPrice}€" : null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CarReservationStatus)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CarReservationPrice)
+                        @(item.CarReservationPrice.HasValue ? $"{item.CarReservationPrice}€" : null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)

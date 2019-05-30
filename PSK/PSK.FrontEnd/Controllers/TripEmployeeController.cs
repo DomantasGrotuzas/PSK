@@ -128,7 +128,7 @@ namespace PSK.FrontEnd.Controllers
                 await _accommodationService.GetAvailableAccommodations(tripEmployee.Trip.Id);
 
             var acommodationThatIsSelected = tripEmployeeDto.AvailableAccommodations
-                .FirstOrDefault(x => x.Id == tripEmployee.AccommodationReservation.Accommodation.Id);
+                .FirstOrDefault(x => x.Id == tripEmployee.AccommodationReservation?.Accommodation?.Id);
             if (acommodationThatIsSelected?.SpacesAvailable != null)
             {
                 acommodationThatIsSelected.SpacesAvailable++;
