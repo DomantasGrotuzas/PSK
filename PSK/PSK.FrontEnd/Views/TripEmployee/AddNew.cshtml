@@ -20,7 +20,7 @@
                     {
                         var name = x.IsBusy ? $"{x.FullName} (busy)" : x.FullName;
                         return new SelectListItem(name, x.Id.ToString(), false, x.IsBusy);
-                    })))
+                    })), "Select employee")
                 <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,7 +40,7 @@
                     {
                         var name = x.SpacesAvailable.HasValue ? $"{x.Name} (spaces available: {x.SpacesAvailable.Value})" : x.Name;
                         return new SelectListItem(name, x.Id.ToString(), false, x.SpacesAvailable.HasValue && x.SpacesAvailable.Value <= 0);
-                    })), "none", new { @id = "accommodationAccommodation" })
+                    })), "Select accommodation", new { @id = "accommodationAccommodation" })
                 <span asp-validation-for="AccommodationReservation.Accommodation" class="text-danger"></span>
             </div>
             <div class="form-group" id="accommodationGroupStart">
