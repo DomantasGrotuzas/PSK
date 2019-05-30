@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
@@ -29,9 +30,12 @@ namespace PSK.FrontEnd.Controllers
 
         private readonly IMapper _mapper;
 
+        private readonly IFileDataAccess _fileDataAccess;
+
         public TripEmployeeController(IMapper mapper, ITripEmployeeDataAccess tripEmployeeDataAccess,
             IEmployeeService employeeService, IAccommodationService accommodationService, 
-            IDataAccess<Accommodation> accommodationDataAccess, IDataAccess<Trip> tripDataAccess)
+            IDataAccess<Accommodation> accommodationDataAccess, IDataAccess<Trip> tripDataAccess,
+            IFileDataAccess fileDataAccess)
         {
             _mapper = mapper;
             _tripEmployeeDataAccess = tripEmployeeDataAccess;
@@ -39,6 +43,7 @@ namespace PSK.FrontEnd.Controllers
             _accommodationService = accommodationService;
             _accommodationDataAccess = accommodationDataAccess;
             _tripDataAccess = tripDataAccess;
+            _fileDataAccess = fileDataAccess;
         }
 
         [Authorize]
@@ -79,6 +84,12 @@ namespace PSK.FrontEnd.Controllers
                     await _accommodationDataAccess.Get(Guid.Parse(tripEmployeeDto.AccommodationId));
             }
             await _tripEmployeeDataAccess.Add(tripEmployee);
+
+            foreach (IFormFile formFile in tripEmployeeDto.Files)
+            {
+                await _fileDataAccess.Add(formFile, "", tripEmployee);
+            }
+
             return Redirect($"tripEmployees?tripId={tripEmployeeDto.Trip.Id}");
         }
 
