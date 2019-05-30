@@ -33,5 +33,7 @@ namespace Contracts
         public string AccommodationId { get; set; }
 
         public IEnumerable<AccommodationDto> AvailableAccommodations { get; set; }
+
+        public bool IsAcceptedByEmployee { get; set; }
     }
 }
