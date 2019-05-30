@@ -8,5 +8,9 @@ namespace Contracts
         public IEnumerable<Trip> MyTrips { get; set; }
 
         public IEnumerable<Trip> MyOrganizedTrips { get; set; }
+
+        public DateFilter DateFilter { get; set; }
+
+        public bool IsOrganizer { get; set; }
     }
 }
