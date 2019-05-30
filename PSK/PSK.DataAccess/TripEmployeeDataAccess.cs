@@ -42,9 +42,9 @@ namespace PSK.DataAccess
 
         public async Task<TripEmployee> Add(TripEmployee tripEmployee)
         {
-            var addedEmpoyee = await _context.TripEmployees.AddAsync(tripEmployee);
+            var addedEmployee = await _context.TripEmployees.AddAsync(tripEmployee);
             await _context.SaveChangesAsync();
-            return addedEmpoyee.Entity;
+            return addedEmployee.Entity;
         }
 
         public async Task Update(TripEmployee tripEmployee)
