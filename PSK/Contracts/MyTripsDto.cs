@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PSK.Domain;
 
 namespace Contracts
@@ -12,5 +13,7 @@ namespace Contracts
         public DateFilter DateFilter { get; set; }
 
         public bool IsOrganizer { get; set; }
+
+        public Guid CurrentUserId { get; set; }
     }
 }
