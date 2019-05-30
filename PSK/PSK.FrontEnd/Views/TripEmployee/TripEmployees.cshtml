@@ -79,10 +79,25 @@
                         }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
+                        @if (item.AccommodationReservation.StartDate == DateTime.MinValue)
+                        {
+                            {<span></span> }
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
+                        }
+
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AccommodationReservation.EndDate)
+                        @if (item.AccommodationReservation.EndDate == DateTime.MinValue)
+                        {
+                            {<span></span> }
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PlaneTicketStatus)
