@@ -100,7 +100,7 @@
                         @Html.DisplayFor(modelItem => item.Comment)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IsAcceptedByEmployee ? "Yes" : "No")
+                        @(item.IsAcceptedByEmployee ? "Yes" : "No")
                     </td>
                     @{ 
                         if (User.IsInRole("Organizer"))

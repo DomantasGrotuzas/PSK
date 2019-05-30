@@ -1,4 +1,5 @@
 ﻿@using Contracts
+@using Microsoft.AspNetCore.Razor.TagHelpers
 @model Contracts.MyTripsDto
 
 @{
@@ -47,6 +48,9 @@
             <th>
                 Comment
             </th>
+            <th>
+                Accept this trip
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -73,6 +77,16 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @if (item.Employees.First(x => x.Employee.Id == Model.CurrentUserId).IsAcceptedByEmployee)
+                    {
+                        <div>Already accepted</div>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Accept", "AcceptTrip", new {id = item.Id, dateFilter = Model.DateFilter})
+                    }
                 </td>
             </tr>
         }
