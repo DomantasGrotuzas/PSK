@@ -160,6 +160,12 @@ namespace PSK.FrontEnd.Controllers
         }
 
         [Authorize]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            return View(await _tripDataAccess.Get(id));
+        }
+
+        [Authorize]
         public async Task<IActionResult> AcceptTrip(Guid id, DateFilter dateFilter)
         {
             var userId = (await _userManager.GetUserAsync(User)).Id;
@@ -203,5 +209,6 @@ namespace PSK.FrontEnd.Controllers
             }
             return allTrips;
         }
+
     }
 }

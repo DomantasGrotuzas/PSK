@@ -32,4 +32,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Trip\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

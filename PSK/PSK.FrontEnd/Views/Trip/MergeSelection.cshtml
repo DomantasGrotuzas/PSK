@@ -8,7 +8,7 @@
 
 <hr />
     <div class="table-responsive">
-        <div>Merge this trip</div>
+        <h4>Merge this trip</h4>
         <table class="table">
             <thead>
                 <tr>
@@ -67,7 +67,7 @@
         </table>
         <form asp-action="Merge">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div>With one of these</div>
+            <h4>With one of these</h4>
             <input type="hidden" asp-for="PrimaryTrip.Id"/>
             <table class="table">
                 <thead>
