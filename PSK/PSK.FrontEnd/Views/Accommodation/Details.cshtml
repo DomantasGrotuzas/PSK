@@ -11,16 +11,16 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Appartment name
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.TotalSpaces)
+            Beds (total) <div class="comment">0 if it's hotel</div>
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.TotalSpaces)
+            @(Model.TotalSpaces > 0 ? Model.TotalSpaces.ToString() : "Hotel")
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Address.Country)
@@ -44,7 +44,7 @@
             @Html.DisplayNameFor(model => model.Address.HouseNumber)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Address.HouseNumber)
+            House number
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Address.Latitude)
@@ -57,6 +57,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Address.Longitude)
+        </dd>
+        <dt>
+            Office name
+        </dt>
+        <dd>
+            @Html.ActionLink(Model.Office.Name, "Details", "Office", new { id = Model.Office.Id })
         </dd>
     </dl>
 </div>
