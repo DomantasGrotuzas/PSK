@@ -25,15 +25,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="AccommodationReservation.Status" class="control-label">Accommodation reservation status</label>
-                @Html.DropDownListFor(x => x.AccommodationReservation.Status, ViewTexts.PurchasableStatusItems)
+                @Html.DropDownListFor(x => x.AccommodationReservation.Status, ViewTexts.PurchasableStatusItems, new { @id = "accommodationReservationStatus" })
                 <span asp-validation-for="AccommodationReservation.Status" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupPrice">
                 <label asp-for="AccommodationReservation.Price" class="control-label">Accommodation price</label>
                 <input asp-for="AccommodationReservation.Price" class="form-control" />
                 <span asp-validation-for="AccommodationReservation.Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupAccommodation">
                 <label asp-for="AccommodationReservation.Accommodation" class="control-label"></label>
                 @Html.DropDownListFor(x => x.AccommodationId, new List<SelectListItem>(
                     Model.AvailableAccommodations.Select(x =>
@@ -43,12 +43,12 @@
                     })), "none")
                 <span asp-validation-for="AccommodationReservation.Accommodation" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupStart">
                 <label asp-for="AccommodationReservation.StartDate" class="control-label">Accommodation reservation start</label>
                 <input asp-for="AccommodationReservation.StartDate" class="form-control" id="accommStartInput"/>
                 <span asp-validation-for="AccommodationReservation.StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupEnd">
                 <label asp-for="AccommodationReservation.EndDate" class="control-label">Accommodation reservation end</label>
                 <input asp-for="AccommodationReservation.EndDate" class="form-control" id="accommEndInput"/>
                 <span asp-validation-for="AccommodationReservation.EndDate" class="text-danger"></span>
@@ -79,7 +79,7 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" onclick="return validateForm()"/>
             </div>
         </form>
     </div>
@@ -94,45 +94,81 @@
     
 <script type="text/javascript">
 
-        function validateForm() {
-            var startDate = $("#accommStartInput").val();
-            var endDate = $("#accommEndInput").val();
+    $('#accommodationGroupPrice').style.display = "none";
+    $('#accommodationGroupAccommodation').style.display = "none";
+    $('#accommodationGroupStart').style.display = "none";
+    $('#accommodationGroupEnd').style.display = "none";
 
-            var currentDate = new Date();
+    function validateForm() {
+        var startDate = $("#accommStartInput").val();
+        var endDate = $("#accommEndInput").val();
 
-            if (startDate >= currentDate) {
-                alert("Wrong accommodation reservation start date");
-                return false;
-            } else if (endDate >= currentDate) {
-                alert("Wrong accommodation reservation end date");
-                return false;
-            } else if (endDate < startDate)
-                alert("Check start and end dates of the accommodation reservation. Start date cannot be after end date");
-        }
+        var currentDate = new Date();
 
-        $(document).ready(function () {
+        if (startDate >= currentDate) {
+            alert("Wrong accommodation reservation start date");
+            return false;
+        } else if (endDate >= currentDate) {
+            alert("Wrong accommodation reservation end date");
+            return false;
+        } else if (endDate < startDate)
+            alert("Check start and end dates of the accommodation reservation. Start date cannot be after end date");
+    }
 
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var yyyy = today.getFullYear();
+    $(document).ready(function () {
 
-            today = yyyy + '-' + mm + '-' + dd;
-            today = today.toString();
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
 
-            $('#accommStartInput').val(today);
-            $('#accommEndInput').val(today);
-            $('#accommStartInput').attr({ "min": today });
-            $('#accommEndInput').attr({ "min": today });
-        });
+        today = yyyy + '-' + mm + '-' + dd;
+        today = today.toString();
+
+        $('#accommStartInput').val(today);
+        $('#accommEndInput').val(today);
+        $('#accommStartInput').attr({ "min": today });
+        $('#accommEndInput').attr({ "min": today });
+
+    });
 
 
     document.getElementById("accommStartInput").onchange = function () {
-            var input = document.getElementById("accommEndInput");
-            input.setAttribute("min", this.value);
+        var input = document.getElementById("accommEndInput");
+        input.setAttribute("min", this.value);
         var startDate = document.getElementById("accommStartInput").value;
-            input.value = startDate;
-        }
+        input.value = startDate;
+    }
+
+
+    document.getElementById("accommodationReservationStatus").onchange = function () {
+
+        var defaultSelection = "Not needed";
+        var selection = this.options[this.selectedIndex].text;
+
+        var price = document.getElementById("accommodationGroupPrice");
+        var accommodation = document.getElementById("accommodationGroupAccommodation");
+        var start = document.getElementById("accommodationGroupStart");
+        var end = document.getElementById("accommodationGroupEnd");
+
+        if (selection === defaultSelection) {
+
+            price.style.display = "none";
+            accommodation.style.display = "none";
+            start.style.display = "none";
+            end.style.display = "none";
+        } 
+
+        if (selection !== defaultSelection) {
+
+            price.style.display = "block";
+            accommodation.style.display = "block";
+            start.style.display = "block";
+            end.style.display = "block";
+        } 
+        
+    }
+
 
 </script>
 

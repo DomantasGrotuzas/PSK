@@ -57,7 +57,7 @@
                         @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
                     </td>
                     <td>
-                        @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+                        @Html.ActionLink("Show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)
