@@ -60,8 +60,7 @@
             if (startDate >= currentDate) {
                 alert("Wrong trip start date");
                 return false;
-            }
-            if (endDate >= currentDate) {
+            } else if (endDate >= currentDate) {
                 alert("Wrong trip end date");
                 return false;
             } else if (endDate < startDate) {
@@ -76,8 +75,14 @@
             var endSelection = endLocation.options[endLocation.selectedIndex].text;
 
             if (startSelection === endSelection) {
-                
+
                 alert("Trip start and end locations have to be different");
+                return false;
+            } else if (startSelection === "Select location") {
+                alert("Please select start location");
+                return false;
+            } else if (endSelection === "Select location") {
+                alert("Please select end location");
                 return false;
             }
 
