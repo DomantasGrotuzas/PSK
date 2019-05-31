@@ -68,5 +68,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    <a asp-action="Accommodations">Back to List</a>
-</div>
+    <button class="btn btn-default" type="button" href="#" onClick="history.go(-1); return false;">Return back</button>
+    </div>

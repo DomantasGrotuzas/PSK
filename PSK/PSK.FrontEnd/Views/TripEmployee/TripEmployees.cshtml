@@ -19,128 +19,131 @@
 <div class="table-responsive">
     <table class="table">
         <thead>
-            <tr>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.Employee.FullName)*@
-                    Employee name
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.Status)*@
-                    Accommodation
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.Price)*@
-                    price
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.Accommodation.Name)*@
-                    location
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.StartDate)*@
-                    start
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.AccommodationReservation.EndDate)*@
-                    end
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.PlaneTicketStatus)*@
-                    Plane tickets
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.PlaneTicketPrice)*@
-                    price
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.CarReservationStatus)*@
-                    Car reservation
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.CarReservationPrice)*@
-                    price
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Comment)
-                </th>
-                <th>
-                    Is accepted?
-                </th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Employee.FullName)*@
+                Employee name
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AccommodationReservation.Status)*@
+                Accommodation
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AccommodationReservation.Price)*@
+                price
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AccommodationReservation.Accommodation.Name)*@
+                location
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AccommodationReservation.StartDate)*@
+                start
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AccommodationReservation.EndDate)*@
+                end
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.PlaneTicketStatus)*@
+                Plane tickets
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.PlaneTicketPrice)*@
+                price
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CarReservationStatus)*@
+                Car reservation
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CarReservationPrice)*@
+                price
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                Is accepted?
+            </th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.Employee.FullName, "Details", "Employee", new { id = item.Employee.Id })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
-                    </td>
-                    <td>
-                        @(item.AccommodationReservation.Price.HasValue ? $"{item.AccommodationReservation.Price}€" : null)
-                    </td>
-                    <td>
-                        @if (item.AccommodationReservation.Accommodation != null)
-                        {
-                            @Html.ActionLink(item.AccommodationReservation.Accommodation.Name, "Details", "Accommodation", new { id = item.AccommodationReservation.Accommodation.Id })
-                        }
-                    </td>
-                    <td>
-                        @if (item.AccommodationReservation.StartDate == DateTime.MinValue)
-                        {
-                            {<span></span> }
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
-                        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Employee.FullName, "Details", "Employee", new { id = item.Employee.Id })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
+                </td>
+                <td>
+                    @(item.AccommodationReservation.Price.HasValue ? $"{item.AccommodationReservation.Price}€" : null)
+                </td>
+                <td>
+                    @if (item.AccommodationReservation.Accommodation != null)
+                    {
+                        @Html.ActionLink(item.AccommodationReservation.Accommodation.Name, "Details", "Accommodation", new { id = item.AccommodationReservation.Accommodation.Id })
+                    }
+                </td>
+                <td>
+                    @if (item.AccommodationReservation.StartDate == DateTime.MinValue)
+                    {
+                        {<span></span> }
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
+                    }
 
-                    </td>
-                    <td>
-                        @if (item.AccommodationReservation.EndDate == DateTime.MinValue)
-                        {
-                            {<span></span> }
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PlaneTicketStatus)
-                    </td>
-                    <td>
-                        @(item.PlaneTicketPrice.HasValue ? $"{item.PlaneTicketPrice}€" : null)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CarReservationStatus)
-                    </td>
-                    <td>
-                        @(item.CarReservationPrice.HasValue ? $"{item.CarReservationPrice}€" : null)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comment)
-                    </td>
-                    <td>
-                        @(item.IsAcceptedByEmployee ? "Yes" : "No")
-                    </td>
+                </td>
+                <td>
+                    @if (item.AccommodationReservation.EndDate == DateTime.MinValue)
+                    {
+                        {<span></span> }
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.AccommodationReservation.StartDate)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaneTicketStatus)
+                </td>
+                <td>
+                    @(item.PlaneTicketPrice.HasValue ? $"{item.PlaneTicketPrice}€" : null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarReservationStatus)
+                </td>
+                <td>
+                    @(item.CarReservationPrice.HasValue ? $"{item.CarReservationPrice}€" : null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @(item.IsAcceptedByEmployee ? "Yes" : "No")
+                </td>
                     
-                    <td class="td-actions">
-                        <div>@Html.ActionLink("Details", "Details", new { id = item.Id })</div>
+                <td class="td-actions">
+                    <div>@Html.ActionLink("Details", "Details", new { id = item.Id })</div>
                         
-                        @if (User.IsInRole("Organizer"))
-                            {
-                            <div>@Html.ActionLink("Edit", "Edit", new {id = item.Id})</div>
-                            <div>@Html.ActionLink("Delete", "Delete", new {id = item.Id})</div>
-                            }
-                    </td>
+                    @if (User.IsInRole("Organizer"))
+                    {
+                        <div>@Html.ActionLink("Edit", "Edit", new {id = item.Id})</div>
+                        <div>@Html.ActionLink("Delete", "Delete", new {id = item.Id})</div>
+                    }
+                </td>
 
-                </tr>
-            }
+            </tr>
+        }
         </tbody>
     </table>
 </div>
 
+<div>
+    <button class="btn btn-default" type="button" href="#" onClick="history.go(-1); return false;">Return back</button>
+</div>
