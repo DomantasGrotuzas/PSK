@@ -136,9 +136,10 @@ namespace PSK.FrontEnd.Controllers
             var primaryTrip = await _tripDataAccess.Get(dto.PrimaryTrip.Id);
             var secondaryTrip = await _tripDataAccess.GetWithEmployees(dto.SecondaryTrip.Id);
 
-            foreach (var tripEmployee in secondaryTrip.Employees)
+            foreach (var tripEmployee in secondaryTrip.Employees.ToList())
             {
                 tripEmployee.TripId = dto.PrimaryTrip.Id;
+                await _tripEmployeeDataAccess.Update(tripEmployee);
             }
 
             await _tripDataAccess.Remove(dto.SecondaryTrip.Id);

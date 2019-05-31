@@ -10,7 +10,7 @@
     {
         <div>
 
-            @Html.ActionLink("Create New", "AddNew", new { tripId = Guid.Parse(Context.Request.Query["tripId"].ToString())}, new { @class = "btn btn-default", @type = "button" })
+            @Html.ActionLink("Add employee to this trip", "AddNew", new { tripId = Guid.Parse(Context.Request.Query["tripId"].ToString())}, new { @class = "btn btn-default", @type = "button" })
 
         </div>
     }
