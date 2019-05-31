@@ -16,7 +16,11 @@ namespace PSK.FrontEnd.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            LogMethod(filterContext);
+            try
+                {
+                LogMethod(filterContext);
+                }
+            catch (Exception) { }
         }
 
         public void LogMethod(ActionExecutingContext context)
