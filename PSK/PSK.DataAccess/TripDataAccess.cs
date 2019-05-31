@@ -46,6 +46,7 @@ namespace PSK.DataAccess
         {
             return await _context.Trips
                 .Include(x => x.Employees)
+                    .ThenInclude(e => e.AccommodationReservation)
                 .Include(x => x.EndLocation)
                 .Include(x => x.StartLocation)
                 .Include(x => x.Organizer)
