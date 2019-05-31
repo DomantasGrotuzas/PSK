@@ -12,16 +12,13 @@ namespace Contracts
         [Required(ErrorMessage = "The Last name field is required.")]
         [StringLength(60, MinimumLength = 3)]
         public string Surname { get; set; }
-
-        [Required]
-        [StringLength(60, MinimumLength = 3)]
-        public string Username { get; set; }
-
+        
         [Required]
         [StringLength(60, MinimumLength = 3)]
         public string Password { get; set; }
 
         [EmailAddress]
+        [Required]
         public string Email { get; set; }
 
         public string TelephoneNumber { get; set; }
