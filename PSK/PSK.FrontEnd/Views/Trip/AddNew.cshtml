@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartLocationId" class="control-label">Start</label>
-                @Html.DropDownListFor(m => m.StartLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location", htmlAttributes: new { @id = "startLocation" })
+                @Html.DropDownListFor(m => m.StartLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location", new { @id = "startLocation" })
             </div>
             <div class="form-group">
                 <label asp-for="EndLocationId" class="control-label">Destination</label>

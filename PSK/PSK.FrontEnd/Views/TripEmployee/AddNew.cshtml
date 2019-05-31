@@ -119,8 +119,8 @@
 
     $(document).ready(function () {
 
-        $('#accommodationStart').val(null);
-        $('#accommodationEnd').val(null);
+        $('#accommodationStart').val("");
+        $('#accommodationEnd').val("");
 
         $('#accommodationGroupPrice').css('display', 'none');
         $('#accommodationGroupAccommodation').css('display', 'none');
@@ -164,10 +164,10 @@
             start.style.display = "none";
             end.style.display = "none";
 
-            priceValue.value = null;
-            accommodationValue.value = null;
-            startValue.value = null;
-            endValue.value = null;
+            priceValue.value = "";
+            accommodationValue.value = "";
+            startValue.value = "";
+            endValue.value = "";
 
 
         } 
@@ -206,7 +206,7 @@
         if (selection === defaultSelection) {
 
             price.style.display = "none";
-            priceValue.value = null;
+            priceValue.value = "";
         }
 
         if (selection !== defaultSelection) {
@@ -226,14 +226,12 @@
         if (selection === defaultSelection) {
 
             price.style.display = "none";
-            priceValue.value = null;
-            price.required = false;
+            priceValue.value = "";
         }
 
         if (selection !== defaultSelection) {
 
             price.style.display = "block";
-            price.required = false;
         }
     }
 

@@ -54,7 +54,7 @@
             </div>
             <div>
                 <label asp-for="Office" class="control-label"></label>
-                @Html.DropDownListFor(x => x.OfficeId, new List<SelectListItem>(Model.AllOffices.Select(x => new SelectListItem(x.Name, x.Id.ToString()))))
+                @Html.DropDownListFor(x => x.OfficeId, new List<SelectListItem>(Model.AllOffices.Select(x => new SelectListItem(x.Name, x.Id.ToString()))), "Select office", new { @id = "officeName" })
                 <span asp-validation-for="OfficeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -70,4 +70,21 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script type="text/javascript">
+
+        function validateForm() {
+
+            var officeName = document.getElementById("officeName");
+            var officeNameSelection = officeName.options[officeName.selectedIndex].text;
+            var defaultSelection = "Select office";
+
+            if (officeNameSelection === defaultSelection) {
+                alert("Please select the office that owns this accommodation");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
 }

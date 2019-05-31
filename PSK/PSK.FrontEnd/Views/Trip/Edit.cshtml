@@ -15,12 +15,12 @@
             <input type="hidden" asp-for="Version" />
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Trip start date</label>
-                <input asp-for="StartDate" class="form-control" />
+                <input asp-for="StartDate" class="form-control" type="date" id="tripStartDateInput" required/>
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label">Trip end date</label>
-                <input asp-for="EndDate" class="form-control" />
+                <input asp-for="EndDate" class="form-control" type="date" id="tripEndDateInput" required />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,14 +30,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartLocationId" class="control-label">Start</label>
-                @Html.DropDownListFor(m => m.StartLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location")
+                @Html.DropDownListFor(m => m.StartLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location", new { @id = "startLocation" })
             </div>
             <div class="form-group">
                 <label asp-for="EndLocationId" class="control-label">Destination</label>
-                @Html.DropDownListFor(m => m.EndLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location")
+                @Html.DropDownListFor(m => m.EndLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location", new { @id = "endLocation" })
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" onclick="return validateForm()" />
             </div>
         </form>
     </div>
@@ -49,4 +49,76 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+
+        function validateForm() {
+
+            var startDate = $("#tripStartDateInput").val();
+            var endDate = $("#tripEndDateInput").val();
+
+            var currentDate = new Date();
+
+            if (startDate >= currentDate) {
+                alert("Wrong trip start date");
+                return false;
+            } else if (endDate >= currentDate) {
+                alert("Wrong trip end date");
+                return false;
+            } else if (endDate < startDate) {
+                alert("Check start and end dates of the trip. Start date cannot be after end date");
+                return false;
+            }
+
+            var startLocation = document.getElementById("startLocation");
+            var endLocation = document.getElementById("endLocation");
+
+            var startSelection = startLocation.options[startLocation.selectedIndex].text;
+            var endSelection = endLocation.options[endLocation.selectedIndex].text;
+
+            if (startSelection === endSelection) {
+
+                alert("Trip start and end locations have to be different");
+                return false;
+            } else if (startSelection === "Select location") {
+                alert("Please select start location");
+                return false;
+            } else if (endSelection === "Select location") {
+                alert("Please select end location");
+                return false;
+            }
+
+            return true;
+
+        }
+
+        $(document).ready(function () {
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            today = today.toString();
+
+            var startDate = $("#tripStartDateInput").val();
+            var endDate = $("#tripEndDateInput").val();
+
+            $('#tripStartDateInput').val(startDate);
+            $('#tripEndDateInput').val(endDate);
+            $('#tripStartDateInput').attr({ "min": today });
+            $('#tripEndDateInput').attr({ "min": startDate });
+        });
+
+
+        document.getElementById("tripStartDateInput").onchange = function () {
+            var input = document.getElementById("tripEndDateInput");
+            input.setAttribute("min", this.value);
+            var startDate = document.getElementById("tripStartDateInput").value;
+            input.value = startDate;
+        }
+
+    </script>
+
 }
