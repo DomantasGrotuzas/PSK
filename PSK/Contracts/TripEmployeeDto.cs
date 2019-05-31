@@ -30,6 +30,8 @@ namespace Contracts
         [DisplayName("Attachments")]
         public IFormFileCollection Files { get; set; }
 
+        public IList<FileDto> ExistingFiles { get; set; }
+
         [Required]
         public string EmployeeId { get; set; }
 

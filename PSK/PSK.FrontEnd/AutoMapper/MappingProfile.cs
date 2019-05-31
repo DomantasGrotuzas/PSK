@@ -60,7 +60,8 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)))
                 .ForMember(dest => dest.AccommodationId, opt => opt.MapFrom(src => 
                     src.AccommodationReservation.Accommodation != null ? src.AccommodationReservation.Accommodation.Id : Guid.Empty))
-                .ForMember(dest => dest.Files, opt => opt.Ignore());
+                .ForMember(dest => dest.Files, opt => opt.Ignore())
+                .ForMember(dest => dest.ExistingFiles, opt => opt.MapFrom(src => src.Files));
             CreateMap<TripEmployeeDto, TripEmployee>()
                 .ForMember(dest => dest.CarReservationStatus,
                     opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.CarReservationStatus)))
@@ -69,6 +70,13 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.FromBase64String(src.Version)))
                 .ForMember(dest => dest.TripId, opt => opt.MapFrom(src => src.Trip.Id))
                 .ForMember(dest => dest.Files, opt => opt.Ignore());
+
+            CreateMap<File, FileDto>()
+                .ForMember(dest => dest.IsSelected, opt => opt.MapFrom(src => false))
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)));
+            CreateMap<FileDto, File>()
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.FromBase64String(src.Version)))
+                .ForMember(dest => dest.FullName, opt => opt.Ignore());
 
             CreateMap<Entity, DefaultDto>()
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => Convert.ToBase64String(src.Version)));

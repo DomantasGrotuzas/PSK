@@ -11,5 +11,7 @@ namespace PSK.Domain
         public long Size { get; set; }
 
         public TripEmployee TripEmployee { get; set; }
+
+        public string FullName { get; set; }
     }
 }
