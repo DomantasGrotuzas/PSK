@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
 using PSK.Persistence;
+using Contracts.Extensions;
 
 namespace PSK.DataAccess
 {
@@ -20,6 +21,9 @@ namespace PSK.DataAccess
 
         public async Task<IEnumerable<Trip>> GetMergeable(Trip trip)
         {
+            trip.StartDate = trip.StartDate.ClearHours();
+            trip.EndDate = trip.EndDate.ClearHours();
+
             var startDate = trip.StartDate;
             var endDate = trip.EndDate;
             return await _context.Trips.Include(t => t.Organizer)
@@ -72,6 +76,9 @@ namespace PSK.DataAccess
 
         public async Task<Trip> Add(Trip trip)
         {
+            trip.StartDate = trip.StartDate.ClearHours();
+            trip.EndDate = trip.EndDate.ClearHours();
+
             var addedTrip = await _context.Trips.AddAsync(trip);
             await _context.SaveChangesAsync();
             return addedTrip.Entity;
@@ -79,6 +86,9 @@ namespace PSK.DataAccess
 
         public async Task Update(Trip trip)
         {
+            trip.StartDate = trip.StartDate.ClearHours();
+            trip.EndDate = trip.EndDate.ClearHours();
+
             _context.Trips.Update(trip);
             await _context.SaveChangesAsync();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.Extensions;
 using Microsoft.EntityFrameworkCore;
 using PSK.DataAccess.Interfaces;
 using PSK.Domain;
@@ -42,6 +43,11 @@ namespace PSK.DataAccess
 
         public async Task<TripEmployee> Add(TripEmployee tripEmployee)
         {
+            tripEmployee.AccommodationReservation.StartDate =
+                tripEmployee.AccommodationReservation.StartDate.ClearHours();
+            tripEmployee.AccommodationReservation.EndDate =
+                tripEmployee.AccommodationReservation.EndDate.ClearHours();
+
             var addedEmployee = await _context.TripEmployees.AddAsync(tripEmployee);
             await _context.SaveChangesAsync();
             return addedEmployee.Entity;
@@ -49,6 +55,11 @@ namespace PSK.DataAccess
 
         public async Task Update(TripEmployee tripEmployee)
         {
+            tripEmployee.AccommodationReservation.StartDate =
+                tripEmployee.AccommodationReservation.StartDate.ClearHours();
+            tripEmployee.AccommodationReservation.EndDate =
+                tripEmployee.AccommodationReservation.EndDate.ClearHours();
+
             _context.TripEmployees.Update(tripEmployee);
             await _context.SaveChangesAsync();
         }
