@@ -112,7 +112,7 @@ namespace PSK.Persistence
                 entity.ToTable("Offices");
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Id).ValueGeneratedOnAdd();
-
+                entity.HasIndex(x => x.Name).IsUnique();
                 entity.Property(x => x.Version).IsRowVersion();
 
                 entity.HasOne(x => x.Address).WithOne(x => x.Office).HasForeignKey<Office>(x => x.AddressId).OnDelete(DeleteBehavior.Cascade);

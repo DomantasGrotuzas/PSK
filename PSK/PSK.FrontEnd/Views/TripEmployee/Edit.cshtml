@@ -5,9 +5,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit employee of the trip</h2>
 
-<h4>TripEmployeeDto</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,22 +18,22 @@
             <input type="hidden" asp-for="Version" />
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
+                <label asp-for="EmployeeId" class="control-label">Employee name</label>
                 @Html.DropDownListFor(x => x.EmployeeId, new List<SelectListItem>(
                     Model.AllEmployees.Select(x =>
                     {
                         var name = x.IsBusy ? $"{x.FullName} (busy)" : x.FullName;
                         return new SelectListItem(name, x.Id.ToString(), Model.Employee.Id == x.Id, x.IsBusy);
-                    })))
+                    })), "Select employee")
                 <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AccommodationReservation.Status" class="control-label"></label>
+                <label asp-for="AccommodationReservation.Status" class="control-label">Accommodation reservation status</label>
                 @Html.DropDownListFor(x => x.AccommodationReservation.Status, ViewTexts.PurchasableStatusItems)
                 <span asp-validation-for="AccommodationReservation.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AccommodationReservation.Price" class="control-label"></label>
+                <label asp-for="AccommodationReservation.Price" class="control-label">Accommodation price (€)</label>
                 <input asp-for="AccommodationReservation.Price" class="form-control" />
                 <span asp-validation-for="AccommodationReservation.Price" class="text-danger"></span>
             </div>
@@ -45,36 +44,36 @@
                     {
                         var name = x.SpacesAvailable.HasValue ? x.Name + " (spaces available: " + x.SpacesAvailable.Value + ")" : x.Name;
                         return new SelectListItem(name, x.Id.ToString(), Model.AccommodationReservation?.Accommodation?.Id == x.Id, !x.SpacesAvailable.HasValue || x.SpacesAvailable.Value <= 0);
-                    })), "none")
+                    })), "Select accommodation")
                 <span asp-validation-for="AccommodationReservation.Accommodation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AccommodationReservation.StartDate" class="control-label"></label>
+                <label asp-for="AccommodationReservation.StartDate" class="control-label">Accommodation reservation start</label>
                 <input asp-for="AccommodationReservation.StartDate" class="form-control" />
                 <span asp-validation-for="AccommodationReservation.StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AccommodationReservation.EndDate" class="control-label"></label>
+                <label asp-for="AccommodationReservation.EndDate" class="control-label">Accommodation reservation end</label>
                 <input asp-for="AccommodationReservation.EndDate" class="form-control" />
                 <span asp-validation-for="AccommodationReservation.EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PlaneTicketStatus" class="control-label"></label>
+                <label asp-for="PlaneTicketStatus" class="control-label">Plane ticket status</label>
                 @Html.DropDownListFor(x => x.PlaneTicketStatus, ViewTexts.PurchasableStatusItems)
                 <span asp-validation-for="PlaneTicketStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PlaneTicketPrice" class="control-label"></label>
+                <label asp-for="PlaneTicketPrice" class="control-label">Plane ticket price (€)</label>
                 <input asp-for="PlaneTicketPrice" class="form-control" />
                 <span asp-validation-for="PlaneTicketPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CarReservationStatus" class="control-label"></label>
+                <label asp-for="CarReservationStatus" class="control-label">Car reservation status</label>
                 @Html.DropDownListFor(x => x.CarReservationStatus, ViewTexts.PurchasableStatusItems)
                 <span asp-validation-for="CarReservationStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CarReservationPrice" class="control-label"></label>
+                <label asp-for="CarReservationPrice" class="control-label">Car reservation price (€)</label>
                 <input asp-for="CarReservationPrice" class="form-control" />
                 <span asp-validation-for="CarReservationPrice" class="text-danger"></span>
             </div>

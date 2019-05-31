@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PSK.FrontEnd.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace PSK.FrontEnd.Controllers
 {
@@ -12,36 +6,8 @@ namespace PSK.FrontEnd.Controllers
     {
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Redirect("/Identity/Account/Login");
-            }
+            if (!User.Identity.IsAuthenticated) return Redirect("/Identity/Account/Login");
             return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -109,9 +109,10 @@ namespace PSK.FrontEnd
             containerBuilder.RegisterType<TripService>().As<ITripService>();
             containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
             containerBuilder.RegisterType<AccommodationService>().As<IAccommodationService>();
+            containerBuilder.RegisterType<StatisticsService>().As<IStatisticsService>();
 
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
-            containerBuilder.RegisterType<DataContext>().AsSelf();
+            containerBuilder.RegisterType<DataContext>().AsSelf();;
 
             var container = containerBuilder.Build();
 

@@ -128,27 +128,27 @@ nav a {
 }
 
 
+.side-panel a {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+}
 
-    .side-panel a {
-        display: block;
-        color: black;
-        padding: 16px;
-        text-decoration: none;
-        font-style: normal;
-        font-weight: 300;
-        font-size: 24px;
-        line-height: 29px;
-    }
-    
-    .side-panel a.active {
-        background-color: #4CAF50;
-        color: white;
-    }
-    
-    .side-panel a:hover:not(.active) {
-        background-color: #555;
-        color: white;
-    }
+.side-panel a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.side-panel a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+    transition: 0.1s;
+}
 
 /*table*/
 table {
@@ -239,3 +239,8 @@ thead {
     }
 }
 
+.nav-bar-top-btn:hover {
+    text-decoration: none;
+    background-color: #eee;
+
+}

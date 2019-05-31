@@ -40,8 +40,12 @@ namespace PSK.DataAccess
 
         public async Task<Trip> Get(Guid id)
         {
-            return await _context.Trips.Include(x => x.Employees).Include(x => x.EndLocation).Include(x => x.StartLocation)
-                .Include(x => x.Organizer).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Trips
+                .Include(x => x.Employees)
+                .Include(x => x.EndLocation)
+                .Include(x => x.StartLocation)
+                .Include(x => x.Organizer)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Trip>> GetTripsForEmployee(Guid employeeId)

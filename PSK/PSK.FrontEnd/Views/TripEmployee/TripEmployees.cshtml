@@ -5,7 +5,17 @@
 }
 
 <h2>Trip employees</h2>
+@{
+    if (User.IsInRole("Organizer"))
+    {
+        <div>
 
+            @Html.ActionLink("Create New", "AddNew", new { tripId = Guid.Parse(Context.Request.Query["tripId"].ToString())}, new { @class = "btn btn-default", @type = "button" })
+
+        </div>
+    }
+}
+<br/>
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -70,7 +80,7 @@
                         @Html.DisplayFor(modelItem => item.AccommodationReservation.Status)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AccommodationReservation.Price)
+                        @(item.AccommodationReservation.Price.HasValue ? $"{item.AccommodationReservation.Price}€" : null)
                     </td>
                     <td>
                         @if (item.AccommodationReservation.Accommodation != null)
@@ -103,13 +113,13 @@
                         @Html.DisplayFor(modelItem => item.PlaneTicketStatus)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PlaneTicketPrice)
+                        @(item.PlaneTicketPrice.HasValue ? $"{item.PlaneTicketPrice}€" : null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CarReservationStatus)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CarReservationPrice)
+                        @(item.CarReservationPrice.HasValue ? $"{item.CarReservationPrice}€" : null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)
@@ -132,15 +142,4 @@
         </tbody>
     </table>
 </div>
-
-@{
-    if (User.IsInRole("Organizer"))
-    {
-        <div class="btn-create">
-            <button class="btn btn-default" type="button">
-                @Html.ActionLink("Create New", "AddNew", new { tripId = Guid.Parse(Context.Request.Query["tripId"].ToString()) })
-            </button>
-        </div>
-    }
-}
 
