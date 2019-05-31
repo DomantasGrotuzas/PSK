@@ -1,4 +1,5 @@
-﻿@using PSK.FrontEnd.Static
+﻿@using Contracts
+@using PSK.FrontEnd.Static
 @model Contracts.TripEmployeeDto
 
 @{
@@ -87,19 +88,28 @@
                 <input asp-for="Files" class="form-control" />
             </div>
             
-            @*<div class="form-group">
+            @if (Model.ExistingFiles != null && Model.ExistingFiles.Count != 0)
+            {
+            <div class="form-group">
+                <label asp-for="ExistingFiles" class="control-label">Select files to remove</label>
                 <ul>
-                    @for (int i = 0; i < Model.Files.Count(); i++)
-                    {
+                    @for (int i = 0; i < Model.ExistingFiles.Count; i++)
+                        {
                         <li>
-                            <input type="checkbox" asp-for="Roles[i].IsSelected" />
-                            <label asp-for="Files[i].Id">@Model.Roles[i].Role</label>
-                            <input asp-for="Roles[i].Role" type="hidden" />
+                            <input type="checkbox" asp-for="ExistingFiles[i].IsSelected"/>
+                            <label asp-for="ExistingFiles[i].Id">@Model.ExistingFiles[i].Name</label>
+                            <input type="hidden" asp-for="ExistingFiles[i].Size"/>
+                            <input type="hidden" asp-for="ExistingFiles[i].Name"/>
+                            <input type="hidden" asp-for="ExistingFiles[i].Id"/>
+                            <input type="hidden" asp-for="ExistingFiles[i].Version"/>
                         </li>
-                    }
+                        }
                 </ul>
-            </div>*@
-                
+            </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
         </form>
     </div>
 </div>

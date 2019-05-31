@@ -127,15 +127,16 @@
                     <td>
                         @(item.IsAcceptedByEmployee ? "Yes" : "No")
                     </td>
-                    @{ 
-                        if (User.IsInRole("Organizer"))
-                        {
-                            <td class="td-actions">
-                                <div>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</div>
-                                <div>@Html.ActionLink("Delete", "Delete", new { id = item.Id })</div>
-                            </td>
-                        }
-                    }
+                    
+                    <td class="td-actions">
+                        <div>@Html.ActionLink("Details", "Details", new { id = item.Id })</div>
+                        
+                        @if (User.IsInRole("Organizer"))
+                            {
+                            <div>@Html.ActionLink("Edit", "Edit", new {id = item.Id})</div>
+                            <div>@Html.ActionLink("Delete", "Delete", new {id = item.Id})</div>
+                            }
+                    </td>
 
                 </tr>
             }

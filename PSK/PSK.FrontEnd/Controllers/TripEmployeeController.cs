@@ -107,6 +107,7 @@ namespace PSK.FrontEnd.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var tripId = (await _tripEmployeeDataAccess.Get(id)).Trip.Id;
+            await _fileDataAccess.DeleteForTE(id);
             await _tripEmployeeDataAccess.Remove(id);
             return Redirect($"/tripEmployee/tripEmployees?tripId={tripId}");
         }
@@ -134,6 +135,8 @@ namespace PSK.FrontEnd.Controllers
                 acommodationThatIsSelected.SpacesAvailable++;
             }
 
+            tripEmployeeDto.ExistingFiles = _mapper.Map<IList<FileDto>>(await _fileDataAccess.GetForTE(tripEmployeeDto.Id));
+
             return View(tripEmployeeDto);
         }
 
@@ -149,8 +152,18 @@ namespace PSK.FrontEnd.Controllers
             existingTripEmployee.CarReservationStatus = tripEmployee.CarReservationStatus;
             existingTripEmployee.CarReservationPrice = tripEmployee.CarReservationPrice;
             existingTripEmployee.PlaneTicketStatus = tripEmployee.PlaneTicketStatus;
-            existingTripEmployee.PlaneTicketPrice = tripEmployee.PlaneTicketPrice;          
+            existingTripEmployee.PlaneTicketPrice = tripEmployee.PlaneTicketPrice;
 
+            if(tripEmployeeDto.ExistingFiles != null)
+                foreach(var file in tripEmployeeDto.ExistingFiles)
+                    if (file.IsSelected)
+                        await _fileDataAccess.Delete(file.Id);
+
+            string path = Path.Combine(_env.WebRootPath, "Attachments", "TripEmployee", tripEmployeeDto.Id.ToString());
+            Directory.CreateDirectory(path);
+            if (tripEmployeeDto.Files != null)
+                foreach ( IFormFile formFile in tripEmployeeDto.Files )
+                    await _fileDataAccess.Add(formFile, path, tripEmployee);
 
             if (tripEmployeeDto.AccommodationId != null && Guid.Parse(tripEmployeeDto.AccommodationId) != Guid.Empty)
             {
@@ -162,6 +175,18 @@ namespace PSK.FrontEnd.Controllers
             }
             await _tripEmployeeDataAccess.Update(existingTripEmployee);
             return Redirect($"tripEmployees?tripId={tripEmployeeDto.Trip.Id}");
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var tripEmployee = await _tripEmployeeDataAccess.Get(id);
+
+            if ( tripEmployee == null )
+                return NotFound();
+
+            var tripEmployeeDto = _mapper.Map<TripEmployeeDto>(tripEmployee);
+            tripEmployeeDto.ExistingFiles = _mapper.Map<IList<FileDto>>(await _fileDataAccess.GetForTE(tripEmployeeDto.Id));
+            return View(tripEmployeeDto);
         }
     }
 }

@@ -1,0 +1,86 @@
+﻿@model Contracts.TripEmployeeDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TripEmployeeDto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaneTicketStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PlaneTicketStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaneTicketPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PlaneTicketPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CarReservationStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CarReservationStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CarReservationPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CarReservationPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AccommodationId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AccommodationId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAcceptedByEmployee)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsAcceptedByEmployee)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+        <dt>
+            Attachments
+        </dt>
+        @foreach(var file in Model.ExistingFiles)
+            {
+            <dd>
+                <a href="/Attachments/TripEmployee/@Model.Id/@file.Name" download>@file.Name</a>
+            </dd>
+            }
+    </dl>
+</div>
+<div>
+    <a asp-action="TripEmployees">Back to List</a>
+</div>

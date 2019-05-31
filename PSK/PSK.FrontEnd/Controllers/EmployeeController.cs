@@ -41,7 +41,7 @@ namespace PSK.FrontEnd.Controllers
         {
             var selectedRoles = employeeDto.Roles.Where(r => r.IsSelected).Select(r => r.Role).ToList();
             await _employeeService.Create(_mapper.Map<Employee>(employeeDto), employeeDto.Password, selectedRoles);
-            return Redirect("employees"); ;
+            return Redirect("employees");
         }
 
         [Authorize(Roles = "Admin")]

@@ -36,10 +36,47 @@ namespace PSK.DataAccess
             {
                 Name = fileName,
                 Size = formFile.Length,
-                TripEmployee = te
+                TripEmployee = te,
+                FullName = filePath
             });
             await _context.SaveChangesAsync();
             return addedFile.Entity;
+        }
+
+        public async Task<IList<File>> GetForTE(Guid tripEmployeeId)
+        {
+            return await _context.Files.Where(f => f.TripEmployee.Id == tripEmployeeId).ToListAsync();
+        }
+
+        public async Task<File> Get(Guid id)
+        {
+            return await _context.Files.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task DeleteForTE(Guid tripEmployeeId)
+        {
+            var toDelete = await GetForTE(tripEmployeeId);
+            foreach (var file in toDelete)
+            {
+                _context.Files.Remove(file);
+                System.IO.File.Delete(file.FullName);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(Guid id)
+        {
+            File file = await Get(id);
+            string path = file.FullName;
+            _context.Files.Remove(file);
+            await _context.SaveChangesAsync();
+            try
+                {
+                System.IO.File.Delete(path);
+                }
+            catch (Exception e) when (e is DirectoryNotFoundException || e is UnauthorizedAccessException)
+                {
+                }
         }
     }
 }
