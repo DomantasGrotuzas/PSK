@@ -14,9 +14,11 @@ namespace PSK.FrontEnd.AutoMapper
         {
             CreateMap<EmployeeDto, Employee>()
                 .ForMember(dest => dest.ConcurrencyStamp, opt => opt.MapFrom(src => src.Version))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.TelephoneNumber));
             CreateMap<Employee, EmployeeDto>()
-                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.ConcurrencyStamp));
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.ConcurrencyStamp))
+                .ForMember(dest => dest.TelephoneNumber, opt => opt.MapFrom(src => src.PhoneNumber));
 
             CreateMap<Trip, TripDto>()
                 .ForMember(dest => dest.Employees, opt => opt.MapFrom(src => src.Employees.Select(em => em.Id)))
