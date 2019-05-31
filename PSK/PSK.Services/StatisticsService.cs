@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts;
+using Contracts.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PSK.Domain.Identity;
@@ -24,12 +25,13 @@ namespace PSK.Services
         }
         public async Task<StatisticsDto> GetStatistics(StatisticsDto dto)
         {
+            dto.PeriodTripCounter.StartDate = dto.PeriodTripCounter.StartDate.ClearHours();
+            dto.PeriodTripCounter.EndDate = dto.PeriodTripCounter.EndDate.ClearHours();
+
             dto.AllEmployees = await _userManager.Users.ToListAsync();
 
-            dto.PeriodTripCounter.TripCount = await _dataContext.Trips.CountAsync(t =>
-                (t.StartDate >= dto.PeriodTripCounter.StartDate && t.StartDate < dto.PeriodTripCounter.EndDate) ||
-                (t.EndDate > dto.PeriodTripCounter.StartDate && t.EndDate <= dto.PeriodTripCounter.EndDate) ||
-                (t.StartDate <= dto.PeriodTripCounter.StartDate && t.EndDate >= dto.PeriodTripCounter.EndDate));
+            dto.PeriodTripCounter.TripCount = await _dataContext.Trips.CountAsync(t => t.StartDate >= dto.PeriodTripCounter.StartDate &&
+                                                                                       t.EndDate <= dto.PeriodTripCounter.EndDate);
 
             dto.EmployeeTripCounter.TripCount = await _dataContext.Trips
                 .CountAsync(t => t.Employees.Any(te => te.EmployeeId == dto.EmployeeTripCounter.SelectedEmployeeId));
@@ -40,7 +42,8 @@ namespace PSK.Services
                 {
                     Office = trips.FirstOrDefault().EndLocation,
                     TripCount = trips.Count()
-                }).ToList();
+                }).OrderByDescending(o => o.TripCount)
+                .ToList();
 
             var tripStatistics = _dataContext.Trips
                 .Select(t => new TripStatistic

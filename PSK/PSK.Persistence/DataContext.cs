@@ -70,7 +70,7 @@ namespace PSK.Persistence
 
                 entity.Property(x => x.Version).IsRowVersion();
 
-                entity.HasOne(x => x.TripEmployee).WithMany(x => x.Files);
+                entity.HasOne(x => x.TripEmployee).WithMany(x => x.Files).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<AccommodationReservation>(entity =>
