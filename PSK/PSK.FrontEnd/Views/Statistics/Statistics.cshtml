@@ -2,13 +2,13 @@
 @model Contracts.StatisticsDto
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Statistics";
 }
 
-<h2>View</h2>
+<h2 class="h2-border">Statistics</h2>
 
 <div class="row">
-    <div class="col-md-4 statistic-form">
+    <div class="col-md-3 statistic-form">
         <form asp-action="Statistics" method="get">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -26,7 +26,7 @@
                 Trips during selected period: @Model.PeriodTripCounter.TripCount
             </div>
     </div>
-    <div class="col-md-4 statistic-form">
+    <div class="col-md-3 statistic-form">
         <div class="form-group">
             <label asp-for="EmployeeTripCounter.SelectedEmployeeId" class="control-label">Employee</label>
             @Html.DropDownListFor(m => m.EmployeeTripCounter.SelectedEmployeeId, new List<SelectListItem>(Model.AllEmployees.Select(o => new SelectListItem(o.FullName, o.Id.ToString()))), "Select employee")
@@ -39,25 +39,27 @@
     </div>
     <div class="col-md-4 statistic-form">
         <div>
-            Most popular offices
+            <b>Most popular offices</b>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Office name</th>
-                    <th>Trip Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var office in Model.MostPopularOffices)
-                {
+        <div class="table-responsive">
+            <table>
+                <thead>
                     <tr>
-                        <td> @office.Office.Name</td>
-                        <td>@office.TripCount Trips</td>
+                        <th>Office name</th>
+                        <th>Trip Count</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var office in Model.MostPopularOffices)
+                    {
+                        <tr>
+                            <td> @office.Office.Name</td>
+                            <td>@office.TripCount Trips</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="col-md-12 statistic-form-last">
         <div class="form-group">
@@ -65,45 +67,46 @@
             @Html.DropDownListFor(m => m.TripStatistics.TripSortType, ViewTexts.TripSortTypes, "Select sort type")
             <span asp-validation-for="TripStatistics.TripSortType" class="text-danger"></span>
         </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Link
-                    </th>
-                    <th>
-                        Duration
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var trip in Model.TripStatistics.TripStatistics)
-                {
+        <div class="table-responsive">
+            <table>
+                <thead>
                     <tr>
-                        <td>@Html.ActionLink("Link", "Details", "Trip", new { id = trip.TripId })</td>
-                        <td>@trip.Duration</td>
-                        <td>@trip.Price€</td>
+                        <th>
+                            Link
+                        </th>
+                        <th>
+                            Duration
+                        </th>
+                        <th>
+                            Price
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-
-    </div>
-    <div class="col-md-12 ">
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-default" />
+                </thead>
+                <tbody>
+                    @foreach (var trip in Model.TripStatistics.TripStatistics)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink("Link", "Details", "Trip", new { id = trip.TripId })</td>
+                            <td>@trip.Duration</td>
+                            <td>@trip.Price€</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
         </div>
+        <div class="col-md-12 statistic-form-buttons">
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+            <div>
+                <button class="btn btn-default" type="button" href="#" onClick="history.go(-1); return false;">Return back</button>
+            </div>
         </div>
         </form>
-</div>
+    </div>
 
-<div>
-    <button class="btn btn-default" type="button" href="#" onClick="history.go(-1); return false;">Return back</button>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
