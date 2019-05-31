@@ -43,10 +43,13 @@ namespace PSK.DataAccess
 
         public async Task<TripEmployee> Add(TripEmployee tripEmployee)
         {
-            tripEmployee.AccommodationReservation.StartDate =
-                tripEmployee.AccommodationReservation.StartDate.ClearHours();
-            tripEmployee.AccommodationReservation.EndDate =
-                tripEmployee.AccommodationReservation.EndDate.ClearHours();
+            if (tripEmployee.AccommodationReservation != null)
+            {
+                tripEmployee.AccommodationReservation.StartDate =
+                    tripEmployee.AccommodationReservation.StartDate.ClearHours();
+                tripEmployee.AccommodationReservation.EndDate =
+                    tripEmployee.AccommodationReservation.EndDate.ClearHours();
+            }
 
             var addedEmployee = await _context.TripEmployees.AddAsync(tripEmployee);
             await _context.SaveChangesAsync();
@@ -55,11 +58,13 @@ namespace PSK.DataAccess
 
         public async Task Update(TripEmployee tripEmployee)
         {
-            tripEmployee.AccommodationReservation.StartDate =
-                tripEmployee.AccommodationReservation.StartDate.ClearHours();
-            tripEmployee.AccommodationReservation.EndDate =
-                tripEmployee.AccommodationReservation.EndDate.ClearHours();
-
+            if (tripEmployee.AccommodationReservation != null)
+            {
+                tripEmployee.AccommodationReservation.StartDate =
+                    tripEmployee.AccommodationReservation.StartDate.ClearHours();
+                tripEmployee.AccommodationReservation.EndDate =
+                    tripEmployee.AccommodationReservation.EndDate.ClearHours();
+            }
             _context.TripEmployees.Update(tripEmployee);
             await _context.SaveChangesAsync();
         }
