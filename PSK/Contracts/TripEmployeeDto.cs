@@ -35,9 +35,13 @@ namespace Contracts
         [Required]
         public string EmployeeId { get; set; }
 
+        public string EmployeeName { get; set; }
+
         public IEnumerable<EmployeeDto> AllEmployees { get; set; }
 
         public string AccommodationId { get; set; }
+
+        public string AccommodationName { get; set; }
 
         public IEnumerable<AccommodationDto> AvailableAccommodations { get; set; }
 
