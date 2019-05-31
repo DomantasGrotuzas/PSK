@@ -42,7 +42,10 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Address.Longitude)
                 </th>
-                <th></th>
+                @if (User.IsInRole("Organizer"))
+                {
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -70,10 +73,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Address.Longitude)
                     </td>
+                    @if (User.IsInRole("Organizer"))
+                    {
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                     </td>
+                    }
                 </tr>
             }
         </tbody>

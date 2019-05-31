@@ -54,9 +54,13 @@
         </dd>
     </dl>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-</div>
+
+@if (User.IsInRole("Organizer"))
+{
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    </div>
+}
 <div>
     <button class="btn btn-default btn-fade" type="button" href="#" onClick="history.go(-1); return false;">Return back</button>
 </div>
