@@ -27,6 +27,9 @@ namespace PSK.DataAccess
         {
             string fileName = Path.GetFileName(formFile.FileName);
             string filePath = Path.Combine(path, fileName);
+            var found = await _context.Files.FirstOrDefaultAsync(f => f.FullName == filePath);
+            if (found != null)
+                return null;
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await formFile.CopyToAsync(fileStream);
