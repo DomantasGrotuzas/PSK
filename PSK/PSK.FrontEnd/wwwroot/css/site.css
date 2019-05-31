@@ -226,6 +226,7 @@ statistic-form-first {
        min-width: 767px;
    }
 
+
 }
 
 /* Hide/rearrange for smaller screens */
@@ -260,6 +261,10 @@ statistic-form-first {
         top: 0;
         left: 60px;
         margin: 0 auto;
+    }
+
+    #hero-p {
+        font-size: 5vw;
     }
 }
 
