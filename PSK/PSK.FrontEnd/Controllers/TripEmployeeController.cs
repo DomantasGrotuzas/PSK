@@ -74,7 +74,7 @@ namespace PSK.FrontEnd.Controllers
                     EndDate = trip.EndDate,
                 }
             };
-            tripEmployee.Files = new FormFileCollection();
+            //tripEmployee.Files = new FormFileCollection();
             return View(tripEmployee);
         }
 
@@ -93,7 +93,7 @@ namespace PSK.FrontEnd.Controllers
             var createdTripEmployee = await _tripEmployeeDataAccess.Add(tripEmployee);
 
             string path = Path.Combine(_env.WebRootPath, "Attachments", "TripEmployee", createdTripEmployee.Id.ToString());
-
+            Directory.CreateDirectory(path);
             if(tripEmployeeDto.Files != null)
                 foreach (IFormFile formFile in tripEmployeeDto.Files)
                 {
