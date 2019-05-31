@@ -189,6 +189,20 @@ thead {
     color: #bdb8b8;
 }
 
+.statistic-form {
+    margin-bottom: 100px;
+    border: 10px;
+    padding: 10px;
+    border-color: black;
+}
+
+.statistic-form-last {
+    margin-bottom: 20px;
+    border: 10px;
+    padding: 10px;
+    border-color: black;
+}
+
 
 @media screen and (min-width: 767px) {
     .body-content{

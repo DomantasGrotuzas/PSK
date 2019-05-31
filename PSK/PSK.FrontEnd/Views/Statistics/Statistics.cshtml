@@ -7,10 +7,8 @@
 
 <h2>View</h2>
 
-<h4>StatisticsDto</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 statistic-form">
         <form asp-action="Statistics" method="get">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -27,27 +25,30 @@
             <div>
                 Trips during selected period: @Model.PeriodTripCounter.TripCount
             </div>
+    </div>
+    <div class="col-md-4 statistic-form">
+        <div class="form-group">
+            <label asp-for="EmployeeTripCounter.SelectedEmployeeId" class="control-label">Employee</label>
+            @Html.DropDownListFor(m => m.EmployeeTripCounter.SelectedEmployeeId, new List<SelectListItem>(Model.AllEmployees.Select(o => new SelectListItem(o.FullName, o.Id.ToString()))), "Select employee")
+            <span asp-validation-for="EmployeeTripCounter.SelectedEmployeeId" class="text-danger"></span>
+        </div>
+        <div>
+            Trip count for selected user: @Model.EmployeeTripCounter.TripCount
+        </div>
 
-            <div class="form-group">
-                <label asp-for="EmployeeTripCounter.SelectedEmployeeId" class="control-label">Employee</label>
-                @Html.DropDownListFor(m => m.EmployeeTripCounter.SelectedEmployeeId, new List<SelectListItem>(Model.AllEmployees.Select(o => new SelectListItem(o.FullName, o.Id.ToString()))), "Select employee")
-                <span asp-validation-for="EmployeeTripCounter.SelectedEmployeeId" class="text-danger"></span>
-            </div>
-            <div>
-                Trip count for selected user: @Model.EmployeeTripCounter.TripCount
-            </div>
-            
-            <div>
-                Most popular offices
-            </div>
-            <table>
-                <thead>
+    </div>
+    <div class="col-md-4 statistic-form">
+        <div>
+            Most popular offices
+        </div>
+        <table>
+            <thead>
                 <tr>
                     <th>Office name</th>
                     <th>Trip Count</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 @foreach (var office in Model.MostPopularOffices)
                 {
                     <tr>
@@ -55,17 +56,18 @@
                         <td>@office.TripCount Trips</td>
                     </tr>
                 }
-                </tbody>
-            </table>
-            
-            <div class="form-group">
-                <label asp-for="TripStatistics.TripSortType" class="control-label">Sort type</label>
-                @Html.DropDownListFor(m => m.TripStatistics.TripSortType, ViewTexts.TripSortTypes, "Select sort type")
-                <span asp-validation-for="TripStatistics.TripSortType" class="text-danger"></span>
-            </div>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12 statistic-form-last">
+        <div class="form-group">
+            <label asp-for="TripStatistics.TripSortType" class="control-label">Sort type</label>
+            @Html.DropDownListFor(m => m.TripStatistics.TripSortType, ViewTexts.TripSortTypes, "Select sort type")
+            <span asp-validation-for="TripStatistics.TripSortType" class="text-danger"></span>
+        </div>
 
-            <table>
-                <thead>
+        <table>
+            <thead>
                 <tr>
                     <th>
                         Link
@@ -77,8 +79,8 @@
                         Price
                     </th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 @foreach (var trip in Model.TripStatistics.TripStatistics)
                 {
                     <tr>
@@ -87,16 +89,16 @@
                         <td>@trip.Price€</td>
                     </tr>
                 }
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
     </div>
+    <div class="col-md-12 ">
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+        </div>
+        </form>
 </div>
 
 <div>
