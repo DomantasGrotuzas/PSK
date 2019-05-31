@@ -6,7 +6,7 @@ namespace Contracts
 {
     public class AccommodationDto : DefaultDto
     {
-        [Required]
+        [Required(ErrorMessage = "The Appartment/hotel name field is required.")]
         [StringLength(60, MinimumLength = 3)]
         public string Name { get; set; }
 
