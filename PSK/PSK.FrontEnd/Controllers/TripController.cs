@@ -133,24 +133,8 @@ namespace PSK.FrontEnd.Controllers
         [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> MergeTrips(TripMergeDto dto)
         {
-            var primaryTrip = await _tripDataAccess.Get(dto.PrimaryTrip.Id);
-            var secondaryTrip = await _tripDataAccess.GetWithEmployees(dto.SecondaryTrip.Id);
-
-            foreach (var tripEmployee in secondaryTrip.Employees.ToList())
-            {
-                tripEmployee.TripId = dto.PrimaryTrip.Id;
-                await _tripEmployeeDataAccess.Update(tripEmployee);
-            }
-
-            await _tripDataAccess.Remove(dto.SecondaryTrip.Id);
-
-            primaryTrip.OrganizerId = (await _userManager.GetUserAsync(User)).Id;
-            primaryTrip.Comment = dto.PrimaryTrip.Comment;
-            primaryTrip.StartDate = dto.PrimaryTrip.StartDate;
-            primaryTrip.EndDate = dto.PrimaryTrip.EndDate;
-
-            await _tripDataAccess.Update(primaryTrip);
-
+            var organizerId = (await _userManager.GetUserAsync(User)).Id;
+            await _tripService.Merge(dto, organizerId);
             return Redirect("trips");
         }
 

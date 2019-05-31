@@ -30,52 +30,52 @@
             </div>
             <div class="form-group">
                 <label asp-for="AccommodationReservation.Status" class="control-label">Accommodation reservation status</label>
-                @Html.DropDownListFor(x => x.AccommodationReservation.Status, ViewTexts.PurchasableStatusItems)
+                @Html.DropDownListFor(x => x.AccommodationReservation.Status, ViewTexts.PurchasableStatusItems, new { @id = "accommodationReservationStatus" })
                 <span asp-validation-for="AccommodationReservation.Status" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupPrice">
                 <label asp-for="AccommodationReservation.Price" class="control-label">Accommodation price (€)</label>
                 <input asp-for="AccommodationReservation.Price" class="form-control" />
                 <span asp-validation-for="AccommodationReservation.Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupAccommodation">
                 <label asp-for="AccommodationReservation.Accommodation" class="control-label"></label>
                 @Html.DropDownListFor(x => x.AccommodationId, new List<SelectListItem>(
                     Model.AvailableAccommodations.Select(x =>
                     {
                         var name = x.SpacesAvailable.HasValue ? x.Name + " (spaces available: " + x.SpacesAvailable.Value + ")" : x.Name;
                         return new SelectListItem(name, x.Id.ToString(), Model.AccommodationReservation?.Accommodation?.Id == x.Id, !x.SpacesAvailable.HasValue || x.SpacesAvailable.Value <= 0);
-                    })), "Select accommodation")
+                    })), "Select accommodation", new { @id = "accommodationAccommodation" })
                 <span asp-validation-for="AccommodationReservation.Accommodation" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupStart">
                 <label asp-for="AccommodationReservation.StartDate" class="control-label">Accommodation reservation start</label>
-                <input asp-for="AccommodationReservation.StartDate" class="form-control" />
+                <input asp-for="AccommodationReservation.StartDate" class="form-control" id="accommodationStart" />
                 <span asp-validation-for="AccommodationReservation.StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="accommodationGroupEnd">
                 <label asp-for="AccommodationReservation.EndDate" class="control-label">Accommodation reservation end</label>
-                <input asp-for="AccommodationReservation.EndDate" class="form-control" />
+                <input asp-for="AccommodationReservation.EndDate" class="form-control" id="accommodationEnd" />
                 <span asp-validation-for="AccommodationReservation.EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PlaneTicketStatus" class="control-label">Plane ticket status</label>
-                @Html.DropDownListFor(x => x.PlaneTicketStatus, ViewTexts.PurchasableStatusItems)
+                @Html.DropDownListFor(x => x.PlaneTicketStatus, ViewTexts.PurchasableStatusItems, new { @id = "planeTicketStatus" })
                 <span asp-validation-for="PlaneTicketStatus" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="planeGroupPrice">
                 <label asp-for="PlaneTicketPrice" class="control-label">Plane ticket price (€)</label>
-                <input asp-for="PlaneTicketPrice" class="form-control" />
+                <input asp-for="PlaneTicketPrice" class="form-control" id="planePrice" />
                 <span asp-validation-for="PlaneTicketPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CarReservationStatus" class="control-label">Car reservation status</label>
-                @Html.DropDownListFor(x => x.CarReservationStatus, ViewTexts.PurchasableStatusItems)
+                @Html.DropDownListFor(x => x.CarReservationStatus, ViewTexts.PurchasableStatusItems, new { @id = "carReservationStatus" })
                 <span asp-validation-for="CarReservationStatus" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="carGroupPrice">
                 <label asp-for="CarReservationPrice" class="control-label">Car reservation price (€)</label>
-                <input asp-for="CarReservationPrice" class="form-control" />
+                <input asp-for="CarReservationPrice" class="form-control" id="carPrice" />
                 <span asp-validation-for="CarReservationPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -87,28 +87,28 @@
                 <label asp-for="Files" class="control-label">New files:</label>
                 <input asp-for="Files" class="form-control" />
             </div>
-            
+
             @if (Model.ExistingFiles != null && Model.ExistingFiles.Count != 0)
             {
-            <div class="form-group">
-                <label asp-for="ExistingFiles" class="control-label">Select files to remove</label>
-                <ul>
-                    @for (int i = 0; i < Model.ExistingFiles.Count; i++)
+                <div class="form-group">
+                    <label asp-for="ExistingFiles" class="control-label">Select files to remove</label>
+                    <ul>
+                        @for (int i = 0; i < Model.ExistingFiles.Count; i++)
                         {
-                        <li>
-                            <input type="checkbox" asp-for="ExistingFiles[i].IsSelected"/>
-                            <label asp-for="ExistingFiles[i].Id">@Model.ExistingFiles[i].Name</label>
-                            <input type="hidden" asp-for="ExistingFiles[i].Size"/>
-                            <input type="hidden" asp-for="ExistingFiles[i].Name"/>
-                            <input type="hidden" asp-for="ExistingFiles[i].Id"/>
-                            <input type="hidden" asp-for="ExistingFiles[i].Version"/>
-                        </li>
+                            <li>
+                                <input type="checkbox" asp-for="ExistingFiles[i].IsSelected" />
+                                <label asp-for="ExistingFiles[i].Id">@Model.ExistingFiles[i].Name</label>
+                                <input type="hidden" asp-for="ExistingFiles[i].Size" />
+                                <input type="hidden" asp-for="ExistingFiles[i].Name" />
+                                <input type="hidden" asp-for="ExistingFiles[i].Id" />
+                                <input type="hidden" asp-for="ExistingFiles[i].Version" />
+                            </li>
                         }
-                </ul>
-            </div>
+                    </ul>
+                </div>
             }
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="form-group">l
+                <input type="submit" value="Save" class="btn btn-default" onclick="return validateForm()" />
             </div>
         </form>
     </div>
@@ -120,4 +120,191 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script type="text/javascript">
+
+        function validateForm() {
+            var startDate = $("#accommodationStart").val();
+            var endDate = $("#accommodationEnd").val();
+
+            var currentDate = new Date();
+
+            if (startDate >= currentDate) {
+                alert("Wrong accommodation reservation start date");
+                return false;
+            } else if (endDate >= currentDate) {
+                alert("Wrong accommodation reservation end date");
+                return false;
+            } else if (endDate < startDate) {
+                alert("Check start and end dates of the accommodation reservation. Start date cannot be after end date");
+                return false;
+            }
+            return true;
+        }
+
+        $(document).ready(function () {
+
+            var accommodationStatus = document.getElementById("accommodationReservationStatus");
+            var defaultSelection = "Not needed";
+            var selection = accommodationStatus.options[accommodationStatus.selectedIndex].text;
+
+            if (selection === defaultSelection) {
+                $('#accommodationGroupPrice').css('display', 'none');
+                $('#accommodationGroupAccommodation').css('display', 'none');
+                $('#accommodationGroupStart').css('display', 'none');
+                $('#accommodationGroupEnd').css('display', 'none');
+
+                $('#accommodationGroupPrice').val("");
+                $('#accommodationGroupAccommodation').val("");
+                $('#accommodationGroupStart').val("");
+                $('#accommodationGroupEnd').val("");
+            }
+
+            var planeTicketStatus = document.getElementById("planeTicketStatus");
+            defaultSelection = "Not needed";
+            selection = planeTicketStatus.options[planeTicketStatus.selectedIndex].text;
+
+            if (selection === defaultSelection) {
+
+                $('#planeGroupPrice').css('display', 'none');
+                $('#planeGroupPrice').val("");
+            }
+
+            var carReservationStatus = document.getElementById("carReservationStatus");
+            defaultSelection = "Not needed";
+            selection = carReservationStatus.options[carReservationStatus.selectedIndex].text;
+
+            if (selection === defaultSelection) {
+
+                $('#carGroupPrice').css('display', 'none');
+                $('#carGroupPrice').val("");
+            }
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            today = today.toString();
+
+            var startDate = $("#accommodationStart").val();
+            var endDate = $("#accommodationEnd").val();
+
+            $('#accommodationStart').val(startDate);
+            $('#accommodationEnd').val(endDate);
+            $('#accommodationStart').attr({ "min": today });
+            $('#accommodationEnd').attr({ "min": startDate });
+
+        });
+
+
+        document.getElementById("accommodationStart").onchange = function () {
+            var input = document.getElementById("accommodationEnd");
+            input.setAttribute("min", this.value);
+            var startDate = document.getElementById("accommodationStart").value;
+            input.value = startDate;
+        }
+
+
+        document.getElementById("accommodationReservationStatus").onchange = function () {
+
+            var defaultSelection = "Not needed";
+            var selection = this.options[this.selectedIndex].text;
+
+            var price = document.getElementById("accommodationGroupPrice");
+            var accommodation = document.getElementById("accommodationGroupAccommodation");
+            var start = document.getElementById("accommodationGroupStart");
+            var end = document.getElementById("accommodationGroupEnd");
+
+            var priceValue = document.getElementById("accommodationPrice");
+            var accommodationValue = document.getElementById("accommodationAccommodation");
+
+            var startValue = document.getElementById("accommodationStart");
+            var endValue = document.getElementById("accommodationEnd");
+
+            if (selection === defaultSelection) {
+
+                price.style.display = "none";
+                accommodation.style.display = "none";
+                start.style.display = "none";
+                end.style.display = "none";
+
+                priceValue.value = "";
+                accommodationValue.value = "";
+                startValue.value = "";
+                endValue.value = "";
+
+
+            }
+
+            if (selection !== defaultSelection) {
+
+                price.style.display = "block";
+                accommodation.style.display = "block";
+                start.style.display = "block";
+                end.style.display = "block";
+
+                if (startValue === "" || endValue === "") {
+
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0');
+                    var yyyy = today.getFullYear();
+
+                    today = yyyy + '-' + mm + '-' + dd;
+                    today = today.toString();
+
+                    startValue.value = today;
+                    endValue.value = startValue.value;
+                    endValue.setAttribute("min", startValue.value);
+                    startValue.setAttribute("min", today);
+                }
+            }
+
+        }
+
+        document.getElementById("planeTicketStatus").onchange = function () {
+
+            var defaultSelection = "Not needed";
+            var selection = this.options[this.selectedIndex].text;
+
+            var price = document.getElementById("planeGroupPrice");
+            var priceValue = document.getElementById("planePrice");
+
+            if (selection === defaultSelection) {
+
+                price.style.display = "none";
+                priceValue.value = "";
+            }
+
+            if (selection !== defaultSelection) {
+
+                price.style.display = "block";
+            }
+        }
+
+        document.getElementById("carReservationStatus").onchange = function () {
+
+            var defaultSelection = "Not needed";
+            var selection = this.options[this.selectedIndex].text;
+
+            var price = document.getElementById("carGroupPrice");
+            var priceValue = document.getElementById("carPrice");
+
+            if (selection === defaultSelection) {
+
+                price.style.display = "none";
+                priceValue.value = "";
+            }
+
+            if (selection !== defaultSelection) {
+
+                price.style.display = "block";
+            }
+        }
+
+    </script>
+
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Contracts;
 
 namespace PSK.Services.Interfaces
 {
@@ -12,6 +13,6 @@ namespace PSK.Services.Interfaces
         //Task<Trip> Create(Trip trip);
         //Task<Trip> Update(Guid id, Trip trip);
         //Task Delete(Guid id);
-        Task<Trip> Merge(Trip trip1, Trip trip2);
+        Task Merge(TripMergeDto dto, Guid newOrganizerId);
     }
 }
