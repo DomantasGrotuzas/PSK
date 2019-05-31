@@ -3,11 +3,11 @@
 namespace Contracts
 {
     public class AddressDto : DefaultDto
-        {
-        [Range(-90D, -90D)]
+    { 
+        [Range(-90D, 90D)]
         public double Latitude { get; set; }
         
-        [Range(-180D, -180D)]
+        [Range(-180D, 180D)]
         public double Longitude { get; set; }
 
         [Required]
