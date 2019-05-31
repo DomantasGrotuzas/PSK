@@ -9,7 +9,7 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-bar-top-btn" title="Manage">Hello @((await UserManager.GetUserAsync(User)).FullName)</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-bar-top-btn" title="Manage">Hello @((await UserManager.GetUserAsync(User))?.FullName)</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link nav-bar-top-btn">Logout</button>
