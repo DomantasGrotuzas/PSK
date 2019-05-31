@@ -190,6 +190,27 @@ thead {
     color: #bdb8b8;
 }
 
+.statistic-form {
+    margin: 0 20px 100px 30px;
+    padding: 20px;
+}
+
+.statistic-form-last {
+    margin: 0 20px 20px 30px;
+    padding: 20px;
+    padding: 10px;
+}
+
+.statistic-form-buttons {
+    margin: 0 20px 20px 30px;
+    padding: 20px;
+    padding: 10px;
+}
+
+.h2-border {
+    margin-left: 15px;
+    margin-bottom: 20px;
+}
 
 @media screen and (min-width: 767px) {
     .body-content{

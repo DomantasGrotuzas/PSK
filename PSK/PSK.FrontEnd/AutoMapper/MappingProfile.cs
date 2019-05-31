@@ -61,7 +61,9 @@ namespace PSK.FrontEnd.AutoMapper
                 .ForMember(dest => dest.AccommodationId, opt => opt.MapFrom(src => 
                     src.AccommodationReservation.Accommodation != null ? src.AccommodationReservation.Accommodation.Id : Guid.Empty))
                 .ForMember(dest => dest.Files, opt => opt.Ignore())
-                .ForMember(dest => dest.ExistingFiles, opt => opt.MapFrom(src => src.Files));
+                .ForMember(dest => dest.ExistingFiles, opt => opt.MapFrom(src => src.Files))
+                .ForMember(dest => dest.AccommodationName, opt => opt.MapFrom(src => src.AccommodationReservation.Accommodation.Name))
+                .ForMember(dest => dest.EmployeeName, opt=>opt.MapFrom(src => src.Employee.FullName));
             CreateMap<TripEmployeeDto, TripEmployee>()
                 .ForMember(dest => dest.CarReservationStatus,
                     opt => opt.MapFrom(src => Enum.Parse<PurchasableStatus>(src.CarReservationStatus)))
