@@ -128,16 +128,17 @@ nav a {
 }
 
 
-.side-panel a {
-    display: block;
-    color: black;
-    padding: 16px;
-    text-decoration: none;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 24px;
-    line-height: 29px;
-}
+    .side-panel a {
+        display: block;
+        color: black;
+        padding: 16px;
+        text-decoration: none;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 24px;
+        line-height: 29px;
+        transition: 0.1s;
+    }
 
 .side-panel a.active {
     background-color: #4CAF50;
@@ -243,4 +244,24 @@ thead {
     text-decoration: none;
     background-color: #eee;
 
+}
+
+.btn-create {
+    color: #fff;
+    background-color: #404cfa;
+    transition: 0.1s;
+}
+
+    .btn-create:hover {
+        color: #fff;
+        background-color: #343ECC;
+        transition: 0.1s;
+    }
+
+.btn-fade {
+    transition: 0.1s;
+}
+
+.btn-fade:hover {
+    transition: 0.1s;
 }

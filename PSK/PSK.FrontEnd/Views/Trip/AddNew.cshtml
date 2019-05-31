@@ -35,14 +35,14 @@
                 @Html.DropDownListFor(m => m.EndLocationId, new List<SelectListItem>(Model.Offices.Select(o => new SelectListItem(o.Name, o.Id.ToString()))), "Select location", new { @id = "endLocation" })
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" onclick="return validateForm()" />
+                <input type="submit" value="Create" class="btn btn-default btn-create" onclick="return validateForm()" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <button class="btn btn-default" type="button" href="#" onClick="history.go(-1); return false;">Return back</button>
+    <button class="btn btn-default btn-fade" type="button" href="#" onClick="history.go(-1); return false;">Return back</button>
 </div>
 
 @section Scripts {
