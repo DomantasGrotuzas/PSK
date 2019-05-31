@@ -7,7 +7,7 @@
 <h2>Employees</h2>
 
 @{
-    if (User.IsInRole("Organizer"))
+    if (User.IsInRole("Admin"))
     {
         <div>
 
@@ -33,30 +33,38 @@
                 <th>
                     Phone number
                 </th>
-                <th></th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Surname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+
+                @if (User.IsInRole("Admin"))
+                {
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { Id = item.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { Id = item.Id })
                     </td>
-                </tr>
+                }
+
+            </tr>
             }
         </tbody>
     </table>
