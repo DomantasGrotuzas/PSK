@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using PSK.DataAccess;
 using PSK.DataAccess.Interfaces;
@@ -17,6 +21,8 @@ namespace PSK.FrontEnd.Controllers
 {
     public class TripEmployeeController : Controller
     {
+        private readonly IHostingEnvironment _env;
+
         private readonly ITripEmployeeDataAccess _tripEmployeeDataAccess;
 
         private readonly IEmployeeService _employeeService;
@@ -29,9 +35,12 @@ namespace PSK.FrontEnd.Controllers
 
         private readonly IMapper _mapper;
 
+        private readonly IFileDataAccess _fileDataAccess;
+
         public TripEmployeeController(IMapper mapper, ITripEmployeeDataAccess tripEmployeeDataAccess,
             IEmployeeService employeeService, IAccommodationService accommodationService, 
-            IDataAccess<Accommodation> accommodationDataAccess, IDataAccess<Trip> tripDataAccess)
+            IDataAccess<Accommodation> accommodationDataAccess, IDataAccess<Trip> tripDataAccess,
+            IFileDataAccess fileDataAccess, IHostingEnvironment env)
         {
             _mapper = mapper;
             _tripEmployeeDataAccess = tripEmployeeDataAccess;
@@ -39,6 +48,8 @@ namespace PSK.FrontEnd.Controllers
             _accommodationService = accommodationService;
             _accommodationDataAccess = accommodationDataAccess;
             _tripDataAccess = tripDataAccess;
+            _fileDataAccess = fileDataAccess;
+            _env = env;
         }
 
         [Authorize]
@@ -63,6 +74,7 @@ namespace PSK.FrontEnd.Controllers
                     EndDate = trip.EndDate,
                 }
             };
+            //tripEmployee.Files = new FormFileCollection();
             return View(tripEmployee);
         }
 
@@ -78,7 +90,16 @@ namespace PSK.FrontEnd.Controllers
                 tripEmployee.AccommodationReservation.Accommodation =
                     await _accommodationDataAccess.Get(Guid.Parse(tripEmployeeDto.AccommodationId));
             }
-            await _tripEmployeeDataAccess.Add(tripEmployee);
+            var createdTripEmployee = await _tripEmployeeDataAccess.Add(tripEmployee);
+
+            string path = Path.Combine(_env.WebRootPath, "Attachments", "TripEmployee", createdTripEmployee.Id.ToString());
+            Directory.CreateDirectory(path);
+            if(tripEmployeeDto.Files != null)
+                foreach (IFormFile formFile in tripEmployeeDto.Files)
+                {
+                    await _fileDataAccess.Add(formFile, path, tripEmployee);
+                }
+
             return Redirect($"tripEmployees?tripId={tripEmployeeDto.Trip.Id}");
         }
 
@@ -107,7 +128,7 @@ namespace PSK.FrontEnd.Controllers
                 await _accommodationService.GetAvailableAccommodations(tripEmployee.Trip.Id);
 
             var acommodationThatIsSelected = tripEmployeeDto.AvailableAccommodations
-                .FirstOrDefault(x => x.Id == tripEmployee.AccommodationReservation.Accommodation.Id);
+                .FirstOrDefault(x => x.Id == tripEmployee.AccommodationReservation?.Accommodation?.Id);
             if (acommodationThatIsSelected?.SpacesAvailable != null)
             {
                 acommodationThatIsSelected.SpacesAvailable++;

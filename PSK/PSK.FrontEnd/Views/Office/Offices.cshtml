@@ -6,9 +6,17 @@
 
 <h2>Offices</h2>
 
-<p>
-    <a asp-action="AddNew">Create new</a>
-</p>
+@{
+    if (User.IsInRole("Organizer"))
+    {
+        <div>
+
+            @Html.ActionLink("Create New", "AddNew", null, htmlAttributes: new { @class = "btn btn-default", @type = "button" })
+
+        </div>
+    }
+}
+<br />
 <div class="table-responsive">
     <table class="table">
         <thead>

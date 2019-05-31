@@ -11,6 +11,8 @@ namespace PSK.Persistence
 
         DbSet<TripEmployee> TripEmployees { get; set; }
 
+        DbSet<File> Files { get; set; }
+
         DbSet<AccommodationReservation> AccommodationReservations { get; set; }
 
         DbSet<Accommodation> Accommodations { get; set; }

@@ -76,10 +76,14 @@ namespace PSK.FrontEnd
                 options.Password.RequireLowercase = false;
             });
 
+            var isLoggingEnabled = Configuration.GetValue<bool>("EnableLogging");
 
             services.AddMvc(options =>
             {
-                options.Filters.Add(new LogAttribute());
+                if (isLoggingEnabled)
+                {
+                    options.Filters.Add(new LogAttribute());
+                }
                 options.Filters.Add(new ExceptionFilter());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddRazorPagesOptions(options =>
@@ -97,17 +101,18 @@ namespace PSK.FrontEnd
             containerBuilder.RegisterType<TripDataAccess>().As<IDataAccess<Trip>>();
             containerBuilder.RegisterType<TripDataAccess>().As<ITripDataAccess>();
             containerBuilder.RegisterType<AccommodationDataAccess>().As<IDataAccess<Accommodation>>();
-            containerBuilder.RegisterType<AccommodationDataAccess>().As<IAccommodationDataAccess>();
             containerBuilder.RegisterType<TripEmployeeDataAccess>().As<IDataAccess<TripEmployee>>();
             containerBuilder.RegisterType<TripEmployeeDataAccess>().As<ITripEmployeeDataAccess>();
             containerBuilder.RegisterType<AccommodationDataAccess>().As<IAccommodationDataAccess>();
+            containerBuilder.RegisterType<FileDataAccess>().As<IFileDataAccess>();
 
             containerBuilder.RegisterType<TripService>().As<ITripService>();
             containerBuilder.RegisterType<EmployeeService>().As<IEmployeeService>();
             containerBuilder.RegisterType<AccommodationService>().As<IAccommodationService>();
+            containerBuilder.RegisterType<StatisticsService>().As<IStatisticsService>();
 
             containerBuilder.RegisterType<DataInitializer>().As<IDataInitializer>();
-            containerBuilder.RegisterType<DataContext>().AsSelf();
+            containerBuilder.RegisterType<DataContext>().AsSelf();;
 
             var container = containerBuilder.Build();
 

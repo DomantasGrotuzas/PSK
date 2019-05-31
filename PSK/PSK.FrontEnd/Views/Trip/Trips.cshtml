@@ -7,9 +7,18 @@
 
 <h2>Trips</h2>
 
-<p>
-    <a asp-action="AddNew">Create new</a>
-</p>
+
+@{
+    if (User.IsInRole("Organizer"))
+    {
+        <div>
+
+            @Html.ActionLink("Create New", "AddNew", null, htmlAttributes: new { @class = "btn btn-default", @type = "button" })
+
+        </div>
+    }
+}
+<br />
 
 <div>
     @Html.ActionLink("All", "Trips", new { dateFilter = DateFilter.All }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.All)}" })
@@ -18,7 +27,7 @@
     @Html.ActionLink("Past Trips", "Trips", new { dateFilter = DateFilter.Past }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Past)}" })
 </div>
 
-<div><p/></div>
+<div><p /></div>
 
 <div class="table-responsive">
     <table class="table">
@@ -68,15 +77,18 @@
                         @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
                     </td>
                     <td>
-                        @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+                        @Html.ActionLink("Show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                        <a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @if (item.StartDate > DateTime.Now.Date)
+                        {
+                            <div><a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a></div>
+                        }
                     </td>
                 </tr>
             }

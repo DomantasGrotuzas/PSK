@@ -27,33 +27,41 @@ namespace PSK.DataAccess
                             t.StartDate >= startDate.AddDays(-1) &&
                             t.EndDate <= endDate.AddDays(1) &&
                             t.EndDate >= endDate.AddDays(-1) &&
-                            t.Id != trip.Id).ToListAsync();
+                            t.Id != trip.Id &&
+                            t.StartDate > DateTime.Now.Date)
+                .OrderByDescending(x => x.StartDate).ToListAsync();
         }
 
         public async Task<IEnumerable<Trip>> GetAll()
         {
             return await _context.Trips.Include(x => x.Employees).Include(x => x.EndLocation).Include(x => x.StartLocation)
-                .Include(x => x.Organizer).ToListAsync();
+                .Include(x => x.Organizer).OrderByDescending(x => x.StartDate).ToListAsync();
         }
 
         public async Task<Trip> Get(Guid id)
         {
-            return await _context.Trips.Include(x => x.Employees).Include(x => x.EndLocation).Include(x => x.StartLocation)
-                .Include(x => x.Organizer).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Trips
+                .Include(x => x.Employees)
+                .Include(x => x.EndLocation)
+                .Include(x => x.StartLocation)
+                .Include(x => x.Organizer)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Trip>> GetTripsForEmployee(Guid employeeId)
         {
             return await _context.Trips.Include(x => x.Employees).ThenInclude(x => x.Employee)
                 .Include(x => x.EndLocation).Include(x => x.StartLocation).Include(x => x.Organizer)
-                .Where(x => x.Employees.Any(y => y.Employee.Id == employeeId)).ToListAsync();
+                .Where(x => x.Employees.Any(y => y.Employee.Id == employeeId))
+                .OrderByDescending(x => x.StartDate).ToListAsync();
         }
 
         public async Task<IEnumerable<Trip>> GetTripsForOrganizator(Guid employeeId)
         {
             return await _context.Trips.Include(x => x.Employees).ThenInclude(x => x.Employee)
                 .Include(x => x.EndLocation).Include(x => x.StartLocation).Include(x => x.Organizer)
-                .Where(x => x.Organizer.Id == employeeId).ToListAsync();
+                .Where(x => x.Organizer.Id == employeeId)
+                .OrderByDescending(x => x.StartDate).ToListAsync();
         }
 
         public async Task<Trip> GetWithEmployees(Guid id)

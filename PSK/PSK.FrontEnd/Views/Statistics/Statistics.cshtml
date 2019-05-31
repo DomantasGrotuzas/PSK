@@ -1,0 +1,108 @@
+﻿@using PSK.FrontEnd.Static
+@model Contracts.StatisticsDto
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>View</h2>
+
+<h4>StatisticsDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Statistics">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="PeriodTripCounter.StartDate" class="control-label">Trip start date</label>
+                <input asp-for="PeriodTripCounter.StartDate" class="form-control" type="date" id="tripStartDateInput" required />
+                <span asp-validation-for="PeriodTripCounter.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PeriodTripCounter.EndDate" class="control-label">Trip end date</label>
+                <input asp-for="PeriodTripCounter.EndDate" class="form-control" type="date" id="tripEndDateInput" required />
+                <span asp-validation-for="PeriodTripCounter.EndDate" class="text-danger"></span>
+            </div>
+            <div>
+                Trips during selected period: @Model.PeriodTripCounter.TripCount
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmployeeTripCounter.SelectedEmployeeId" class="control-label">Employee</label>
+                @Html.DropDownListFor(m => m.EmployeeTripCounter.SelectedEmployeeId, new List<SelectListItem>(Model.AllEmployees.Select(o => new SelectListItem(o.FullName, o.Id.ToString()))), "Select employee")
+                <span asp-validation-for="EmployeeTripCounter.SelectedEmployeeId" class="text-danger"></span>
+            </div>
+            <div>
+                Trip count for selected user: @Model.EmployeeTripCounter.TripCount
+            </div>
+            
+            <div>
+                Most popular offices
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Office name</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var office in Model.MostPopularOffices)
+                {
+                    <tr>
+                        <td> @office.Office.Name</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            
+            <div class="form-group">
+                <label asp-for="TripStatistics.TripSortType" class="control-label">Sort type</label>
+                @Html.DropDownListFor(m => m.TripStatistics.TripSortType, ViewTexts.TripSortTypes, "Select sort type")
+                <span asp-validation-for="TripStatistics.TripSortType" class="text-danger"></span>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>
+                        Link
+                    </th>
+                    <th>
+                        Duration
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var trip in Model.TripStatistics.TripStatistics)
+                {
+                    <tr>
+                        <td>@Html.ActionLink("Link", "Details", "Trip", new { id = trip.TripId })</td>
+                        <td>@trip.Duration</td>
+                        <td>@trip.Price€</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

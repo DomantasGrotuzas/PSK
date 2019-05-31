@@ -4,13 +4,11 @@
     ViewData["Title"] = "Merge";
 }
 
-<h2>Merge</h2>
+<h2>Merge trips</h2>
 
-<h4>MergeTripsViewDto</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <div>Merge this trip</div>
+    <div class="table-responsive">
+        <h4>Merge this trip</h4>
         <table class="table">
             <thead>
                 <tr>
@@ -69,7 +67,7 @@
         </table>
         <form asp-action="Merge">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div>With one of these</div>
+            <h4>With one of these</h4>
             <input type="hidden" asp-for="PrimaryTrip.Id"/>
             <table class="table">
                 <thead>
@@ -137,10 +135,9 @@
             </div>
         </form>
     </div>
-</div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Trips">Back to List</a>
 </div>
 
 @section Scripts {

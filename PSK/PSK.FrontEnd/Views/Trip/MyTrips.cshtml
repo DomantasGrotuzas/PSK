@@ -2,95 +2,35 @@
 @using Microsoft.AspNetCore.Razor.TagHelpers
 @model Contracts.MyTripsDto
 
+
 @{
     ViewData["Title"] = "MyTrips";
 }
 
 <h2>My trips</h2>
 
+@{
+    if (User.IsInRole("Organizer"))
+    {
+        <div>
+
+            @Html.ActionLink("Create New", "AddNew", null, htmlAttributes: new { @class = "btn btn-default", @type = "button" })
+
+        </div>
+    }
+}
+<br />
+
 <div>
-        @Html.ActionLink("All", "MyTrips", new { dateFilter = DateFilter.All }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.All)}" })
-        @Html.ActionLink("Upcoming", "MyTrips", new { dateFilter = DateFilter.Upcoming }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Upcoming)}" })
-        @Html.ActionLink("Ongoing", "MyTrips", new { dateFilter = DateFilter.Ongoing }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Ongoing)}" })
-        @Html.ActionLink("Past Trips", "MyTrips", new { dateFilter = DateFilter.Past }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Past)}" })
-</div>  
+    @Html.ActionLink("All", "MyTrips", new { dateFilter = DateFilter.All }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.All)}" })
+    @Html.ActionLink("Upcoming", "MyTrips", new { dateFilter = DateFilter.Upcoming }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Upcoming)}" })
+    @Html.ActionLink("Ongoing", "MyTrips", new { dateFilter = DateFilter.Ongoing }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Ongoing)}" })
+    @Html.ActionLink("Past Trips", "MyTrips", new { dateFilter = DateFilter.Past }, new { @class = "btn btn-default", @id = "disabled" + $"{ @Model.DateFilter.Equals(DateFilter.Past)}" })
+</div>
 
-<div><p/></div>
+<div><p /></div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Date from
-            </th>
-            <th>
-                Date until
-            </th>
-            <th>
-                Organizer
-            </th>
-            <th>
-                Start
-            </th>
-            <th>
-                Destination
-            </th>
-            <th>
-                Employees
-            </th>
-            <th>
-                Comment
-            </th>
-            <th>
-                Accept this trip
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.MyTrips)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new { id = item.Organizer.Id })
-                </td>
-                <td>
-                    @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new { id = item.StartLocation?.Id })
-                </td>
-                <td>
-                    @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
-                </td>
-                <td>
-                    @Html.ActionLink("Show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comment)
-                </td>
-                <td>
-                    @if (item.Employees.First(x => x.Employee.Id == Model.CurrentUserId).IsAcceptedByEmployee)
-                    {
-                        <div>Already accepted</div>
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Accept", "AcceptTrip", new {id = item.Id, dateFilter = Model.DateFilter})
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-@if (Model.IsOrganizer)
-{
-    
 <div class="table-responsive">
-    <h2>My organized trips</h2>
     <table class="table">
         <thead>
             <tr>
@@ -115,10 +55,13 @@
                 <th>
                     Comment
                 </th>
+                <th>
+                    Accept this trip
+                </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.MyOrganizedTrips)
+            @foreach (var item in Model.MyTrips)
             {
                 <tr>
                     <td>
@@ -137,10 +80,20 @@
                         @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new { id = item.EndLocation?.Id })
                     </td>
                     <td>
-                        @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
+                        @Html.ActionLink("Show employees", "TripEmployees", "TripEmployee", new { tripId = item.Id })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @if (item.Employees.First(x => x.Employee.Id == Model.CurrentUserId).IsAcceptedByEmployee)
+                        {
+                            <div>Already accepted</div>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Accept", "AcceptTrip", new { id = item.Id, dateFilter = Model.DateFilter })
+                        }
                     </td>
                 </tr>
             }
@@ -148,7 +101,73 @@
     </table>
 </div>
 
-        <p>
-            <a asp-action="AddNew">Create New</a>
-        </p>
-        }
+@if (Model.IsOrganizer)
+{
+    <div class="table-responsive">
+        <h2>My organized trips</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Date from
+                </th>
+                <th>
+                    Date until
+                </th>
+                <th>
+                    Organizer
+                </th>
+                <th>
+                    Start
+                </th>
+                <th>
+                    Destination
+                </th>
+                <th>
+                    Employees
+                </th>
+                <th>
+                    Comment
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.MyOrganizedTrips)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Organizer.FullName, "Details", "Employee", new {id = item.Organizer.Id})
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.StartLocation.Name, "Details", "Office", new {id = item.StartLocation?.Id})
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.EndLocation.Name, "Details", "Office", new {id = item.EndLocation?.Id})
+                    </td>
+                    <td>
+                        @Html.ActionLink("show employees", "TripEmployees", "TripEmployee", new {tripId = item.Id})
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @if (item.StartDate > DateTime.Now.Date)
+                        {
+                            <div><a asp-action="MergeSelection" asp-route-tripId="@item.Id">Merge This</a></div>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

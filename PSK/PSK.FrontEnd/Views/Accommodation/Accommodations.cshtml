@@ -6,79 +6,88 @@
 
 <h2>Accommodations</h2>
 
-<p>
-    <a asp-action="AddNew">Create new</a>
-</p>
-<div class="table-responsive">
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Appartment name
-            </th>
-            <th>
-                Beds (total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address.Street)
-            </th>
-            <th>
-                House number
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address.Latitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address.Longitude)
-            </th>
-            <th>
-               Office name
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalSpaces)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.Street)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.HouseNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.Latitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.Longitude)
-            </td>
-            <td>
-                @Html.ActionLink(item.Office.Name, "Details", "Office", new { id = item.Office.Id })
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id })
-            </td>
-        </tr>
+@{
+    if (User.IsInRole("Organizer"))
+    {
+        <div>
+
+            @Html.ActionLink("Create New", "AddNew", null, htmlAttributes: new { @class = "btn btn-default", @type = "button" })
+
+        </div>
+    }
 }
-    </tbody>
-</table>
+<br />
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Appartment name
+                </th>
+                <th>
+                    Beds (total)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address.Country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address.City)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address.Street)
+                </th>
+                <th>
+                    House number
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address.Latitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address.Longitude)
+                </th>
+                <th>
+                    Office name
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @(item.TotalSpaces > 0 ? item.TotalSpaces.ToString() : "Hotel")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.Country)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.Street)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.HouseNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.Longitude)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Office.Name, "Details", "Office", new { id = item.Office.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
