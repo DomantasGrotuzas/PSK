@@ -11,49 +11,55 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.PlaneTicketStatus)
+            Plane ticket status
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PlaneTicketStatus)
         </dd>
+        @if(Model.PlaneTicketStatus != "NotNeeded")
+        {
+            <dt>
+                Plane ticket price
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PlaneTicketPrice)
+            </dd>
+        }
         <dt>
-            @Html.DisplayNameFor(model => model.PlaneTicketPrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PlaneTicketPrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CarReservationStatus)
+            Car reservation status
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CarReservationStatus)
         </dd>
+        @if (Model.CarReservationStatus != "NotNeeded")
+        {
+            <dt>
+                Car reservation price
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CarReservationPrice)
+            </dd>
+        }
         <dt>
-            @Html.DisplayNameFor(model => model.CarReservationPrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CarReservationPrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Comment)
+            Comment
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Comment)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EmployeeName)
+            Employee
         </dt>
         <dd>
             @Html.DisplayFor(model => model.EmployeeName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AccommodationName)
+            Accommodation
         </dt>
         <dd>
             @Html.DisplayFor(model => model.AccommodationName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.IsAcceptedByEmployee)
+            Accepted by employee?
         </dt>
             @if (Model.IsAcceptedByEmployee)
             {
