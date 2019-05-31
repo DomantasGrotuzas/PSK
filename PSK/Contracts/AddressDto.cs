@@ -22,7 +22,7 @@ namespace Contracts
         [StringLength(60)]
         public string Street { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The House number field is required.")]
         [StringLength(20)]
         public string HouseNumber { get; set; }
     }
