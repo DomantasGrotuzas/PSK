@@ -55,9 +55,14 @@
         <dt>
             @Html.DisplayNameFor(model => model.IsAcceptedByEmployee)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsAcceptedByEmployee)
-        </dd>
+            @if (Model.IsAcceptedByEmployee)
+            {
+                <dd>Yes</dd>
+            }
+            else
+            {
+                <dd>No</dd>
+            }
         <dt>
             Attachments
         </dt>
