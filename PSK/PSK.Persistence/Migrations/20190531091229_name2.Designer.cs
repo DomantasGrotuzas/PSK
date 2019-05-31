@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PSK.Persistence;
 
 namespace PSK.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190531091229_name2")]
+    partial class name2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -475,8 +477,7 @@ namespace PSK.Persistence.Migrations
                 {
                     b.HasOne("PSK.Domain.TripEmployee", "TripEmployee")
                         .WithMany("Files")
-                        .HasForeignKey("TripEmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TripEmployeeId");
                 });
 
             modelBuilder.Entity("PSK.Domain.Office", b =>
